@@ -1,0 +1,314 @@
+[gd_scene load_steps=7 format=3 uid="uid://g56seue4crvi"]
+
+[ext_resource type="Theme" uid="uid://bkb4syj8110el" path="res://assets/themes/dark/theme.tres" id="1_gh0ne"]
+[ext_resource type="Script" uid="uid://4b5qy0gjuimh" path="res://src/main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://yjhp0ssng2mp" path="res://src/UI/Nodes/Sliders/ValueSlider.tscn" id="3_5q4o7"]
+[ext_resource type="PackedScene" uid="uid://bbnqcxa20a5a5" path="res://src/UI/Nodes/Sliders/ValueSliderV2.tscn" id="4_3cfgd"]
+[ext_resource type="Script" uid="uid://cca0fmlwaqjh1" path="res://src/UI/Nodes/CollapsibleContainer.gd" id="5_fyndt"]
+[ext_resource type="PackedScene" uid="uid://ge1fuqbfwmra" path="res://src/UI/Nodes/plot_node.tscn" id="5_kmhfv"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_gh0ne")
+script = ExtResource("1_ig7tw")
+
+[node name="Dialogs" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OpenDialog" type="FileDialog" parent="Dialogs"]
+title = "Open data file"
+initial_position = 4
+size = Vector2i(640, 510)
+ok_button_text = "Open"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.dat", "*.g4v")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sections" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/Sections"]
+self_modulate = Color(0.846044, 0.846044, 0.846044, 1)
+layout_mode = 2
+
+[node name="SectionHolder" type="VBoxContainer" parent="PanelContainer/Sections/PanelContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/Sections/PanelContainer/SectionHolder"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/PanelContainer/SectionHolder"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Presets"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/PanelContainer/SectionHolder"]
+layout_mode = 2
+
+[node name="BandGap" type="Button" parent="PanelContainer/Sections/PanelContainer/SectionHolder"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "BAND"
+
+[node name="DOS" type="Button" parent="PanelContainer/Sections/PanelContainer/SectionHolder"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "DOS"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BandPlotter" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/HBoxContainer"]
+layout_mode = 2
+text = "Band Data File:"
+
+[node name="FilePath" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+
+[node name="OpenButton" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/HBoxContainer"]
+layout_mode = 2
+text = "Browse"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+layout_mode = 2
+
+[node name="Heading" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Heading"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Heading/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HeaderSmall"
+text = "Graph Format"
+
+[node name="Update" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Heading/HBoxContainer"]
+layout_mode = 2
+text = "Update Plot"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Heading"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer"]
+layout_mode = 2
+text = "Font:"
+
+[node name="FontNames" type="OptionButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer"]
+layout_mode = 2
+text = "Font Size:"
+
+[node name="FontSize" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer" instance=ExtResource("3_5q4o7")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+min_value = 1.0
+value = 20.0
+allow_greater = true
+suffix = "px"
+
+[node name="Label2" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer"]
+layout_mode = 2
+text = "TITLE:"
+
+[node name="Titlebar" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "Bandstructure"
+placeholder_text = "Plot Heading"
+
+[node name="Label6" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer"]
+layout_mode = 2
+text = "X Label:"
+
+[node name="XLabel" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "KPOINTS Distance"
+placeholder_text = "Name of X-axis"
+
+[node name="Label7" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer"]
+layout_mode = 2
+text = "Y Label:"
+
+[node name="YLabel" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "E - E_f (eV)"
+placeholder_text = "Name of Y-axis"
+
+[node name="Label8" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer"]
+layout_mode = 2
+text = "Y Range"
+
+[node name="RangeSlider" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/GridContainer" instance=ExtResource("4_3cfgd")]
+unique_name_in_owner = true
+layout_mode = 2
+value = Vector2(-2, 2)
+min_value = Vector2(-50, 0)
+max_value = Vector2(0, 50)
+step = 0.1
+allow_greater = true
+allow_lesser = true
+grid_columns = 2
+prefix_x = "From:"
+prefix_y = "T0:"
+
+[node name="Heading2" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Heading2"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Plot Information"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Heading2"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+self_modulate = Color(0.851562, 0.851562, 0.851562, 1)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Lines" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/PanelContainer"]
+layout_mode = 2
+
+[node name="NewLine" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/PanelContainer/Lines"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "+"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/PanelContainer/Lines"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/PanelContainer/Lines"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlotInfo" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/PanelContainer/Lines/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlotNode" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/PanelContainer/Lines/ScrollContainer/PlotInfo" instance=ExtResource("5_kmhfv")]
+layout_mode = 2
+
+[node name="Heading3" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Heading3"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "K Point Information"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Heading3"]
+layout_mode = 2
+
+[node name="Advanced" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("5_fyndt")
+text = "Advanced Options"
+metadata/_custom_type_script = "uid://cca0fmlwaqjh1"
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced"]
+visible = false
+layout_mode = 2
+columns = 2
+
+[node name="Label4" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/GridContainer"]
+layout_mode = 2
+text = "Graph Size:"
+
+[node name="SizeSlider" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/GridContainer" instance=ExtResource("4_3cfgd")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+value = Vector2(5, 6)
+min_value = Vector2(1, 1)
+allow_greater = true
+show_ratio = true
+suffix_x = "inch"
+suffix_y = "inch"
+
+[node name="Label5" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/GridContainer"]
+layout_mode = 2
+text = "Scale:"
+
+[node name="ScaleSlider" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/GridContainer" instance=ExtResource("4_3cfgd")]
+unique_name_in_owner = true
+layout_mode = 2
+value = Vector2(1, 1)
+min_value = Vector2(1, 1)
+allow_greater = true
+show_ratio = true
+suffix_x = "times"
+suffix_y = "times"
+
+[node name="Spacer" type="Control" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/GridContainer"]
+layout_mode = 2
+
+[node name="BorderOutlineSlider" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/GridContainer" instance=ExtResource("4_3cfgd")]
+unique_name_in_owner = true
+layout_mode = 2
+value = Vector2(15, 2.5)
+min_value = Vector2(1, 1)
+step = 0.1
+grid_columns = 2
+prefix_x = "Border:"
+prefix_y = "Outline:"
+
+[connection signal="file_selected" from="Dialogs/OpenDialog" to="." method="_on_open_dialog_file_selected"]
+[connection signal="pressed" from="PanelContainer/Sections/ScrollContainer/BandPlotter/Heading/HBoxContainer/Update" to="." method="_on_update_pressed"]
+[connection signal="pressed" from="PanelContainer/Sections/ScrollContainer/BandPlotter/PanelContainer/Lines/NewLine" to="." method="_on_new_line_pressed"]
