@@ -28,7 +28,7 @@ const PLOT := """
 plot \\
 %s
 """
-const PLOT_DATA := "'%s' using %s:%s with %s linewidth %s linecolor rgbcolor '#%s' title '%s' \\"
+const PLOT_DATA := "'%s' using %s:%s with %s linewidth %s linecolor rgbcolor '#%s' title '%s' \\\n"
 
 
 static func generate_gnu(data: Dictionary) -> String:
@@ -77,15 +77,20 @@ static func generate_gnu(data: Dictionary) -> String:
 		gnu_code += MARKINGS % markings
 
 	gnu_code += ZERO_LINE
-	for plot: Dictionary in plot_lines:
-		var plot_data := PLOT_DATA % [
-			data_file_path,
-			plot["x_column"],
-			plot["y_column"],
-			plot["line_type"],
-			plot["width"],
-			plot["color"].to_html(false),
-			plot["title"],
-		]
-		gnu_code += PLOT % plot_data
+	if not plot_lines.is_empty():
+		var plots = ""
+		var set_file := true
+		for plot: Dictionary in plot_lines:
+			var plot_data := PLOT_DATA % [
+				data_file_path if set_file else "",
+				plot["x_column"],
+				plot["y_column"],
+				plot["line_type"],
+				plot["width"],
+				plot["color"].to_html(false),
+				plot["title"],
+			]
+			plots += (", " if !set_file else "") + plot_data
+			set_file = false
+		gnu_code += PLOT % plots
 	return gnu_code
