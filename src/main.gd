@@ -8,6 +8,8 @@ extends Node
 @onready var y_label: LineEdit = %YLabel
 @onready var range_slider: ValueSliderV2 = %RangeSlider
 @onready var plot_info: VBoxContainer = %PlotInfo
+@onready var k_line_container: VBoxContainer = %KLineContainer
+
 
 @onready var size_slider: ValueSliderV2 = %SizeSlider
 @onready var scale_slider: ValueSliderV2 = %ScaleSlider
@@ -18,32 +20,21 @@ extends Node
 
 func _ready():
 	update_available_font_names()
-	# if we think the file could be a potential relative path it can mean two things:
-	# 1. The file is relative to executable
-	# 2. The file is relative to the working directory.
-	var file_path := "BAND.dat"
-	if file_path.is_relative_path():
-		# we first try to convert it to be relative to executable
-		if file_path.is_relative_path():
-			file_path = OS.get_executable_path().get_base_dir().path_join("BAND.dat")
-		if !FileAccess.file_exists(file_path):
-			# it is not relative to executable so we have to convert it to an
-			# absolute path instead (this is when file is relative to working directory)
-			var output = []
-			match OS.get_name():
-				"Linux":
-					OS.execute("pwd", [], output)
-				"macOS":
-					OS.execute("pwd", [], output)
-				"Windows":
-					OS.execute("cd", [], output)
-			if output.size() > 0:
-				file_path = str(output[0]).strip_edges().path_join("BAND.dat")
-	# Do one last failsafe to see everything is in order
-	if FileAccess.file_exists(file_path):
-		open_dialog.current_file = file_path
-		file_path_edit.text = file_path
-	open_dialog.current_dir = file_path.get_base_dir()
+	# it is not relative to executable so we have to convert it to an
+	# absolute path instead (this is when file is relative to working directory)
+	var output = []
+	var working_directory := ""
+	match OS.get_name():
+		"Linux":
+			OS.execute("pwd", [], output)
+		"macOS":
+			OS.execute("pwd", [], output)
+		"Windows":
+			OS.execute("cd", [], output)
+	if output.size() > 0:
+		working_directory = str(output[0]).strip_edges()
+	open_dialog.current_dir = working_directory
+	find_band_gap_file()
 
 
 func serialize() -> Dictionary:
@@ -63,6 +54,10 @@ func serialize() -> Dictionary:
 	for line in plot_info.get_children():
 		if line is PlotLine:
 			plot_lines.append(line.serialize())
+	var klines := {}
+	for kline in k_line_container.get_children():
+		if kline is KLine:
+			klines.merge(kline.serialize())
 	return {
 		"data_file_path": data_file_path,
 		"plot_lines": plot_lines,
@@ -77,12 +72,13 @@ func serialize() -> Dictionary:
 		"output_plot_name": output_plot_name,
 		"border": border,
 		"outline": outline,
+		"k_lines": klines
 	}
 
 
 func export() -> void:
 	# Path where the .plt file will be written
-	var temp_gnu_path = "res://band_plot.gnu"
+	var temp_gnu_path = "user://band_plot.gnu"
 	var file = FileAccess.open(temp_gnu_path, FileAccess.WRITE)
 	var data := serialize()
 	file.store_string(BandPlotter.generate_gnu(data))
@@ -117,6 +113,32 @@ func _on_update_pressed() -> void:
 	export()
 
 
+func find_band_gap_file():
+	var file_path = open_dialog.current_dir.path_join("BAND.dat")
+	var label_path = open_dialog.current_dir.path_join("KLABELS")
+	# Do one last failsafe to see everything is in order
+	if FileAccess.file_exists(file_path):
+		open_dialog.current_file = file_path
+		file_path_edit.text = file_path
+		# Get Labels
+		if FileAccess.file_exists(label_path):
+			var file := FileAccess.open(label_path, FileAccess.READ)
+			if FileAccess.get_open_error() == OK:
+				while not file.eof_reached():
+					var line := file.get_line()
+					if line.begins_with(" ") and line.strip_edges() != "":
+						var k_line := line.split(" ", false)
+						if k_line.size() == 2:
+							var kline_node := preload("res://src/UI/Nodes/kline.tscn").instantiate()
+							k_line_container.add_child(kline_node)
+							kline_node.derialize({"distance": k_line[1], "label": k_line[0]})
+
+
 func _on_open_dialog_file_selected(path: String) -> void:
-	#load up
-	pass # Replace with function body.
+	if path.get_extension() == "g4v":
+		pass
+
+
+func _on_new_k_line_pressed() -> void:
+	var kline_node := preload("res://src/UI/Nodes/kline.tscn").instantiate()
+	k_line_container.add_child(kline_node)

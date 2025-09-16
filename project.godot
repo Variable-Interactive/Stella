@@ -14,6 +14,11 @@ config/name="G4v"
 run/main_scene="uid://g56seue4crvi"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 
+[display]
+
+window/size/viewport_width=930
+window/size/viewport_height=520
+
 [input]
 
 left_mouse={

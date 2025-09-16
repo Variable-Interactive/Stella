@@ -5,7 +5,7 @@ extends HBoxContainer
 func serialize() -> Dictionary:
 	return {
 		"title": %LineEdit.text,
-		"line_type": "lines" if %Mode.selected == 0 else "points",
+		"line_type": %Mode.get_item_text(%Mode.selected),
 		"width": %Width.value,
 		"x_column": int(%Columns.value.x),
 		"y_column": int(%Columns.value.y),

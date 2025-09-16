@@ -22,7 +22,7 @@ const VERTICAL_ARROW := """
 set arrow from %s,graph(0,0) to %s,graph(%s) nohead ls 1 lt 2 lw 2 lc rgb 'magenta' \n
 """
 const MARKINGS := "set xtics (%s) \n"  # comma separated
-const XTICK := "\"{/Symbol %s}\" %s"
+const XTICK := "\"%s\" %s"
 const ZERO_LINE := "set zeroaxis ls 1.5 dt 4 lw 2.5 lc rgb 'magenta' \n"
 const PLOT := """
 plot \\
@@ -45,14 +45,9 @@ static func generate_gnu(data: Dictionary) -> String:
 	var output_plot_name: String = data.get("output_plot_name", "OUTPUT.pdf")
 	var border: float = data.get("border", 15)
 	var outline: float = data.get("outline", 2.5)
+	var k_lines: Dictionary = data.get("k_lines", {})
 
 	var gnu_code := ""
-	var v_lines := {
-		0.0000: "G",
-		0.1000: "M",
-		0.2000: "B",
-	}
-
 	gnu_code += SIZE_CONTROL % [
 		font, str(font_size),
 		str(size_value.x, "in, ", size_value.y, "in"),
@@ -68,7 +63,7 @@ static func generate_gnu(data: Dictionary) -> String:
 	gnu_code += AXIS_LABELS % [x_label, y_label]
 
 	var markings := ""
-	for line_point in v_lines.keys():
+	for line_point in k_lines.keys():
 		gnu_code += VERTICAL_ARROW % [
 			str(line_point),
 			str(line_point),
@@ -76,7 +71,7 @@ static func generate_gnu(data: Dictionary) -> String:
 			", ",
 			scale_value.y)
 		]
-		markings += XTICK % [v_lines[line_point], str(line_point)] + ","
+		markings += XTICK % [k_lines[line_point], str(line_point)] + ","
 	if not markings.is_empty():
 		markings = markings.substr(0, markings.length() - 1)  # Remove trailing comma
 		gnu_code += MARKINGS % markings
