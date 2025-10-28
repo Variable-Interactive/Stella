@@ -103,6 +103,7 @@ func export() -> void:
 
 func load_settings(data: Dictionary) -> void:
 	var plot_lines: Array[Dictionary] = data.get("plot_lines", [])
+	var title: String = data.get("title", titlebar.text)
 	var x_label: String = data.get("x_label", "")
 	var y_label: String = data.get("y_label", "")
 	var size_value: Vector2 = data.get("size_value", Vector2(5.0, 6.0))
@@ -118,6 +119,7 @@ func load_settings(data: Dictionary) -> void:
 		var new_line: PlotLine = preload("res://src/UI/Nodes/plot_node.tscn").instantiate()
 		new_line.data_to_load_on_ready = plot_line
 		plot_info.add_child(new_line)
+	titlebar.text = title
 	x_label_edit.text = x_label
 	y_label_edit.text = y_label
 	size_slider.value = size_value
