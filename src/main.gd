@@ -20,7 +20,70 @@ extends Node
 @onready var open_dialog := $Dialogs/OpenDialog
 
 
+class CLI:
+	static var args_list := {
+		["-v", "--version"]: [CLI.print_version, "Prints current parser version"],
+		["-pdf"]: [CLI.use_pdf, "Sets the export mode (uses png when disabled)"],
+		["-e"]: [CLI.quick_export, "Immediately exports the loaded file"],
+		["--help", "-h", "-?"]: [CLI.generate_help, "Displays this help page"]
+	}
+
+	static func generate_help(_next_arg: String, _option_node):
+		var help := str(
+			(
+				"""
+=========================================================================\n
+Help for stella's CLI.
+
+Usage:
+\t%s [SYSTEM OPTIONS] -- [USER OPTIONS] [FILES]...
+
+Use -h in place of [SYSTEM OPTIONS] to see [SYSTEM OPTIONS].
+Or use -h in place of [USER OPTIONS] to see [USER OPTIONS].
+
+some useful [SYSTEM OPTIONS] are:
+--headless     Run in headless mode.
+--quit         Close pixelorama after current command.
+
+
+[USER OPTIONS]:\n
+(The terms in [ ] reflect the valid type for corresponding argument).
+
+"""
+				% OS.get_executable_path().get_file()
+			)
+		)
+		for command_group: Array in args_list.keys():
+			help += str(
+				var_to_str(command_group).replace("[", "").replace("]", "").replace('"', ""),
+				"\t\t".c_unescape(),
+				args_list[command_group][1],
+				"\n".c_unescape()
+			)
+		help += "========================================================================="
+		print(help)
+
+	## Dedicated place for command line args callables
+	static func print_version(_next_arg: String, _option_node) -> void:
+		print(ProjectSettings.get("application/config/version"))
+
+	static func use_pdf(_next_arg: String, option_node) -> void:
+		option_node.png_button.button_pressed = false
+
+	static func quick_export(_next_arg: String, option_node) -> void:
+		option_node.export()
+
+
 func _ready():
+	var logo = (
+"""
+#       ____  _       _ _
+#      / ___|| |_ ___| | | __ _
+#      \\___ \\| __/ _ \\ | |/ _` |
+#       ___) | ||  __/ | | (_| |
+#      |____/ \\__\\___|_|_|\\__,_|
+""")
+	print(logo.replace("#", ""))
 	update_available_font_names()
 	# it is not relative to executable so we have to convert it to an
 	# absolute path instead (this is when file is relative to working directory)
@@ -37,6 +100,38 @@ func _ready():
 		working_directory = str(output[0]).strip_edges()
 	open_dialog.current_dir = working_directory
 	find_band_gap_file()
+	_handle_cmdline_arguments()
+
+
+func _handle_cmdline_arguments() -> void:
+	var args := OS.get_cmdline_args()
+	args.append_array(OS.get_cmdline_user_args())
+	if args.is_empty():
+		return
+
+	# crreate a link of arg with callable
+	var parse_dic := {}
+	for command_group: Array in CLI.args_list.keys():
+		for command: String in command_group:
+			parse_dic[command] = CLI.args_list[command_group][0]
+	for i in args.size():  # Handle the rest of the CLI arguments
+		var arg := args[i]
+		var next_argument := ""
+		if i + 1 < args.size():
+			next_argument = args[i + 1]
+		if arg.begins_with("-") or arg.begins_with("--"):
+			if arg in parse_dic.keys():
+				var callable: Callable = parse_dic[arg]
+				callable.call(next_argument, self)
+			else:
+				print("==========")
+				print("Unknown option: %s" % arg)
+				for compare_arg in parse_dic.keys():
+					if arg.similarity(compare_arg) >= 0.4:
+						print("Similar option: %s" % compare_arg)
+				print("==========")
+				get_tree().quit()
+				break
 
 
 func serialize() -> Dictionary:
