@@ -6,6 +6,12 @@ extends HBoxContainer
 @onready var width: ValueSlider = %Width
 @onready var columns: ValueSliderV2 = %Columns
 @onready var color_picker_button: ColorPickerButton = %ColorPickerButton
+var data_to_load_on_ready: Dictionary
+
+func _ready() -> void:
+	if data_to_load_on_ready:
+		deserialize(data_to_load_on_ready)
+		data_to_load_on_ready.clear()
 
 
 func deserialize(data: Dictionary) -> void:

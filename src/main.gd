@@ -116,7 +116,7 @@ func load_settings(data: Dictionary) -> void:
 		plot_line.queue_free()
 	for plot_line in plot_lines:
 		var new_line: PlotLine = preload("res://src/UI/Nodes/plot_node.tscn").instantiate()
-		new_line.deserialize(plot_line)
+		new_line.data_to_load_on_ready = plot_line
 		plot_info.add_child(new_line)
 	x_label_edit.text = x_label
 	y_label_edit.text = y_label
@@ -154,6 +154,7 @@ func find_band_gap_file():
 	var dos_file_path = open_dialog.current_dir.path_join("TDOS.dat")
 	var stella_file_path = open_dialog.current_dir.path_join("LASTPLOT.stella")
 	var label_path = open_dialog.current_dir.path_join("KLABELS")
+	var stella_loaded := false
 	# Do one last failsafe to see everything is in order
 	if FileAccess.file_exists(stella_file_path):
 		var open_file := FileAccess.open(stella_file_path, FileAccess.READ)
@@ -163,15 +164,17 @@ func find_band_gap_file():
 			var data = str_to_var(data_str)
 			if typeof(data) == TYPE_DICTIONARY:
 				load_settings(data)
+				stella_loaded = true
 	if FileAccess.file_exists(band_file_path):
 		open_dialog.current_file = band_file_path
 		file_path_edit.text = band_file_path
 		# Get Labels
 		get_klabels(label_path)
 	elif FileAccess.file_exists(dos_file_path):
-		titlebar.text = "Total Density of State"
-		x_label_edit.text = "E - E_f (eV)"
-		y_label_edit.text = "DOS"
+		if not stella_loaded:
+			titlebar.text = "Total Density of State"
+			x_label_edit.text = "E - E_f (eV)"
+			y_label_edit.text = "DOS"
 		open_dialog.current_file = dos_file_path
 		file_path_edit.text = dos_file_path
 
