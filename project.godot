@@ -10,9 +10,9 @@ config_version=5
 
 [application]
 
-config/name="G4v"
+config/name="Stella"
 run/main_scene="uid://g56seue4crvi"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 
 [display]
 

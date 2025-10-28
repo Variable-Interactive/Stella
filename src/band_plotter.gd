@@ -11,6 +11,7 @@ set size %s \n
 const ENABLE_PNG := "set term png \n"
 const OUTPUT := "set output '%s' \n"
 const ENCODER := "set encoding iso_8859_1 \n"
+const X_RANGE := "set xrange[%s:%s] \n"
 const Y_RANGE := "set yrange[%s:%s] \n"
 const GRAPH_OUTLINE := "set border %s linewidth %s \n"
 const TITLE := "set title '%s' \n"
@@ -41,6 +42,7 @@ static func generate_gnu(data: Dictionary) -> String:
 	var font_size: int = data.get("font_size", 12)
 	var size_value: Vector2 = data.get("size_value", Vector2(5.0, 6.0))
 	var scale_value: Vector2 = data.get("scale_value", Vector2.ONE)
+	var x_range: Vector2 = data.get("x_range", Vector2(0, 0))
 	var y_range: Vector2 = data.get("y_range", Vector2(-2, 2))
 	var output_plot_name: String = data.get("output_plot_name", "OUTPUT.pdf")
 	var border: float = data.get("border", 15)
@@ -57,7 +59,10 @@ static func generate_gnu(data: Dictionary) -> String:
 		gnu_code += ENABLE_PNG
 	gnu_code += OUTPUT % output_plot_name
 	gnu_code += ENCODER
-	gnu_code += Y_RANGE % [str(y_range.x), str(y_range.y)]
+	if not is_equal_approx(x_range.x, x_range.y):
+		gnu_code += X_RANGE % [str(x_range.x), str(x_range.y)]
+	if not is_equal_approx(y_range.x, y_range.y):
+		gnu_code += Y_RANGE % [str(y_range.x), str(y_range.y)]
 	gnu_code += GRAPH_OUTLINE % [str(border), str(outline)]
 	gnu_code += TITLE % title
 	gnu_code += AXIS_LABELS % [x_label, y_label]

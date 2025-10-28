@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://yjhp0ssng2mp" path="res://src/UI/Nodes/Sliders/ValueSlider.tscn" id="2_ittn4"]
 
 [node name="PlotNode" type="HBoxContainer"]
-offset_right = 1027.0
-offset_bottom = 31.0
+offset_right = 930.0
+offset_bottom = 52.0
 script = ExtResource("1_5xy62")
 
 [node name="LineEdit" type="LineEdit" parent="."]
@@ -38,9 +38,6 @@ custom_minimum_size = Vector2(150, 32)
 layout_mode = 2
 size_flags_horizontal = 1
 size_flags_vertical = 0
-min_value = 0.1
-step = 0.1
-value = 0.1
 allow_greater = true
 prefix = "Width:"
 suffix = "px"
@@ -60,10 +57,9 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 32)
 layout_mode = 2
 size_flags_vertical = 0
-color = Color(0.984375, 1, 0, 1)
+color = Color(0.0375443, 0, 1, 1)
 
 [node name="Remove" type="Button" parent="."]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_vertical = 0
