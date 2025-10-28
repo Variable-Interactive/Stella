@@ -28,7 +28,7 @@ class CLI:
 		["--help", "-h", "-?"]: [CLI.generate_help, "Displays this help page"]
 	}
 
-	static func generate_help(_next_arg: String, _option_node):
+	static func generate_help(_next_arg: String, option_node):
 		var help := str(
 			(
 				"""
@@ -61,18 +61,28 @@ some useful [SYSTEM OPTIONS] are:
 				"\n".c_unescape()
 			)
 		help += "========================================================================="
+		option_node.debug_funny("I need serious help", "")
+		option_node.debug_funny("Sure, here you go :)")
 		print(help)
 
 	## Dedicated place for command line args callables
-	static func print_version(_next_arg: String, _option_node) -> void:
-		print(ProjectSettings.get("application/config/version"))
+	static func print_version(_next_arg: String, option_node) -> void:
+		option_node.debug_funny(
+			"What!?, you wish to know my age? well.. i'm currently %s"
+			% ProjectSettings.get("application/config/version")
+		)
 
 	static func use_pdf(_next_arg: String, option_node) -> void:
 		option_node.png_button.button_pressed = false
 
 	static func quick_export(_next_arg: String, option_node) -> void:
+		option_node.debug_funny("Hy, ah, i don't have much time, can export this real quick?", "")
+		option_node.debug_funny("Sure, give me a moment to look at the data")
 		option_node.export()
 
+
+func _exit_tree() -> void:
+	debug_funny("Okay, got to go now... take care (waves hand). Bye!")
 
 func _ready():
 	var logo = (
@@ -100,7 +110,17 @@ func _ready():
 		working_directory = str(output[0]).strip_edges()
 	open_dialog.current_dir = working_directory
 	find_band_gap_file()
+	debug_funny("Hy, i'm Stella how may i help you today?")
 	_handle_cmdline_arguments()
+
+
+func debug_funny(message, person := "Stella"):
+	if person == "":
+		if OS.has_environment("USER"):
+			person = OS.get_environment("USER").capitalize()
+		else:
+			person = "User"
+	print(person, ":        ", message)
 
 
 func _handle_cmdline_arguments() -> void:
@@ -147,12 +167,14 @@ func serialize() -> Dictionary:
 	var x_range: Vector2 = range_slider_x.value
 	var y_range: Vector2 = range_slider_y.value
 	var plot_format := ".png" if png_button.button_pressed else ".pdf"
+	if plot_format == ".pdf":
+		debug_funny("Okay..., you wish to use pdf, not my personal prefference but sure")
 	var output_plot_name: String = data_file_path.get_base_dir().path_join(title + plot_format)
 	var border: float = border_outline_slider.value.x
 	var outline: float = border_outline_slider.value.y
 	var plot_lines: Array[Dictionary] = []
 	for line in plot_info.get_children():
-		if line is PlotLine:
+		if line is PlotLine and not line.is_queued_for_deletion():
 			plot_lines.append(line.serialize())
 	var klines := {}
 	for kline in k_line_container.get_children():
@@ -193,10 +215,14 @@ func export() -> void:
 	# (Note: "user://" maps to the app's writable directory, so we get absolute path)
 	var abs_path = ProjectSettings.globalize_path(temp_gnu_path)
 	var exit_code = OS.execute("gnuplot", [abs_path], [], true)
-	print("gnuplot exited with code: ", exit_code)
+	if exit_code == OK:
+		debug_funny("And Done! your graph is ready!")
+	else:
+		debug_funny("Ouch! gnuplot says the data has an error %s" % str(exit_code))
 
 
 func load_settings(data: Dictionary) -> void:
+	debug_funny("I see you have some settings from your last request. I'll set them for you :)")
 	var plot_lines: Array[Dictionary] = data.get("plot_lines", [])
 	var title: String = data.get("title", titlebar.text)
 	var x_label: String = data.get("x_label", "")
@@ -212,8 +238,8 @@ func load_settings(data: Dictionary) -> void:
 		plot_line.queue_free()
 	for plot_line in plot_lines:
 		var new_line: PlotLine = preload("res://src/UI/Nodes/plot_node.tscn").instantiate()
-		new_line.data_to_load_on_ready = plot_line
 		plot_info.add_child(new_line)
+		new_line.deserialize(plot_line)
 	titlebar.text = title
 	x_label_edit.text = x_label
 	y_label_edit.text = y_label
@@ -243,6 +269,8 @@ func _on_new_line_pressed() -> void:
 
 
 func _on_update_pressed() -> void:
+	debug_funny("Can you update this plot real quick", "")
+	debug_funny("Sure, give me a moment to look at the data")
 	export()
 
 
