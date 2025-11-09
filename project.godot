@@ -14,11 +14,12 @@ config/name="Stella"
 config/version="0.1"
 run/main_scene="uid://g56seue4crvi"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/image="uid://dfuu2635go0fq"
 
 [display]
 
 window/size/viewport_width=930
-window/size/viewport_height=520
+window/size/viewport_height=600
 
 [input]
 

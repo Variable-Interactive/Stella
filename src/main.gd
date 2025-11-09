@@ -1,5 +1,8 @@
 extends Node
 
+var stella_extension := "stella"
+var template_dir := "user://templates"
+
 @onready var file_path_edit: LineEdit = %FilePath
 @onready var font_names: OptionButton = %FontNames
 @onready var font_size_slider: ValueSlider = %FontSize
@@ -109,7 +112,7 @@ func _ready():
 	if output.size() > 0:
 		working_directory = str(output[0]).strip_edges()
 	open_dialog.current_dir = working_directory
-	find_band_gap_file()
+	find_data_files()
 	debug_funny("Hy, i'm Stella how may i help you today?")
 	_handle_cmdline_arguments()
 
@@ -206,10 +209,16 @@ func export() -> void:
 	var data := serialize()
 	file.store_string(BandPlotter.generate_gnu(data))
 	file.close()
-	var stella_file := file_path_edit.text.get_base_dir().path_join("LASTPLOT.stella")
+	var stella_file := file_path_edit.text.get_base_dir().path_join("LASTPLOT.%s" % stella_extension)
 	file = FileAccess.open(stella_file, FileAccess.WRITE)
 	file.store_string(var_to_str(data))
 	file.close()
+	if file_path_edit.text.strip_edges():
+		var template_name := file_path_edit.text.strip_edges().get_file().get_slice(".", 0)
+		var template_path := template_dir.path_join(template_name + ".%s" % stella_extension)
+		file = FileAccess.open(template_path, FileAccess.WRITE)
+		file.store_string(var_to_str(data))
+		file.close()
 
 	# Execute gnuplot with the .plt file
 	# (Note: "user://" maps to the app's writable directory, so we get absolute path)
@@ -253,7 +262,6 @@ func load_settings(data: Dictionary) -> void:
 	border_outline_slider.value = Vector2(border, outline)
 
 
-
 func update_available_font_names() -> void:
 	var system_fonts := OS.get_system_fonts()
 	system_fonts.sort()
@@ -274,10 +282,31 @@ func _on_update_pressed() -> void:
 	export()
 
 
-func find_band_gap_file():
+func get_template_files() -> Dictionary:
+	var templates := {}
+	# Make a template directory
+	var abs_template_dir := ProjectSettings.globalize_path(template_dir)
+	if not DirAccess.dir_exists_absolute(abs_template_dir):
+		DirAccess.make_dir_recursive_absolute(abs_template_dir)
+	# Check template files
+	var dir = DirAccess.open(abs_template_dir)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if not dir.current_is_dir():
+				if file_name.get_extension() == stella_extension:
+					templates[file_name.get_slice(".", 0)] = abs_template_dir.path_join(file_name)
+			file_name = dir.get_next()
+	else:
+		print("An error occurred when trying to access the path.")
+	return templates
+
+
+func find_data_files():
 	var band_file_path = open_dialog.current_dir.path_join("BAND.dat")
 	var dos_file_path = open_dialog.current_dir.path_join("TDOS.dat")
-	var stella_file_path = open_dialog.current_dir.path_join("LASTPLOT.stella")
+	var stella_file_path = open_dialog.current_dir.path_join("LASTPLOT.%s" % stella_extension)
 	var label_path = open_dialog.current_dir.path_join("KLABELS")
 	var stella_loaded := false
 	# Do one last failsafe to see everything is in order
@@ -311,18 +340,20 @@ func get_klabels(label_path: String):
 	if FileAccess.file_exists(label_path):
 		var file := FileAccess.open(label_path, FileAccess.READ)
 		if FileAccess.get_open_error() == OK:
+			debug_funny("I see that the file has labels as well, loading them")
 			while not file.eof_reached():
 				var line := file.get_line()
 				if line.begins_with(" ") and line.strip_edges() != "":
 					var k_line := line.split(" ", false)
 					if k_line.size() == 2:
+						debug_funny(line)
 						var kline_node := preload("res://src/UI/Nodes/kline.tscn").instantiate()
 						k_line_container.add_child(kline_node)
 						kline_node.derialize({"distance": k_line[1], "label": k_line[0]})
 
 
 func _on_open_dialog_file_selected(path: String) -> void:
-	if path.get_extension() == "stella":
+	if path.get_extension() == stella_extension:
 		var open_file := FileAccess.open(path, FileAccess.READ)
 		if FileAccess.get_open_error() == OK:
 			var data_str := open_file.get_as_text()
@@ -331,9 +362,22 @@ func _on_open_dialog_file_selected(path: String) -> void:
 			if typeof(data) == TYPE_DICTIONARY:
 				load_settings(data)
 	if path.get_extension() == "dat":
+		debug_funny("Please load the file %s" % path, "")
 		file_path_edit.text = path
 		var label_path = open_dialog.current_dir.path_join("KLABELS")
+		debug_funny("Sure")
 		get_klabels(label_path)
+		var templates := get_template_files()
+		var template_key := path.get_file().get_slice(".", 0)
+		if templates.has(template_key):
+			debug_funny("I see that there is a template for %s as well, i'll load it too" % template_key)
+			var open_file := FileAccess.open(templates[template_key], FileAccess.READ)
+			if FileAccess.get_open_error() == OK:
+				var data_str := open_file.get_as_text()
+				open_file.close()
+				var data = str_to_var(data_str)
+				if typeof(data) == TYPE_DICTIONARY:
+					load_settings(data)
 
 
 func _on_new_k_line_pressed() -> void:

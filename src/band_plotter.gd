@@ -86,8 +86,12 @@ static func generate_gnu(data: Dictionary) -> String:
 		var plots = ""
 		var set_file := true
 		for plot: Dictionary in plot_lines:
+			var plot_file := data_file_path if set_file else ""
+			var overwrite_file: String = plot["override_file"].strip_edges()
+			if overwrite_file:
+				plot_file = data_file_path.get_base_dir().path_join(overwrite_file)
 			var plot_data := PLOT_DATA % [
-				data_file_path if set_file else "",
+				plot_file,
 				plot["x_column"],
 				plot["y_column"],
 				plot["line_type"],
