@@ -12,7 +12,9 @@ extends HBoxContainer
 
 func deserialize(data: Dictionary) -> void:
 	plot_label.text = data.get("title", plot_label.text)
-	override_file.text = data.get("override_file", override_file.text)
+	override_file.text = data.get("override_file", override_file.text).strip_edges()
+	if override_file.text.strip_edges() != "":
+		override_file.visible = true
 	width.value = data.get("width", width.value)
 	columns.value.x = data.get("x_column", columns.value.x)
 	columns.value.y = data.get("y_column", columns.value.y)

@@ -26,6 +26,7 @@ var template_dir := "user://templates"
 class CLI:
 	static var args_list := {
 		["-v", "--version"]: [CLI.print_version, "Prints current parser version"],
+		["--config"]: [CLI.load_stella, "Loads the stella file to plot"],
 		["-pdf"]: [CLI.use_pdf, "Sets the export mode (uses png when disabled)"],
 		["-e"]: [CLI.quick_export, "Immediately exports the loaded file"],
 		["--help", "-h", "-?"]: [CLI.generate_help, "Displays this help page"]
@@ -77,6 +78,20 @@ some useful [SYSTEM OPTIONS] are:
 
 	static func use_pdf(_next_arg: String, option_node) -> void:
 		option_node.png_button.button_pressed = false
+
+
+	static func load_stella(next_arg: String, option_node) -> void:
+		var stella_file_path = option_node.open_dialog.current_dir.path_join(next_arg)
+		if FileAccess.file_exists(stella_file_path):
+			option_node.debug_funny("loading configuration from %s" % next_arg)
+			var open_file := FileAccess.open(stella_file_path, FileAccess.READ)
+			if FileAccess.get_open_error() == OK:
+				var data_str := open_file.get_as_text()
+				open_file.close()
+				var data = str_to_var(data_str)
+				if typeof(data) == TYPE_DICTIONARY:
+					option_node.load_settings(data)
+
 
 	static func quick_export(_next_arg: String, option_node) -> void:
 		option_node.debug_funny("Hy, ah, i don't have much time, can export this real quick?", "")
@@ -153,7 +168,6 @@ func _handle_cmdline_arguments() -> void:
 					if arg.similarity(compare_arg) >= 0.4:
 						print("Similar option: %s" % compare_arg)
 				print("==========")
-				get_tree().quit()
 				break
 
 
@@ -272,8 +286,28 @@ func update_available_font_names() -> void:
 
 
 func _on_new_line_pressed() -> void:
-	var new_line := preload("res://src/UI/Nodes/plot_node.tscn").instantiate()
+	var new_line: PlotLine = preload("res://src/UI/Nodes/plot_node.tscn").instantiate()
+	var extrapolate := Vector2i.ZERO
+	var should_extrapolate := false
+	if plot_info.get_child_count() >= 2:
+		should_extrapolate = true
+		var last_line: PlotLine = plot_info.get_child(plot_info.get_child_count() - 1)
+		var prev_line: PlotLine = plot_info.get_child(plot_info.get_child_count() - 2)
+		extrapolate = Vector2i(2 * last_line.columns.value - prev_line.columns.value)
+		print(last_line.columns.value, last_line.plot_label.text)
+		print(prev_line.columns.value, prev_line.plot_label.text)
+		print(last_line.columns.value - prev_line.columns.value)
 	plot_info.add_child(new_line)
+	if should_extrapolate:
+		new_line.columns.value = extrapolate
+	print(new_line.columns.value)
+	
+	var golden_angle := 137.508  # degrees — ensures uniform hue spacing
+	var saturation := 0.6        # balanced saturation (0–1)
+	var value := 0.9             # bright but not pure white
+
+	var hue := fmod(plot_info.get_child_count() * golden_angle, 360.0) / 360.0
+	new_line.color_picker_button.color = Color.from_hsv(hue, saturation, value)
 
 
 func _on_update_pressed() -> void:
