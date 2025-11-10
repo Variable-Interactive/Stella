@@ -91,6 +91,11 @@ some useful [SYSTEM OPTIONS] are:
 				var data = str_to_var(data_str)
 				if typeof(data) == TYPE_DICTIONARY:
 					option_node.load_settings(data)
+					# exception only gifted to CLI
+					var output_path: String = data.get("output_plot_name", "OUTPUT.pdf")
+					var file = output_path.get_file().split(".")[0]
+					option_node.debug_funny("Okay, i've also set the file title to %s" % file)
+					option_node.titlebar.text = file
 
 
 	static func quick_export(_next_arg: String, option_node) -> void:
@@ -294,13 +299,9 @@ func _on_new_line_pressed() -> void:
 		var last_line: PlotLine = plot_info.get_child(plot_info.get_child_count() - 1)
 		var prev_line: PlotLine = plot_info.get_child(plot_info.get_child_count() - 2)
 		extrapolate = Vector2i(2 * last_line.columns.value - prev_line.columns.value)
-		print(last_line.columns.value, last_line.plot_label.text)
-		print(prev_line.columns.value, prev_line.plot_label.text)
-		print(last_line.columns.value - prev_line.columns.value)
 	plot_info.add_child(new_line)
 	if should_extrapolate:
 		new_line.columns.value = extrapolate
-	print(new_line.columns.value)
 	
 	var golden_angle := 137.508  # degrees — ensures uniform hue spacing
 	var saturation := 0.6        # balanced saturation (0–1)

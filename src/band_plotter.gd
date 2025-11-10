@@ -90,6 +90,7 @@ static func generate_gnu(data: Dictionary) -> String:
 			var overwrite_file: String = plot["override_file"].strip_edges()
 			if overwrite_file:
 				plot_file = data_file_path.get_base_dir().path_join(overwrite_file)
+			var plot_line_name: String = "" if plot["title"].begins_with("_") else plot["title"]
 			var plot_data := PLOT_DATA % [
 				plot_file,
 				plot["x_column"],
@@ -97,7 +98,7 @@ static func generate_gnu(data: Dictionary) -> String:
 				plot["line_type"],
 				plot["width"],
 				plot["color"].to_html(false),
-				plot["title"],
+				plot_line_name,
 			]
 			plots += (", " if !set_file else "") + plot_data
 			set_file = false

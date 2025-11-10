@@ -13,13 +13,6 @@ signal ratio_toggled(button_pressed: bool)
 		for slider in get_sliders():
 			slider.editable = val
 		$"%RatioButton".disabled = not val
-@export var value := Vector2.ZERO:
-	set(val):
-		value = val
-		$GridContainer/X.set_value_no_signal_update_display(value.x)
-		$GridContainer/Y.set_value_no_signal_update_display(value.y)
-		if _can_emit_signal:
-			value_changed.emit(value)
 @export var min_value := Vector2.ZERO:
 	set(val):
 		min_value = val
@@ -32,6 +25,15 @@ signal ratio_toggled(button_pressed: bool)
 		$GridContainer/X.max_value = val.x
 		$GridContainer/Y.max_value = val.y
 		value = value  # Call value setter
+@export var value := min_value:
+	set(val):
+		if (val > max_value and not allow_greater) or (val < min_value and not allow_lesser):
+			return
+		value = val
+		$GridContainer/X.set_value_no_signal_update_display(value.x)
+		$GridContainer/Y.set_value_no_signal_update_display(value.y)
+		if _can_emit_signal:
+			value_changed.emit(value)
 @export var step := 1.0:
 	set(val):
 		step = val
