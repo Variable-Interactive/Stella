@@ -24,7 +24,7 @@ set arrow from %s,graph(0,0) to %s,graph(%s) nohead ls 1 lt 2 lw 2 lc rgb 'magen
 """
 const MARKINGS := "set xtics (%s)\n"  # comma separated
 const XTICK := "\"%s\" %s"
-const LEGEND := "set key %s %s %s\n"
+const LEGEND := "set key %s %s %s %s\n"
 const LEGEND_BOX := "box lw %s opaque spacing %s"
 const ZERO_LINE := "set zeroaxis ls 1.5 dt 4 lw 2.5 lc rgb 'magenta' \n"
 const PLOT := """
@@ -87,13 +87,15 @@ static func generate_gnu(data: Dictionary) -> String:
 	# Set Legend alignment
 	var align_v = legend_setting.get("align_v", "top")
 	var align_h = legend_setting.get("align_h", "right")
+	var should_reverse_legend: bool = legend_setting.get("reverse_legend", false)
+	var reverse_legend := "reverse" if should_reverse_legend else ""
 	var use_box: bool = legend_setting.get("use_box", false)
 	var box_options := ""
 	if use_box:
 		box_options = LEGEND_BOX % [
 			legend_setting.get("outline", 1.2), legend_setting.get("spacing", 1.2)
 		]
-	gnu_code += LEGEND % [align_v, align_h, box_options]
+	gnu_code += LEGEND % [align_v, align_h, reverse_legend, box_options]
 	
 	gnu_code += ZERO_LINE
 	if not plot_lines.is_empty():

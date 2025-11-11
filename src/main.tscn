@@ -348,13 +348,17 @@ text = "Legend Options: "
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
-item_count = 3
-popup/item_0/text = "top"
+item_count = 5
+popup/item_0/text = "above"
 popup/item_0/id = 0
-popup/item_1/text = "center"
+popup/item_1/text = "top"
 popup/item_1/id = 1
-popup/item_2/text = "bottom"
+popup/item_2/text = "center"
 popup/item_2/id = 2
+popup/item_3/text = "bottom"
+popup/item_3/id = 3
+popup/item_4/text = "below"
+popup/item_4/id = 4
 
 [node name="LegendHorizontal" type="OptionButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer"]
 unique_name_in_owner = true
@@ -367,6 +371,11 @@ popup/item_1/text = "center"
 popup/item_1/id = 1
 popup/item_2/text = "left"
 popup/item_2/id = 2
+
+[node name="ReverseLegend" type="CheckBox" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "reverse"
 
 [node name="UseBox" type="CheckBox" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer"]
 unique_name_in_owner = true

@@ -17,6 +17,7 @@ var template_dir := "user://templates"
 
 @onready var legend_vertical: OptionButton = %LegendVertical
 @onready var legend_horizontal: OptionButton = %LegendHorizontal
+@onready var reverse_legend: CheckBox = %ReverseLegend
 @onready var use_box: CheckBox = %UseBox
 @onready var box_options: HBoxContainer = %BoxOptions
 @onready var legend_box_outline: ValueSlider = %LegendBoxOutline
@@ -218,6 +219,7 @@ func serialize() -> Dictionary:
 	var vert := legend_vertical.get_item_text(legend_vertical.selected)
 	legend_setting["align_v"] = vert
 	legend_setting["align_h"] = horiz
+	legend_setting["reverse_legend"] = reverse_legend.button_pressed
 	if use_box.button_pressed:
 		legend_setting["use_box"] = true
 		legend_setting["outline"] = legend_box_outline.value
@@ -300,6 +302,7 @@ func load_settings(data: Dictionary) -> void:
 		if legend_vertical.get_item_text(i) == legend_v:
 			legend_vertical.select(i)
 			break
+	reverse_legend.button_pressed = legend_setting.get("reverse_legend", reverse_legend.button_pressed)
 	use_box.button_pressed = legend_setting.get("use_box", use_box.button_pressed)
 	legend_box_outline.value = legend_setting.get("use_box", legend_box_outline.value)
 	legend_box_spacing.value = legend_setting.get("spacing", legend_box_outline.value)
