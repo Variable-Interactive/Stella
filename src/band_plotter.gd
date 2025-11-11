@@ -22,8 +22,10 @@ set ylabel '%s' \n
 const VERTICAL_ARROW := """
 set arrow from %s,graph(0,0) to %s,graph(%s) nohead ls 1 lt 2 lw 2 lc rgb 'magenta' \n
 """
-const MARKINGS := "set xtics (%s) \n"  # comma separated
+const MARKINGS := "set xtics (%s)\n"  # comma separated
 const XTICK := "\"%s\" %s"
+const LEGEND := "set key %s %s %s\n"
+const LEGEND_BOX := "box lw %s opaque spacing %s"
 const ZERO_LINE := "set zeroaxis ls 1.5 dt 4 lw 2.5 lc rgb 'magenta' \n"
 const PLOT := """
 plot \\
@@ -48,7 +50,8 @@ static func generate_gnu(data: Dictionary) -> String:
 	var border: float = data.get("border", 15)
 	var outline: float = data.get("outline", 2.5)
 	var k_lines: Dictionary = data.get("k_lines", {})
-
+	var legend_setting: Dictionary = data.get("legend_config", {})
+	
 	var gnu_code := ""
 	gnu_code += SIZE_CONTROL % [
 		font, str(font_size),
@@ -81,6 +84,17 @@ static func generate_gnu(data: Dictionary) -> String:
 		markings = markings.substr(0, markings.length() - 1)  # Remove trailing comma
 		gnu_code += MARKINGS % markings
 
+	# Set Legend alignment
+	var align_v = legend_setting.get("align_v", "top")
+	var align_h = legend_setting.get("align_h", "right")
+	var use_box: bool = legend_setting.get("use_box", false)
+	var box_options := ""
+	if use_box:
+		box_options = LEGEND_BOX % [
+			legend_setting.get("outline", 1.2), legend_setting.get("spacing", 1.2)
+		]
+	gnu_code += LEGEND % [align_v, align_h, box_options]
+	
 	gnu_code += ZERO_LINE
 	if not plot_lines.is_empty():
 		var plots = ""

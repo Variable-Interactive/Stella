@@ -35,18 +35,12 @@ placeholder_text = "Use file (same as above)"
 
 [node name="Mode" type="OptionButton" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(150, 32)
 layout_mode = 2
 size_flags_vertical = 0
 alignment = 1
-selected = 0
-item_count = 3
-popup/item_0/text = "lines"
-popup/item_0/id = 0
-popup/item_1/text = "points"
-popup/item_1/id = 2
-popup/item_2/text = "dots"
-popup/item_2/id = 1
+text_overrun_behavior = 3
+fit_to_longest_item = false
 
 [node name="Width" parent="." instance=ExtResource("2_ittn4")]
 unique_name_in_owner = true

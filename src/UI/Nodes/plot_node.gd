@@ -10,11 +10,34 @@ extends HBoxContainer
 @onready var collapse_override: Button = %CollapseOverride
 
 
+var line_modes = [
+	{"Lines" : "lines"},
+	{"Connected Line (hollow PDF)" : "linespoints pt '◉' pi '-1'"},
+	{"Connected Line (hollow PNG)" : "linespoints pt 'o' pi '-1'"},
+	{"Circle" : "points pt 'o'"},
+	{"Cross" : "points"},
+	{"Cross connected": "linesp"},
+	{"Dots" : "dots"},
+	{"Filled Curve" : "filledcurve"},
+	{"Boxes" : "boxes"},
+]
+
+func _ready() -> void:
+	for i in line_modes.size():
+		mode.add_item(line_modes[i].keys()[0], i)
+	pass
+
+
 func deserialize(data: Dictionary) -> void:
 	plot_label.text = data.get("title", plot_label.text)
 	override_file.text = data.get("override_file", override_file.text).strip_edges()
 	if override_file.text.strip_edges() != "":
 		override_file.visible = true
+	var modes := []
+	for i in line_modes.size():
+		modes.append(line_modes[i].values()[0])
+	var line_type = data.get("line_type", modes[0])
+	mode.select(modes.find(line_type))
 	width.value = data.get("width", width.value)
 	columns.value.x = data.get("x_column", columns.value.x)
 	columns.value.y = data.get("y_column", columns.value.y)
@@ -25,7 +48,7 @@ func serialize() -> Dictionary:
 	return {
 		"title": plot_label.text,
 		"override_file": override_file.text,
-		"line_type": mode.get_item_text(%Mode.selected),
+		"line_type": line_modes[mode.selected].values()[0],
 		"width": width.value,
 		"x_column": int(columns.value.x),
 		"y_column": int(columns.value.y),

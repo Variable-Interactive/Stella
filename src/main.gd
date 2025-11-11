@@ -15,6 +15,13 @@ var template_dir := "user://templates"
 @onready var k_line_container: VBoxContainer = %KLineContainer
 @onready var png_button: CheckButton = %PngButton
 
+@onready var legend_vertical: OptionButton = %LegendVertical
+@onready var legend_horizontal: OptionButton = %LegendHorizontal
+@onready var use_box: CheckBox = %UseBox
+@onready var box_options: HBoxContainer = %BoxOptions
+@onready var legend_box_outline: ValueSlider = %LegendBoxOutline
+@onready var legend_box_spacing: ValueSlider = %LegendBoxSpacing
+
 
 @onready var size_slider: ValueSliderV2 = %SizeSlider
 @onready var scale_slider: ValueSliderV2 = %ScaleSlider
@@ -135,6 +142,8 @@ func _ready():
 	find_data_files()
 	debug_funny("Hy, i'm Stella how may i help you today?")
 	_handle_cmdline_arguments()
+	if file_path_edit.text == "":
+		open_dialog.popup_centered()
 
 
 func debug_funny(message, person := "Stella"):
@@ -202,6 +211,18 @@ func serialize() -> Dictionary:
 	for kline in k_line_container.get_children():
 		if kline is KLine:
 			klines.merge(kline.serialize())
+	
+	# Access the legend configuration
+	var legend_setting := {}
+	var horiz := legend_horizontal.get_item_text(legend_horizontal.selected)
+	var vert := legend_vertical.get_item_text(legend_vertical.selected)
+	legend_setting["align_v"] = vert
+	legend_setting["align_h"] = horiz
+	if use_box.button_pressed:
+		legend_setting["use_box"] = true
+		legend_setting["outline"] = legend_box_outline.value
+		legend_setting["spacing"] = legend_box_spacing.value
+	
 	return {
 		"data_file_path": data_file_path,
 		"plot_lines": plot_lines,
@@ -217,7 +238,8 @@ func serialize() -> Dictionary:
 		"output_plot_name": output_plot_name,
 		"border": border,
 		"outline": outline,
-		"k_lines": klines
+		"k_lines": klines,
+		"legend_config": legend_setting
 	}
 
 
@@ -251,6 +273,10 @@ func export() -> void:
 
 func load_settings(data: Dictionary) -> void:
 	debug_funny("I see you have some settings from your last request. I'll set them for you :)")
+	if file_path_edit.text == "":
+		var data_file_path: String = data.get("data_file_path", "")
+		if FileAccess.file_exists(data_file_path):
+			file_path_edit.text = data_file_path
 	var plot_lines: Array[Dictionary] = data.get("plot_lines", [])
 	var title: String = data.get("title", titlebar.text)
 	var x_label: String = data.get("x_label", "")
@@ -262,6 +288,22 @@ func load_settings(data: Dictionary) -> void:
 	var output_plot_name: String = data.get("output_plot_name", "OUTPUT.pdf")
 	var border: float = data.get("border", 15)
 	var outline: float = data.get("outline", 2.5)
+	var legend_setting: Dictionary = data.get("legend_config", {})
+	# Set legend options
+	var legend_v =  legend_setting.get("align_v", "top")
+	var legend_h =  legend_setting.get("align_h", "right")
+	for i in legend_horizontal.item_count:
+		if legend_horizontal.get_item_text(i) == legend_h:
+			legend_horizontal.select(i)
+			break
+	for i in legend_vertical.item_count:
+		if legend_vertical.get_item_text(i) == legend_v:
+			legend_vertical.select(i)
+			break
+	use_box.button_pressed = legend_setting.get("use_box", use_box.button_pressed)
+	legend_box_outline.value = legend_setting.get("use_box", legend_box_outline.value)
+	legend_box_spacing.value = legend_setting.get("spacing", legend_box_outline.value)
+
 	for plot_line in plot_info.get_children():
 		plot_line.queue_free()
 	for plot_line in plot_lines:
@@ -341,19 +383,9 @@ func get_template_files() -> Dictionary:
 func find_data_files():
 	var band_file_path = open_dialog.current_dir.path_join("BAND.dat")
 	var dos_file_path = open_dialog.current_dir.path_join("TDOS.dat")
-	var stella_file_path = open_dialog.current_dir.path_join("LASTPLOT.%s" % stella_extension)
 	var label_path = open_dialog.current_dir.path_join("KLABELS")
 	var stella_loaded := false
 	# Do one last failsafe to see everything is in order
-	if FileAccess.file_exists(stella_file_path):
-		var open_file := FileAccess.open(stella_file_path, FileAccess.READ)
-		if FileAccess.get_open_error() == OK:
-			var data_str := open_file.get_as_text()
-			open_file.close()
-			var data = str_to_var(data_str)
-			if typeof(data) == TYPE_DICTIONARY:
-				load_settings(data)
-				stella_loaded = true
 	if FileAccess.file_exists(band_file_path):
 		open_dialog.current_file = band_file_path
 		file_path_edit.text = band_file_path
@@ -422,3 +454,7 @@ func _on_new_k_line_pressed() -> void:
 
 func _on_open_button_pressed() -> void:
 	open_dialog.popup_centered()
+
+
+func _on_use_box_toggled(toggled_on: bool) -> void:
+	box_options.visible = toggled_on

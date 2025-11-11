@@ -335,6 +335,73 @@ script = ExtResource("5_fyndt")
 text = "Advanced Options"
 metadata/_custom_type_script = "uid://cca0fmlwaqjh1"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Legend Options: "
+
+[node name="LegendVertical" type="OptionButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "top"
+popup/item_0/id = 0
+popup/item_1/text = "center"
+popup/item_1/id = 1
+popup/item_2/text = "bottom"
+popup/item_2/id = 2
+
+[node name="LegendHorizontal" type="OptionButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "right"
+popup/item_0/id = 0
+popup/item_1/text = "center"
+popup/item_1/id = 1
+popup/item_2/text = "left"
+popup/item_2/id = 2
+
+[node name="UseBox" type="CheckBox" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Use box"
+
+[node name="BoxOptions" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="LegendBoxOutline" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer/BoxOptions" instance=ExtResource("3_5q4o7")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 24)
+layout_mode = 2
+step = 0.1
+value = 1.2
+allow_greater = true
+prefix = "Line Width:"
+suffix = "px"
+
+[node name="LegendBoxSpacing" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer/BoxOptions" instance=ExtResource("3_5q4o7")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 24)
+layout_mode = 2
+step = 0.1
+value = 1.2
+allow_greater = true
+prefix = "Spacing:"
+suffix = "px"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced"]
+visible = false
+layout_mode = 2
+
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced"]
 visible = false
 layout_mode = 2
@@ -389,5 +456,6 @@ prefix_y = "Outline:"
 [connection signal="pressed" from="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading/HBoxContainer/Update" to="." method="_on_update_pressed"]
 [connection signal="pressed" from="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/KLineSection/Options/NewKLine" to="." method="_on_new_k_line_pressed"]
 [connection signal="pressed" from="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/NewLine" to="." method="_on_new_line_pressed"]
+[connection signal="toggled" from="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/HBoxContainer/UseBox" to="." method="_on_use_box_toggled"]
 
 [editable path="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/ScrollContainer/PlotInfo/PlotNode2"]
