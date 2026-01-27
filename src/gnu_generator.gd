@@ -1,32 +1,70 @@
 class_name BandPlotter
 extends RefCounted
 
-const SIZE_CONTROL := """
+const HEADER := """
+# =============== Variables ===============
+
+background_color = '#%s'
+border_color = '#%s'
+font_color = '#%s'
+font_main = '%s'
+font_size_main = %s
+pdf_size_x = %s
+pdf_size_y = %s
+output_path = '%s'
+x_range_start = %s
+x_range_end = %s
+y_range_start = %s
+y_range_end = %s
+border_mode = %s
+border_width = %s
+
+# =============== Functions ===============
+plot_setting(plot_title, x_label, y_label, scale_x, scale_y) = sprintf("\\
+plot_title = '%%s'; \\
+x_label = '%%s'; \\
+y_label = '%%s'; \\
+scale_x = %%f; \\
+scale_y = %%f; \\
+\\
+unset title; \\
+unset xlabel; \\
+unset ylabel; \\
+set tics textcolor rgb font_color; \\
+if (plot_title ne '') {set title plot_title textcolor rgb font_color}; \\
+if (x_label ne '') {set xlabel x_label textcolor rgb font_color}; \\
+if (y_label ne '') {set ylabel y_label textcolor rgb font_color}; \\
+set size scale_x, scale_y; \\
+set border border_mode linewidth border_width linecolor rgb border_color;" \\
+, plot_title, x_label, y_label, scale_x, scale_y)
+
+
+# ================ Script =================
+
 set terminal pdfcairo enhanced \\
+background rgb background_color \\
 color solid \\
-font '%s,%s' \\
-size %s
-set size %s \n
+font sprintf("%%s,%%d", font_main, font_size_main) \\
+size pdf_size_x in, pdf_size_y in
+set output output_path \n
 """
-const ENABLE_PNG := "set term png \n"
-const OUTPUT := "set output '%s' \n"
 const ENCODER := "set encoding iso_8859_1 \n"
-const X_RANGE := "set xrange[%s:%s] \n"
-const Y_RANGE := "set yrange[%s:%s] \n"
-const GRAPH_OUTLINE := "set border %s linewidth %s \n"
-const TITLE := "set title '%s' \n"
-const AXIS_LABELS := """
-set xlabel '%s'
-set ylabel '%s' \n
+const ENABLE_PNG := "set term png \n"
+const X_RANGE := "if (x_range_start != x_range_end) set xrange[x_range_start : x_range_end] \n"
+const Y_RANGE := "if (y_range_start != y_range_end) set yrange[y_range_start : y_range_end] \n"
+
+const PLOT_SETTING := """
+evaluate plot_setting('%s', '%s', '%s', %s, %s)
 """
+
 const VERTICAL_ARROW := """
 set arrow from %s,graph(0,0) to %s,graph(%s) nohead ls 1 lt 2 lw 2 lc rgb 'magenta' \n
 """
 const MARKINGS := "set xtics (%s)\n"  # comma separated
 const XTICK := "\"%s\" %s"
-const LEGEND := "set key %s %s %s %s\n"
-const LEGEND_BOX := "box lw %s opaque spacing %s"
-const ZERO_LINE := "set zeroaxis ls 1.5 dt 4 lw 2.5 lc rgb 'magenta' \n"
+const LEGEND := "set key %s %s %s %s textcolor rgb font_color\n"
+const LEGEND_BOX := "box lc rgb border_color lw %s opaque spacing %s"
+const ZERO_AXIS := "set zeroaxis ls 1.5 dt 4 lw 2.5 lc rgb 'magenta' \n"
 const PLOT := """
 plot \\
 %s
@@ -38,37 +76,49 @@ static func generate_gnu(data: Dictionary) -> String:
 	var data_file_path: String = data.get("data_file_path", "")
 	var plot_lines: Array[Dictionary] = data.get("plot_lines", [])
 	var title: String = data.get("title", "")
+	if title.begins_with("_"):
+		title = ""
 	var x_label: String = data.get("x_label", "")
 	var y_label: String = data.get("y_label", "")
 	var font: String = data.get("font", "Times-bold")
+	var background_color: Color = data.get("background_color", Color.WHITE)
+	var border_color: Color = data.get("border_color", Color.BLACK)
+	var font_color: Color = data.get("font_color", Color.BLACK)
 	var font_size: int = data.get("font_size", 12)
 	var size_value: Vector2 = data.get("size_value", Vector2(5.0, 6.0))
 	var scale_value: Vector2 = data.get("scale_value", Vector2.ONE)
 	var x_range: Vector2 = data.get("x_range", Vector2(0, 0))
 	var y_range: Vector2 = data.get("y_range", Vector2(-2, 2))
 	var output_plot_name: String = data.get("output_plot_name", "OUTPUT.pdf")
-	var border: float = data.get("border", 15)
+	var border: int = data.get("border", 15)
 	var outline: float = data.get("outline", 2.5)
 	var k_lines: Dictionary = data.get("k_lines", {})
 	var legend_setting: Dictionary = data.get("legend_config", {})
-	
-	var gnu_code := ""
-	gnu_code += SIZE_CONTROL % [
-		font, str(font_size),
-		str(size_value.x, "in, ", size_value.y, "in"),
-		str(scale_value.x, ", ", scale_value.y)
+
+	var gnu_code := HEADER % [
+		background_color.to_html(false),
+		border_color.to_html(false),
+		font_color.to_html(false),
+		font,
+		str(font_size),
+		str(size_value.x),
+		str(size_value.y),
+		output_plot_name,
+		str(x_range.x),
+		str(x_range.y),
+		str(y_range.x),
+		str(y_range.y),
+		str(border),
+		str(outline),
 	]
 	if output_plot_name.get_extension().to_lower() == "png":
 		gnu_code += ENABLE_PNG
-	gnu_code += OUTPUT % output_plot_name
 	gnu_code += ENCODER
-	if not is_equal_approx(x_range.x, x_range.y):
-		gnu_code += X_RANGE % [str(x_range.x), str(x_range.y)]
-	if not is_equal_approx(y_range.x, y_range.y):
-		gnu_code += Y_RANGE % [str(y_range.x), str(y_range.y)]
-	gnu_code += GRAPH_OUTLINE % [str(border), str(outline)]
-	gnu_code += TITLE % title
-	gnu_code += AXIS_LABELS % [x_label, y_label]
+	gnu_code += X_RANGE
+	gnu_code += Y_RANGE
+	gnu_code += PLOT_SETTING % [
+		title, x_label, y_label, str(scale_value.x), str(scale_value.y)
+	]
 
 	var markings := ""
 	for line_point in k_lines.keys():
@@ -96,8 +146,8 @@ static func generate_gnu(data: Dictionary) -> String:
 			legend_setting.get("outline", 1.2), legend_setting.get("spacing", 1.2)
 		]
 	gnu_code += LEGEND % [align_v, align_h, reverse_legend, box_options]
-	
-	gnu_code += ZERO_LINE
+
+	gnu_code += ZERO_AXIS
 	if not plot_lines.is_empty():
 		var plots = ""
 		var set_file := true

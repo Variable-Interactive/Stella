@@ -3,6 +3,9 @@ extends Node
 var stella_extension := "stella"
 var template_dir := "user://templates"
 
+@onready var border_color: ColorPickerButton = %BorderColor
+@onready var background_color: ColorPickerButton = %BackgroundColor
+@onready var font_color: ColorPickerButton = %FontColor
 @onready var file_path_edit: LineEdit = %FilePath
 @onready var font_names: OptionButton = %FontNames
 @onready var font_size_slider: ValueSlider = %FontSize
@@ -102,8 +105,10 @@ some useful [SYSTEM OPTIONS] are:
 					# exception only gifted to CLI
 					var output_path: String = data.get("output_plot_name", "OUTPUT.pdf")
 					var file = output_path.get_file().split(".")[0]
-					option_node.debug_funny("Okay, i've also set the file title to %s" % file)
-					option_node.titlebar.text = file
+					if option_node.titlebar.text.strip_edges().is_empty():
+						option_node.debug_funny("There wasn't a title detected so i'll make one")
+						option_node.debug_funny("Okay, i've also set the file title to %s" % file)
+						option_node.titlebar.text = file
 
 
 	static func quick_export(_next_arg: String, option_node) -> void:
@@ -201,7 +206,10 @@ func serialize() -> Dictionary:
 	var plot_format := ".png" if png_button.button_pressed else ".pdf"
 	if plot_format == ".pdf":
 		debug_funny("Okay..., you wish to use pdf, not my personal prefference but sure")
-	var output_plot_name: String = data_file_path.get_base_dir().path_join(title + plot_format)
+	var file_name := title + plot_format
+	if file_name.begins_with("_"):
+		file_name = file_name.erase(0)
+	var output_plot_name: String = data_file_path.get_base_dir().path_join(file_name)
 	var border: float = border_outline_slider.value.x
 	var outline: float = border_outline_slider.value.y
 	var plot_lines: Array[Dictionary] = []
@@ -212,7 +220,7 @@ func serialize() -> Dictionary:
 	for kline in k_line_container.get_children():
 		if kline is KLine:
 			klines.merge(kline.serialize())
-	
+
 	# Access the legend configuration
 	var legend_setting := {}
 	var horiz := legend_horizontal.get_item_text(legend_horizontal.selected)
@@ -224,8 +232,11 @@ func serialize() -> Dictionary:
 		legend_setting["use_box"] = true
 		legend_setting["outline"] = legend_box_outline.value
 		legend_setting["spacing"] = legend_box_spacing.value
-	
+
 	return {
+		"background_color": background_color.color,
+		"border_color": border_color.color,
+		"font_color" : font_color.color,
 		"data_file_path": data_file_path,
 		"plot_lines": plot_lines,
 		"title": title,
@@ -279,10 +290,15 @@ func load_settings(data: Dictionary) -> void:
 		var data_file_path: String = data.get("data_file_path", "")
 		if FileAccess.file_exists(data_file_path):
 			file_path_edit.text = data_file_path
+	var bg_col :Color  = data.get("background_color", Color.WHITE)
+	var bord_col :Color  = data.get("border_color", Color.BLACK)
+	var font_col :Color  = data.get("font_color", Color.BLACK)
 	var plot_lines: Array[Dictionary] = data.get("plot_lines", [])
 	var title: String = data.get("title", titlebar.text)
 	var x_label: String = data.get("x_label", "")
 	var y_label: String = data.get("y_label", "")
+	var font_name: String = data.get("font", "")
+	var font_size: int = data.get("font_size", 20)
 	var size_value: Vector2 = data.get("size_value", Vector2(5.0, 6.0))
 	var scale_value: Vector2 = data.get("scale_value", Vector2.ONE)
 	var x_range: Vector2 = data.get("x_range", Vector2(0, 0))
@@ -294,6 +310,11 @@ func load_settings(data: Dictionary) -> void:
 	# Set legend options
 	var legend_v =  legend_setting.get("align_v", "top")
 	var legend_h =  legend_setting.get("align_h", "right")
+	for i in font_names.item_count:
+		var f_name = font_names.get_item_text(i)
+		if f_name == font_name:
+			font_names.select(i)
+			break
 	for i in legend_horizontal.item_count:
 		if legend_horizontal.get_item_text(i) == legend_h:
 			legend_horizontal.select(i)
@@ -313,9 +334,13 @@ func load_settings(data: Dictionary) -> void:
 		var new_line: PlotLine = preload("res://src/UI/Nodes/plot_node.tscn").instantiate()
 		plot_info.add_child(new_line)
 		new_line.deserialize(plot_line)
+	background_color.color = bg_col
+	border_color.color = bord_col
+	font_color.color = font_col
 	titlebar.text = title
 	x_label_edit.text = x_label
 	y_label_edit.text = y_label
+	font_size_slider.value = font_size
 	size_slider.value = size_value
 	scale_slider.value = scale_value
 	range_slider_x.value = x_range
@@ -347,7 +372,7 @@ func _on_new_line_pressed() -> void:
 	plot_info.add_child(new_line)
 	if should_extrapolate:
 		new_line.columns.value = extrapolate
-	
+
 	var golden_angle := 137.508  # degrees — ensures uniform hue spacing
 	var saturation := 0.6        # balanced saturation (0–1)
 	var value := 0.9             # bright but not pure white

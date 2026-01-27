@@ -13,6 +13,7 @@ config_version=5
 config/name="Stella"
 config/version="0.1"
 run/main_scene="uid://g56seue4crvi"
+run/print_header=false
 config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/image="uid://dfuu2635go0fq"
 
