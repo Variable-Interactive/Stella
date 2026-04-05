@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://g56seue4crvi"]
+[gd_scene format=3 uid="uid://g56seue4crvi"]
 
 [ext_resource type="Theme" uid="uid://bkb4syj8110el" path="res://assets/themes/dark/theme.tres" id="1_gh0ne"]
 [ext_resource type="Script" uid="uid://4b5qy0gjuimh" path="res://src/main.gd" id="1_ig7tw"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://cca0fmlwaqjh1" path="res://src/UI/Nodes/CollapsibleContainer.gd" id="5_fyndt"]
 [ext_resource type="PackedScene" uid="uid://ge1fuqbfwmra" path="res://src/UI/Nodes/plot_node.tscn" id="5_kmhfv"]
 
-[node name="Main" type="Control"]
+[node name="Main" type="Control" unique_id=382509850]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,7 +17,7 @@ grow_vertical = 2
 theme = ExtResource("1_gh0ne")
 script = ExtResource("1_ig7tw")
 
-[node name="Dialogs" type="Control" parent="."]
+[node name="Dialogs" type="Control" parent="." unique_id=1662428306]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +25,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="OpenDialog" type="FileDialog" parent="Dialogs"]
+[node name="OpenDialog" type="FileDialog" parent="Dialogs" unique_id=560305147]
 title = "Open data file"
 initial_position = 4
 size = Vector2i(640, 510)
@@ -35,7 +35,7 @@ file_mode = 0
 access = 2
 filters = PackedStringArray("*.dat", "*.stella")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=424128935]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,144 +43,145 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Sections" type="HBoxContainer" parent="PanelContainer"]
+[node name="Sections" type="HBoxContainer" parent="PanelContainer" unique_id=1114171281]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/Sections"]
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/Sections" unique_id=409127101]
 self_modulate = Color(0.846044, 0.846044, 0.846044, 1)
 layout_mode = 2
 
-[node name="SectionHolder" type="VBoxContainer" parent="PanelContainer/Sections/PanelContainer"]
+[node name="SectionHolder" type="VBoxContainer" parent="PanelContainer/Sections/PanelContainer" unique_id=2033527]
 visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="HSeparator2" type="HSeparator" parent="PanelContainer/Sections/PanelContainer/SectionHolder"]
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/Sections/PanelContainer/SectionHolder" unique_id=1000989860]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Sections/PanelContainer/SectionHolder"]
+[node name="Label" type="Label" parent="PanelContainer/Sections/PanelContainer/SectionHolder" unique_id=1638025228]
 layout_mode = 2
 theme_type_variation = &"HeaderSmall"
 text = "Presets"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/PanelContainer/SectionHolder"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/PanelContainer/SectionHolder" unique_id=2065281777]
 layout_mode = 2
 
-[node name="BandGap" type="Button" parent="PanelContainer/Sections/PanelContainer/SectionHolder"]
+[node name="BandGap" type="Button" parent="PanelContainer/Sections/PanelContainer/SectionHolder" unique_id=173100801]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "BAND"
 
-[node name="DOS" type="Button" parent="PanelContainer/Sections/PanelContainer/SectionHolder"]
+[node name="DOS" type="Button" parent="PanelContainer/Sections/PanelContainer/SectionHolder" unique_id=1691417453]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "DOS"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections" unique_id=1205246003]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="BandPlotter" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer"]
+[node name="BandPlotter" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer" unique_id=847821390]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter" unique_id=1474626050]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/HBoxContainer"]
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/HBoxContainer" unique_id=1631823857]
 layout_mode = 2
 text = "Band Data File:"
 
-[node name="FilePath" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/HBoxContainer"]
+[node name="FilePath" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/HBoxContainer" unique_id=1136259439]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 editable = false
 
-[node name="OpenButton" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/HBoxContainer"]
+[node name="OpenButton" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/HBoxContainer" unique_id=402062222]
 layout_mode = 2
 text = "Browse"
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter" unique_id=258654491]
 layout_mode = 2
 
-[node name="VSplitContainer" type="VSplitContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+[node name="VSplitContainer" type="VSplitContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter" unique_id=933429841]
 layout_mode = 2
 size_flags_vertical = 3
+split_offsets = PackedInt32Array(265)
 split_offset = 265
 
-[node name="ConfigSection" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer"]
+[node name="ConfigSection" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer" unique_id=676388052]
 layout_mode = 2
 
-[node name="Heading" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection"]
+[node name="Heading" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection" unique_id=747481829]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading" unique_id=2006004823]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading/HBoxContainer"]
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading/HBoxContainer" unique_id=593210795]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"HeaderSmall"
 text = "Graph Format"
 
-[node name="PngButton" type="CheckButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading/HBoxContainer"]
+[node name="PngButton" type="CheckButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading/HBoxContainer" unique_id=259559585]
 unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 text = "PNG"
 
-[node name="Update" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading/HBoxContainer"]
+[node name="Update" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading/HBoxContainer" unique_id=2122883090]
 layout_mode = 2
 text = "Update Plot"
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading" unique_id=944600957]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection" unique_id=1588252145]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer" unique_id=1098199242]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2"]
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2" unique_id=2129467356]
 layout_mode = 2
 columns = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=1006305172]
 layout_mode = 2
 text = "Font:"
 
-[node name="FontOptions" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="FontOptions" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=614660010]
 layout_mode = 2
 
-[node name="FontNames" type="OptionButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer/FontOptions"]
+[node name="FontNames" type="OptionButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer/FontOptions" unique_id=1275043783]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="FontColor" type="ColorPickerButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer/FontOptions"]
+[node name="FontColor" type="ColorPickerButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer/FontOptions" unique_id=1988412040]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(27, 0)
 layout_mode = 2
 edit_alpha = false
 
-[node name="Label3" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="Label3" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=405227558]
 layout_mode = 2
 text = "Font Size:"
 
-[node name="FontSize" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" instance=ExtResource("3_5q4o7")]
+[node name="FontSize" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=1552371905 instance=ExtResource("3_5q4o7")]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 1.0
@@ -188,42 +189,42 @@ value = 20.0
 allow_greater = true
 suffix = "px"
 
-[node name="Label2" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="Label2" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=1728552513]
 layout_mode = 2
 text = "TITLE:"
 
-[node name="Titlebar" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="Titlebar" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=420745588]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Bandstructure"
 placeholder_text = "Plot Heading"
 
-[node name="Label6" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="Label6" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=1888176179]
 layout_mode = 2
 text = "X Label:"
 
-[node name="XLabel" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="XLabel" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=1003339726]
 unique_name_in_owner = true
 layout_mode = 2
 text = "KPOINTS Distance"
 placeholder_text = "Name of X-axis"
 
-[node name="Label7" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="Label7" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=597682655]
 layout_mode = 2
 text = "Y Label:"
 
-[node name="YLabel" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="YLabel" type="LineEdit" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=1259873309]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 text = "E - E_f (eV)"
 placeholder_text = "Name of Y-axis"
 
-[node name="Label9" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="Label9" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=714338772]
 layout_mode = 2
 text = "X Range"
 
-[node name="RangeSliderX" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" instance=ExtResource("4_3cfgd")]
+[node name="RangeSliderX" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=842885663 instance=ExtResource("4_3cfgd")]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = Vector2(-50, 0)
@@ -236,11 +237,11 @@ grid_columns = 2
 prefix_x = "From:"
 prefix_y = "T0:"
 
-[node name="Label8" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer"]
+[node name="Label8" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=1242054929]
 layout_mode = 2
 text = "Y Range"
 
-[node name="RangeSliderY" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" instance=ExtResource("4_3cfgd")]
+[node name="RangeSliderY" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/GridContainer" unique_id=290138127 instance=ExtResource("4_3cfgd")]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = Vector2(-50, 0)
@@ -253,79 +254,85 @@ grid_columns = 2
 prefix_x = "From:"
 prefix_y = "T0:"
 
-[node name="VSeparator" type="VSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2"]
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2" unique_id=125998007]
 layout_mode = 2
 
-[node name="KLineSection" type="PanelContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2"]
+[node name="TabContainer" type="TabContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2" unique_id=935525948]
+layout_mode = 2
+size_flags_horizontal = 3
+current_tab = 0
+
+[node name="KLineSection" type="PanelContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/TabContainer" unique_id=735929557]
 self_modulate = Color(0.851562, 0.851562, 0.851562, 1)
 layout_mode = 2
 size_flags_horizontal = 3
+metadata/_tab_index = 0
 
-[node name="Options" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/KLineSection"]
+[node name="Options" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/TabContainer/KLineSection" unique_id=1005777571]
 layout_mode = 2
 
-[node name="NewKLine" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/KLineSection/Options"]
+[node name="NewKLine" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/TabContainer/KLineSection/Options" unique_id=1595852361]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_horizontal = 8
 text = "+"
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/KLineSection/Options"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/TabContainer/KLineSection/Options" unique_id=1156666945]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/KLineSection/Options"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/TabContainer/KLineSection/Options" unique_id=653643580]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="KLineContainer" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/KLineSection/Options/ScrollContainer"]
+[node name="KLineContainer" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/TabContainer/KLineSection/Options/ScrollContainer" unique_id=929107282]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PlotSection" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer"]
+[node name="PlotSection" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer" unique_id=592384855]
 layout_mode = 2
 
-[node name="Heading2" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection"]
+[node name="Heading2" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection" unique_id=645839902]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/Heading2"]
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/Heading2" unique_id=424622585]
 layout_mode = 2
 theme_type_variation = &"HeaderSmall"
 text = "Plot Information"
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/Heading2"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/Heading2" unique_id=838839540]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection"]
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection" unique_id=2069588466]
 self_modulate = Color(0.851562, 0.851562, 0.851562, 1)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Lines" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer"]
+[node name="Lines" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer" unique_id=2084045363]
 layout_mode = 2
 
-[node name="NewLine" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines"]
+[node name="NewLine" type="Button" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines" unique_id=770683624]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_horizontal = 8
 text = "+"
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines" unique_id=201228772]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines" unique_id=715860046]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PlotInfo" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/ScrollContainer"]
+[node name="PlotInfo" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/ScrollContainer" unique_id=190718761]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PlotNode" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/ScrollContainer/PlotInfo" instance=ExtResource("5_kmhfv")]
+[node name="PlotNode" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/ScrollContainer/PlotInfo" unique_id=601451312 instance=ExtResource("5_kmhfv")]
 layout_mode = 2
 
-[node name="PlotNode2" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/ScrollContainer/PlotInfo" instance=ExtResource("5_kmhfv")]
+[node name="PlotNode2" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/ScrollContainer/PlotInfo" unique_id=626422736 instance=ExtResource("5_kmhfv")]
 layout_mode = 2
 
 [node name="PlotLabel" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/ScrollContainer/PlotInfo/PlotNode2/VBoxContainer" index="0"]
@@ -337,33 +344,33 @@ value = Vector2(1, 3)
 [node name="ColorPickerButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/ScrollContainer/PlotInfo/PlotNode2" index="4"]
 color = Color(1, 0, 0.127296, 1)
 
-[node name="Advanced" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter"]
+[node name="Advanced" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter" unique_id=993110625]
 layout_mode = 2
 theme_type_variation = &"CollapsibleContainer"
 script = ExtResource("5_fyndt")
 text = "Advanced Options"
 metadata/_custom_type_script = "uid://cca0fmlwaqjh1"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced" unique_id=1831336510]
 visible = false
 custom_minimum_size = Vector2(0, 178)
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer" unique_id=37347807]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer" unique_id=1703354436]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer" unique_id=111759204]
 layout_mode = 2
 theme_type_variation = &"HeaderSmall"
 text = "Legend Options: "
 
-[node name="LegendVertical" type="OptionButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="LegendVertical" type="OptionButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer" unique_id=1547539322]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
@@ -379,7 +386,7 @@ popup/item_3/id = 3
 popup/item_4/text = "below"
 popup/item_4/id = 4
 
-[node name="LegendHorizontal" type="OptionButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="LegendHorizontal" type="OptionButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer" unique_id=203154618]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
@@ -391,22 +398,22 @@ popup/item_1/id = 1
 popup/item_2/text = "left"
 popup/item_2/id = 2
 
-[node name="ReverseLegend" type="CheckBox" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="ReverseLegend" type="CheckBox" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer" unique_id=473286728]
 unique_name_in_owner = true
 layout_mode = 2
 text = "reverse"
 
-[node name="UseBox" type="CheckBox" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="UseBox" type="CheckBox" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer" unique_id=802834518]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Use box"
 
-[node name="BoxOptions" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="BoxOptions" type="HBoxContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer" unique_id=1009104730]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="LegendBoxOutline" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer/BoxOptions" instance=ExtResource("3_5q4o7")]
+[node name="LegendBoxOutline" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer/BoxOptions" unique_id=1556080463 instance=ExtResource("3_5q4o7")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 24)
 layout_mode = 2
@@ -416,7 +423,7 @@ allow_greater = true
 prefix = "Line Width:"
 suffix = "px"
 
-[node name="LegendBoxSpacing" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer/BoxOptions" instance=ExtResource("3_5q4o7")]
+[node name="LegendBoxSpacing" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer/BoxOptions" unique_id=294568370 instance=ExtResource("3_5q4o7")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 24)
 layout_mode = 2
@@ -426,22 +433,22 @@ allow_greater = true
 prefix = "Spacing:"
 suffix = "px"
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer" unique_id=196189219]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer" unique_id=586869908]
 layout_mode = 2
 columns = 2
 
-[node name="Label4" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="Label4" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" unique_id=2022874831]
 layout_mode = 2
 text = "Graph Size:"
 
-[node name="SizeSlider" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("4_3cfgd")]
+[node name="SizeSlider" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" unique_id=1132561261 instance=ExtResource("4_3cfgd")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
-min_value = Vector2(0.1, 0.1)
+min_value = Vector2(0.01, 0.01)
 value = Vector2(5, 6)
 step = 0.1
 allow_greater = true
@@ -449,14 +456,14 @@ show_ratio = true
 suffix_x = "inch"
 suffix_y = "inch"
 
-[node name="Label5" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="Label5" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" unique_id=1796837448]
 layout_mode = 2
 text = "Scale:"
 
-[node name="ScaleSlider" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("4_3cfgd")]
+[node name="ScaleSlider" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" unique_id=1451152207 instance=ExtResource("4_3cfgd")]
 unique_name_in_owner = true
 layout_mode = 2
-min_value = Vector2(0.1, 0.1)
+min_value = Vector2(0.01, 0.01)
 value = Vector2(1, 1)
 step = 0.1
 allow_greater = true
@@ -464,10 +471,10 @@ show_ratio = true
 suffix_x = "times"
 suffix_y = "times"
 
-[node name="Spacer" type="Control" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="Spacer" type="Control" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" unique_id=353200861]
 layout_mode = 2
 
-[node name="BorderOutlineSlider" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("4_3cfgd")]
+[node name="BorderOutlineSlider" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" unique_id=1647334314 instance=ExtResource("4_3cfgd")]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = Vector2(1, 1)
@@ -477,20 +484,20 @@ grid_columns = 2
 prefix_x = "Border:"
 prefix_y = "Outline:"
 
-[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="Label" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" unique_id=441701030]
 layout_mode = 2
 text = "Border Color"
 
-[node name="BorderColor" type="ColorPickerButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="BorderColor" type="ColorPickerButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" unique_id=125712808]
 unique_name_in_owner = true
 layout_mode = 2
 edit_alpha = false
 
-[node name="Label2" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="Label2" type="Label" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" unique_id=343783347]
 layout_mode = 2
 text = "Background Color"
 
-[node name="BackgroundColor" type="ColorPickerButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer"]
+[node name="BackgroundColor" type="ColorPickerButton" parent="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/GridContainer" unique_id=1744177807]
 unique_name_in_owner = true
 layout_mode = 2
 color = Color(1, 1, 1, 1)
@@ -499,7 +506,7 @@ edit_alpha = false
 [connection signal="file_selected" from="Dialogs/OpenDialog" to="." method="_on_open_dialog_file_selected"]
 [connection signal="pressed" from="PanelContainer/Sections/ScrollContainer/BandPlotter/HBoxContainer/OpenButton" to="." method="_on_open_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/Heading/HBoxContainer/Update" to="." method="_on_update_pressed"]
-[connection signal="pressed" from="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/KLineSection/Options/NewKLine" to="." method="_on_new_k_line_pressed"]
+[connection signal="pressed" from="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/ConfigSection/ScrollContainer/HBoxContainer2/TabContainer/KLineSection/Options/NewKLine" to="." method="_on_new_k_line_pressed"]
 [connection signal="pressed" from="PanelContainer/Sections/ScrollContainer/BandPlotter/VSplitContainer/PlotSection/PanelContainer/Lines/NewLine" to="." method="_on_new_line_pressed"]
 [connection signal="toggled" from="PanelContainer/Sections/ScrollContainer/BandPlotter/Advanced/ScrollContainer/VBoxContainer/HBoxContainer/UseBox" to="." method="_on_use_box_toggled"]
 

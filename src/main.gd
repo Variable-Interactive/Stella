@@ -137,7 +137,7 @@ func _ready():
 	var working_directory := ""
 	match OS.get_name():
 		"Linux":
-			OS.execute("pwd", [], output)
+			output.append(OS.get_environment("PWD"))
 		"macOS":
 			OS.execute("pwd", [], output)
 		"Windows":
