@@ -6,6 +6,14 @@ extends HBoxContainer
 
 signal value_changed(value: Vector2)
 signal ratio_toggled(button_pressed: bool)
+## Emitted when the grabber starts being dragged.
+## This is emitted before the corresponding [signal value_changed] signal.
+@warning_ignore("unused_signal")
+signal drag_started
+## Emitted when the grabber stops being dragged.
+## If value_changed is true, [member value] is different from the value
+## when the dragging was started.
+signal drag_ended(value_changed: bool)
 
 @export var editable := true:
 	set(val):
@@ -13,6 +21,13 @@ signal ratio_toggled(button_pressed: bool)
 		for slider in get_sliders():
 			slider.editable = val
 		$"%RatioButton".disabled = not val
+@export var value := Vector2.ZERO:
+	set(val):
+		value = val
+		$GridContainer/X.set_value_no_signal_update_display(value.x)
+		$GridContainer/Y.set_value_no_signal_update_display(value.y)
+		if _can_emit_signal:
+			value_changed.emit(value)
 @export var min_value := Vector2.ZERO:
 	set(val):
 		min_value = val
@@ -25,15 +40,6 @@ signal ratio_toggled(button_pressed: bool)
 		$GridContainer/X.max_value = val.x
 		$GridContainer/Y.max_value = val.y
 		value = value  # Call value setter
-@export var value := min_value:
-	set(val):
-		if (val > max_value and not allow_greater) or (val < min_value and not allow_lesser):
-			return
-		value = val
-		$GridContainer/X.set_value_no_signal_update_display(value.x)
-		$GridContainer/Y.set_value_no_signal_update_display(value.y)
-		if _can_emit_signal:
-			value_changed.emit(value)
 @export var step := 1.0:
 	set(val):
 		step = val
@@ -94,6 +100,18 @@ var _locked_ratio := false
 var _can_emit_signal := true
 
 
+func _ready() -> void:
+	$Ratio/RatioGuides.scale.x = -1.0 if is_layout_rtl() else 1.0
+	for slider in get_sliders():
+		slider.drag_started.connect(emit_signal.bind(&"drag_started"))
+		slider.drag_ended.connect(func(changed: bool): drag_ended.emit(changed))
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		$Ratio/RatioGuides.scale.x = -1.0 if is_layout_rtl() else 1.0
+
+
 func get_sliders() -> Array[ValueSlider]:
 	return [$GridContainer/X, $GridContainer/Y]
 
@@ -129,7 +147,7 @@ func _on_Y_value_changed(val: float) -> void:
 
 func _on_RatioButton_toggled(button_pressed: bool) -> void:
 	_locked_ratio = button_pressed
-	var divisor := _gcd(value.x, value.y)
+	var divisor := _gcd(int(value.x), int(value.y))
 	if divisor == 0:
 		ratio = Vector2.ONE
 	else:

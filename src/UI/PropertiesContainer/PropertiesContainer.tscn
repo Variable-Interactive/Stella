@@ -1,0 +1,601 @@
+[gd_scene format=3 uid="uid://b2aa5j8w21rvi"]
+
+[ext_resource type="Script" uid="uid://buqce443j7qfc" path="res://src/UI/PropertiesContainer/PropertiesContainer.gd" id="1_l557i"]
+[ext_resource type="Script" uid="uid://cdtw1n41wppf0" path="res://src/UI/Nodes/CollapsibleContainer.gd" id="1_v7ih5"]
+[ext_resource type="Script" uid="uid://bk1nufhlnfqn7" path="res://src/UI/PropertiesContainer/DataProperties.gd" id="2_caix5"]
+[ext_resource type="PackedScene" uid="uid://yjhp0ssng2mp" path="res://src/UI/Nodes/Sliders/ValueSlider.tscn" id="2_r03ic"]
+[ext_resource type="Texture2D" uid="uid://c36th7nvmmhh3" path="res://assets/graphics/ui_icons/folder_icon.png" id="3_81ksc"]
+[ext_resource type="PackedScene" uid="uid://bbnqcxa20a5a5" path="res://src/UI/Nodes/Sliders/ValueSliderV2.tscn" id="3_n15b3"]
+[ext_resource type="Texture2D" uid="uid://bmsuwngdfwc0d" path="res://assets/graphics/ui_icons/new_button.png" id="4_pfi7v"]
+[ext_resource type="Texture2D" uid="uid://b0mu5qtseexty" path="res://assets/graphics/misc/value_arrow.svg" id="5_0j4mw"]
+
+[node name="PropertiesContainer" type="PanelContainer" unique_id=910394196]
+custom_minimum_size = Vector2(250, 0)
+offset_right = 304.0
+offset_bottom = 648.0
+script = ExtResource("1_l557i")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1501857995]
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=2031159523]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Properties"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1825891338]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=1281975122]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DataProperties" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer" unique_id=1397582727]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_caix5")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties" unique_id=1345685616]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HBoxContainer" unique_id=1859057279]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Path:"
+
+[node name="DataLineEdit" type="LineEdit" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HBoxContainer" unique_id=1750636023]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+
+[node name="ChangeFileButton" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HBoxContainer" unique_id=398710747]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HBoxContainer/ChangeFileButton" unique_id=1991938822]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_81ksc")
+expand_mode = 1
+
+[node name="HeaderLabel" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties" unique_id=10977818]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HeaderLabel" unique_id=1772616961]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Plot Lines"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HeaderLabel" unique_id=2057124753]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HeaderLabel" unique_id=1329382547]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="AddPlot" type="Button" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HeaderLabel/HBoxContainer" unique_id=1960145303]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HeaderLabel/HBoxContainer/AddPlot" unique_id=401790071]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_pfi7v")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SpecialPlotMenu" type="MenuButton" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HeaderLabel/HBoxContainer" unique_id=173831631]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+flat = false
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HeaderLabel/HBoxContainer/SpecialPlotMenu" unique_id=109128866]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_0j4mw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlotLinesContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties" unique_id=1281578557]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ProjectProperties" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer" unique_id=886030448]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("1_v7ih5")
+text = "Project Properties"
+visible_content = true
+metadata/_custom_type_script = "uid://cdtw1n41wppf0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties" unique_id=1500715068]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer" unique_id=939664207]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer" unique_id=1649360845]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content" unique_id=1543256712]
+layout_mode = 2
+columns = 2
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=2025639640]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Graph title:"
+
+[node name="TitleLineEdit" type="LineEdit" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=29761682]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter text..."
+
+[node name="XAxisLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=727558588]
+layout_mode = 2
+text = "X Axis:"
+
+[node name="XAxisLineEdit" type="LineEdit" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=772852768]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Enter text..."
+
+[node name="YAxisLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=1582366756]
+layout_mode = 2
+text = "Y Axis:"
+
+[node name="YAxisLineEdit" type="LineEdit" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=458505287]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Enter text..."
+
+[node name="BgColorLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=968808464]
+layout_mode = 2
+text = "Background:"
+
+[node name="BgColorButton" type="ColorPickerButton" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=289630950]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SizeLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=711526120]
+layout_mode = 2
+text = "Graph Size:"
+
+[node name="SizeSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=275712324 instance=ExtResource("3_n15b3")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = Vector2(0.01, 0.01)
+step = 0.1
+allow_greater = true
+show_ratio = true
+suffix_x = "in"
+suffix_y = "in"
+
+[node name="ScaleLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=231371864]
+layout_mode = 2
+text = "Graph Scale:"
+
+[node name="ScaleSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=1198830670 instance=ExtResource("3_n15b3")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = Vector2(0.01, 0.01)
+step = 0.1
+allow_greater = true
+show_ratio = true
+suffix_x = "x"
+suffix_y = "x"
+
+[node name="ZeroAxisLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=1675101822]
+layout_mode = 2
+text = "Zero Axis:"
+
+[node name="ZeroAxisCheckBox" type="CheckBox" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=1822930570]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="FontOptions" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content" unique_id=2089677967]
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("1_v7ih5")
+text = "Font"
+metadata/_custom_type_script = "uid://cdtw1n41wppf0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions" unique_id=1352865486]
+visible = false
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer" unique_id=1846348828]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer" unique_id=377390845]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content" unique_id=1297884324]
+layout_mode = 2
+columns = 2
+
+[node name="FontLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content/GridContainer" unique_id=2098425534]
+layout_mode = 2
+text = "Font:"
+
+[node name="FontOptionButton" type="OptionButton" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content/GridContainer" unique_id=899563063]
+unique_name_in_owner = true
+layout_mode = 2
+fit_to_longest_item = false
+
+[node name="BoldLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content/GridContainer" unique_id=2062429110]
+layout_mode = 2
+text = "Bold:"
+
+[node name="FontBoldCheckBox" type="CheckBox" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content/GridContainer" unique_id=199322622]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="FontSizeLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content/GridContainer" unique_id=2029312750]
+layout_mode = 2
+text = "Fallback Font Size:"
+
+[node name="FontSizeSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content/GridContainer" unique_id=742535155 instance=ExtResource("2_r03ic")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+value = 20.0
+suffix = "px"
+
+[node name="FontColorLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content/GridContainer" unique_id=1943866651]
+layout_mode = 2
+text = "Font Color:"
+
+[node name="FontColorButton" type="ColorPickerButton" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content/GridContainer" unique_id=669190738]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Layout" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content" unique_id=414035686]
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("1_v7ih5")
+text = "Layout"
+visible_content = true
+metadata/_custom_type_script = "uid://cdtw1n41wppf0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout" unique_id=43746140]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer" unique_id=1078735390]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer" unique_id=820533932]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RangeOptions" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content" unique_id=692137341]
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("1_v7ih5")
+text = "Range"
+metadata/_custom_type_script = "uid://cdtw1n41wppf0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions" unique_id=839911853]
+visible = false
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer" unique_id=219705440]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer" unique_id=89050051]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FullDomainCheckBox" type="CheckBox" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content" unique_id=1297781672]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Show Full Domain"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content" unique_id=991449494]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content" unique_id=2119384766]
+layout_mode = 2
+columns = 2
+
+[node name="RangePosLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=423432593]
+layout_mode = 2
+text = "Position:"
+
+[node name="RangePosSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=62854647 instance=ExtResource("3_n15b3")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = Vector2(-100, -100)
+step = 0.01
+allow_greater = true
+allow_lesser = true
+show_ratio = true
+snap_step = 0.1
+
+[node name="RangeSizeLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1843990957]
+layout_mode = 2
+text = "Size:"
+
+[node name="RangeSizeSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1529828477 instance=ExtResource("3_n15b3")]
+unique_name_in_owner = true
+layout_mode = 2
+step = 0.01
+allow_greater = true
+allow_lesser = true
+show_ratio = true
+snap_step = 0.1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=710128655]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1854402678]
+layout_mode = 2
+
+[node name="XMinLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1611472712]
+layout_mode = 2
+text = "X Min:"
+
+[node name="XMinSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1323897958 instance=ExtResource("2_r03ic")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = -50.0
+max_value = 50.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+snap_step = 0.1
+
+[node name="XMaxLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=172438158]
+layout_mode = 2
+text = "X Max:"
+
+[node name="XMaxSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=163056334 instance=ExtResource("2_r03ic")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = -50.0
+max_value = 50.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+snap_step = 0.1
+
+[node name="YMinLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1659675433]
+layout_mode = 2
+text = "Y Min:"
+
+[node name="YMinSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=479806097 instance=ExtResource("2_r03ic")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = -50.0
+max_value = 50.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+snap_step = 0.1
+
+[node name="YMaxLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=303308343]
+layout_mode = 2
+text = "Y Max:"
+
+[node name="YMaxSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1142799153 instance=ExtResource("2_r03ic")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = -50.0
+max_value = 50.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+snap_step = 0.1
+
+[node name="BorderOptions" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content" unique_id=939411018]
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("1_v7ih5")
+text = "Border"
+metadata/_custom_type_script = "uid://cdtw1n41wppf0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/BorderOptions" unique_id=1243832287]
+visible = false
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/BorderOptions/HBoxContainer" unique_id=1745422593]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/BorderOptions/HBoxContainer" unique_id=1240307730]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/BorderOptions/HBoxContainer/content" unique_id=904547331]
+layout_mode = 2
+columns = 2
+
+[node name="BorderModeLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/BorderOptions/HBoxContainer/content/GridContainer" unique_id=1691181989]
+layout_mode = 2
+text = "Border Mode:"
+
+[node name="BorderModeSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/BorderOptions/HBoxContainer/content/GridContainer" unique_id=2102540832 instance=ExtResource("2_r03ic")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 16.0
+value = 15.0
+allow_greater = true
+
+[node name="BorderWidthLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/BorderOptions/HBoxContainer/content/GridContainer" unique_id=243953374]
+layout_mode = 2
+text = "Border Width:"
+
+[node name="BorderWidthSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/BorderOptions/HBoxContainer/content/GridContainer" unique_id=240557371 instance=ExtResource("2_r03ic")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+step = 0.1
+value = 2.5
+
+[node name="BorderColorLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/BorderOptions/HBoxContainer/content/GridContainer" unique_id=1009757666]
+layout_mode = 2
+text = "Border Color:"
+
+[node name="BorderColorButton" type="ColorPickerButton" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/BorderOptions/HBoxContainer/content/GridContainer" unique_id=721101808]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LegendOptions" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content" unique_id=1160241589]
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("1_v7ih5")
+text = "Legend"
+metadata/_custom_type_script = "uid://cdtw1n41wppf0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions" unique_id=871874802]
+visible = false
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer" unique_id=1279210646]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer" unique_id=1209110430]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content" unique_id=1536901970]
+layout_mode = 2
+columns = 2
+
+[node name="VerticalLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=954105659]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Vertical:"
+
+[node name="VerticalOptionButton" type="OptionButton" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=915085231]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HorizontalLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=1005632417]
+layout_mode = 2
+text = "Horizontal:"
+
+[node name="HorizontalOptionButton" type="OptionButton" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=169686765]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ReverseLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=695143049]
+layout_mode = 2
+text = "Reverse:"
+
+[node name="ReverseCheckBox" type="CheckBox" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=914917554]
+unique_name_in_owner = true
+layout_mode = 2
+text = "On"
+
+[node name="UseBoxLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=159488176]
+layout_mode = 2
+text = "Boxed:"
+
+[node name="UseBoxCheckBox" type="CheckBox" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=970532993]
+unique_name_in_owner = true
+layout_mode = 2
+text = "On"
+
+[node name="BoxOptionContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content" unique_id=690459032]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 2
+
+[node name="BoxOutlineLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/BoxOptionContainer" unique_id=673299570]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Outline:"
+
+[node name="BoxOutlineSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/BoxOptionContainer" unique_id=425840213 instance=ExtResource("2_r03ic")]
+unique_name_in_owner = true
+layout_mode = 2
+step = 0.1
+suffix = "px"
+
+[node name="BoxSpacingLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/BoxOptionContainer" unique_id=1912233872]
+layout_mode = 2
+text = "Spacing:"
+
+[node name="BoxSpacingSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/BoxOptionContainer" unique_id=1456891278 instance=ExtResource("2_r03ic")]
+unique_name_in_owner = true
+layout_mode = 2
+step = 0.1
+suffix = "px"
+
+[node name="template" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer" unique_id=2051662655]
+visible = false
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("1_v7ih5")
+text = "Project Properties"
+metadata/_custom_type_script = "uid://cdtw1n41wppf0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/template" unique_id=1978018162]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/ScrollContainer/VBoxContainer/template/HBoxContainer" unique_id=1518269447]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="content" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/template/HBoxContainer" unique_id=642675475]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HBoxContainer/ChangeFileButton" to="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties" method="_on_change_file_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties/HeaderLabel/HBoxContainer/AddPlot" to="VBoxContainer/ScrollContainer/VBoxContainer/DataProperties" method="_on_add_plot_pressed"]
+[connection signal="toggled" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/FullDomainCheckBox" to="." method="_on_full_domain_check_box_toggled"]
+[connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/RangePosSlider" to="." method="_on_range_rect_sliders_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/RangeSizeSlider" to="." method="_on_range_rect_sliders_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/XMinSlider" to="." method="_on_range_changed"]
+[connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/XMaxSlider" to="." method="_on_range_changed"]
+[connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/YMinSlider" to="." method="_on_range_changed"]
+[connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/YMaxSlider" to="." method="_on_range_changed"]

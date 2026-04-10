@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://byhm4vt2psfop"]
+
+[ext_resource type="Script" uid="uid://degyewclvuj21" path="res://src/UI/DataTreeContainer/DataTreeContainer.gd" id="1_njvp7"]
+[ext_resource type="Texture2D" uid="uid://c07e4iqdsj44t" path="res://assets/graphics/ui_icons/search.svg" id="2_0dyxi"]
+[ext_resource type="Texture2D" uid="uid://bmsuwngdfwc0d" path="res://assets/graphics/ui_icons/new_button.png" id="2_23pdv"]
+
+[node name="DataTreeContainer" type="PanelContainer" unique_id=99240658]
+custom_minimum_size = Vector2(200, 0)
+offset_right = 200.0
+offset_bottom = 321.0
+script = ExtResource("1_njvp7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=167039021]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=77224323]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Data Files"
+horizontal_alignment = 1
+
+[node name="NoDataLabel" type="Label" parent="VBoxContainer" unique_id=1848771371]
+unique_name_in_owner = true
+self_modulate = Color(0, 1, 0, 1)
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+text = "No Data files presesent.
+Use the (+) button"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=128207319]
+layout_mode = 2
+
+[node name="AddData" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1246381672]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/AddData" unique_id=630173947]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_23pdv")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FilterFileEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer" unique_id=262749123]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter Files"
+right_icon = ExtResource("2_0dyxi")
+
+[node name="DataTree" type="Tree" parent="VBoxContainer" unique_id=1722721723]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/AddData" to="." method="_on_add_data_pressed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/FilterFileEdit" to="." method="_on_filter_by_name_line_edit_text_changed"]

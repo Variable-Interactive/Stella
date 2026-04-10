@@ -1,0 +1,272 @@
+[gd_scene format=3 uid="uid://bxedrmqpm4xb4"]
+
+[ext_resource type="Theme" uid="uid://dog5j8wjiwikc" path="res://assets/themes/dark/theme.tres" id="1_cwy3x"]
+[ext_resource type="Script" uid="uid://dbo20ut71gmgg" path="res://src/UI/Main.gd" id="2_livjq"]
+[ext_resource type="PackedScene" uid="uid://byhm4vt2psfop" path="res://src/UI/DataTreeContainer/DataTreeContainer.tscn" id="3_8wnnc"]
+[ext_resource type="PackedScene" uid="uid://yjhp0ssng2mp" path="res://src/UI/Nodes/Sliders/ValueSlider.tscn" id="3_b31u5"]
+[ext_resource type="PackedScene" uid="uid://oe4xci2ktblf" path="res://src/UI/KlinesList/KlinesList.tscn" id="4_nahl2"]
+[ext_resource type="Script" uid="uid://deu87nvqtyfl6" path="res://src/UI/ImageViewPort/ImageViewPort.gd" id="5_8wnnc"]
+[ext_resource type="PackedScene" uid="uid://b2aa5j8w21rvi" path="res://src/UI/PropertiesContainer/PropertiesContainer.tscn" id="5_livjq"]
+[ext_resource type="PackedScene" uid="uid://ba24iuv55m4l3" path="res://src/UI/Canvas/Canvas.tscn" id="5_nahl2"]
+[ext_resource type="Script" uid="uid://dqm7emfqa6goo" path="res://src/UI/Tabs.gd" id="6_rxgy8"]
+[ext_resource type="Script" uid="uid://ctqrsfsbx4kwk" path="res://src/UI/Canvas/CanvasCamera.gd" id="7_7p3dh"]
+[ext_resource type="Script" uid="uid://cdtw1n41wppf0" path="res://src/UI/Nodes/CollapsibleContainer.gd" id="9_34e5i"]
+
+[node name="Main" type="Control" unique_id=800405094]
+self_modulate = Color(0.8047426, 0.80474263, 0.8047426, 1)
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cwy3x")
+script = ExtResource("2_livjq")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1314004699]
+self_modulate = Color(0.47843137, 0.47843137, 0.47843137, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=143675961]
+layout_mode = 2
+
+[node name="TopMenuContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer" unique_id=1088890094]
+self_modulate = Color(0.47843137, 0.47843137, 0.47843137, 1)
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/TopMenuContainer" unique_id=1530566199]
+layout_mode = 2
+
+[node name="MenuBar" type="MenuBar" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer" unique_id=2145217745]
+layout_mode = 2
+size_flags_horizontal = 0
+flat = true
+
+[node name="File" type="PopupMenu" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/MenuBar" unique_id=345544425]
+unique_name_in_owner = true
+
+[node name="Sliders" type="HBoxContainer" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer" unique_id=1140552254]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="RotationSlider" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/Sliders" unique_id=1514562646 instance=ExtResource("3_b31u5")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 24)
+layout_mode = 2
+min_value = -180.0
+max_value = 180.0
+step = 0.1
+allow_greater = true
+allow_lesser = true
+suffix = "°"
+snap_step = 45.0
+
+[node name="ZoomSlider" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/Sliders" unique_id=1726316798 instance=ExtResource("3_b31u5")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 24)
+layout_mode = 2
+min_value = 1.0
+max_value = 5000.0
+value = 50.0
+allow_greater = true
+suffix = "%"
+snap_step = 100.0
+
+[node name="VisualFormatOption" type="HBoxContainer" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer" unique_id=682182429]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="PNGLabel" type="Label" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/VisualFormatOption" unique_id=1687424139]
+layout_mode = 2
+text = "Visual Engine: PNG"
+
+[node name="VisualFormatToggle" type="CheckButton" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/VisualFormatOption" unique_id=930469461]
+layout_mode = 2
+
+[node name="PDFLabel" type="Label" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/VisualFormatOption" unique_id=991365471]
+layout_mode = 2
+text = "PDF"
+
+[node name="UI" type="HSplitContainer" parent="PanelContainer/VBoxContainer" unique_id=1097470768]
+layout_mode = 2
+size_flags_vertical = 3
+split_offsets = PackedInt32Array(200)
+split_offset = 200
+
+[node name="VBoxContainer" type="VSplitContainer" parent="PanelContainer/VBoxContainer/UI" unique_id=830528009]
+layout_mode = 2
+
+[node name="DataTreeContainer" parent="PanelContainer/VBoxContainer/UI/VBoxContainer" unique_id=99240658 instance=ExtResource("3_8wnnc")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="KlinesList" parent="PanelContainer/VBoxContainer/UI/VBoxContainer" unique_id=425724427 instance=ExtResource("4_nahl2")]
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="PanelContainer/VBoxContainer/UI" unique_id=1444921899]
+layout_mode = 2
+split_offsets = PackedInt32Array(-200)
+split_offset = -200
+
+[node name="DrawArea" type="VBoxContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer" unique_id=1518449252]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea" unique_id=1361682561]
+layout_mode = 2
+
+[node name="TabBar" type="TabBar" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea" unique_id=1818403757]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+tab_close_display_policy = 1
+script = ExtResource("6_rxgy8")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea" unique_id=625389913]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/HBoxContainer" unique_id=1605486432]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/HBoxContainer" unique_id=657371719]
+layout_mode = 2
+text = "Camera Moves Image"
+
+[node name="CameraBehaviorCheckbox" type="CheckButton" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/HBoxContainer" unique_id=1500645841]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/HBoxContainer" unique_id=1868742322]
+layout_mode = 2
+text = "Camera moves Plot"
+
+[node name="ImageViewPort" type="SubViewportContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea" unique_id=1751021184]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 2
+stretch = true
+script = ExtResource("5_8wnnc")
+camera_path = NodePath("SubViewport/CanvasCamera")
+
+[node name="SubViewport" type="SubViewport" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/ImageViewPort" unique_id=652885761]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(667, 357)
+render_target_update_mode = 4
+
+[node name="Canvas" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/ImageViewPort/SubViewport" unique_id=248802489 instance=ExtResource("5_nahl2")]
+
+[node name="CanvasCamera" type="Node2D" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/ImageViewPort/SubViewport" unique_id=1856387682 groups=["CanvasCameras"]]
+unique_name_in_owner = true
+script = ExtResource("7_7p3dh")
+metadata/_custom_type_script = "uid://ctqrsfsbx4kwk"
+
+[node name="Sprite2D" type="Sprite2D" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/ImageViewPort/SubViewport" unique_id=2050499071]
+visible = false
+
+[node name="OutputLog" type="VBoxContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea" unique_id=1862676099]
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("9_34e5i")
+text = "Output Log"
+visible_content = true
+metadata/_custom_type_script = "uid://cdtw1n41wppf0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog" unique_id=1345064120]
+layout_mode = 2
+
+[node name="LogText" type="RichTextLabel" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog/HBoxContainer" unique_id=1995530827]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+selection_enabled = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog/HBoxContainer" unique_id=1063232224]
+layout_mode = 2
+
+[node name="ClearOutput" type="Button" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog/HBoxContainer/VBoxContainer" unique_id=1666073768]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Clear Log"
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog/HBoxContainer/VBoxContainer" unique_id=1693944871]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog" unique_id=29791188]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog/PanelContainer" unique_id=772905722]
+layout_mode = 2
+text = "Hold Space bar + Mouse to Pan                Use Scroll wheel to Zoom"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="PropertiesContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer" unique_id=910394196 instance=ExtResource("5_livjq")]
+layout_mode = 2
+
+[node name="Dialogs" type="Control" parent="." unique_id=817190402]
+layout_mode = 1
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="OpenProjectDialog" type="FileDialog" parent="Dialogs" unique_id=1353443480]
+unique_name_in_owner = true
+title = "Open Project"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.stella")
+use_native_dialog = true
+
+[node name="ImportDataDialog" type="FileDialog" parent="Dialogs" unique_id=938818654]
+unique_name_in_owner = true
+title = "Open Data File"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.dat")
+use_native_dialog = true
+
+[node name="UnsavedChangesDialog" type="ConfirmationDialog" parent="Dialogs" unique_id=681428072]
+oversampling_override = 1.0
+title = "Unsaved Project"
+size = Vector2i(609, 100)
+dialog_text = "You have unsaved changes. If you proceed, the progress you have made will be lost."
+
+[node name="SaveFileDialog" type="FileDialog" parent="Dialogs" unique_id=620557336]
+unique_name_in_owner = true
+mode_overrides_title = false
+access = 2
+filters = PackedStringArray("*.stella ; Stella Project", "*.gnu ; GNUPlot script", "*.png; PNG Image", "*.pdf; PDF File", "*.birch; Birch Murnaghan")
+use_native_dialog = true
+
+[node name="KlablesImportConfirmation" type="ConfirmationDialog" parent="Dialogs" unique_id=2110158450]
+oversampling_override = 1.0
+title = "KLABLES Found"
+size = Vector2i(609, 100)
+ok_button_text = "Import"
+dialog_text = "A KLABLES file was detected in this folder, do you want to import it as well?"
+cancel_button_text = "Skip"
+
+[connection signal="toggled" from="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/VisualFormatOption/VisualFormatToggle" to="." method="_on_visual_format_toggle_toggled"]
+[connection signal="active_tab_rearranged" from="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" to="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" method="_on_active_tab_rearranged"]
+[connection signal="tab_changed" from="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" to="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" method="_on_Tabs_tab_changed"]
+[connection signal="tab_close_pressed" from="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" to="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" method="_on_tab_close_pressed"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/HBoxContainer/CameraBehaviorCheckbox" to="." method="_on_camera_behavior_checkbox_toggled"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog/HBoxContainer/VBoxContainer/ClearOutput" to="." method="_on_clear_output_pressed"]
+[connection signal="file_selected" from="Dialogs/OpenProjectDialog" to="." method="_on_open_project_dialog_file_selected"]
+[connection signal="file_selected" from="Dialogs/ImportDataDialog" to="." method="_on_import_data_dialog_file_selected"]
+[connection signal="file_selected" from="Dialogs/SaveFileDialog" to="." method="_on_save_file_dialog_file_selected"]

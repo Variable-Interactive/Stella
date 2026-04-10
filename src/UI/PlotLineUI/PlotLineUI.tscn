@@ -1,0 +1,239 @@
+[gd_scene format=3 uid="uid://bjwqdc4hvj72d"]
+
+[ext_resource type="Script" uid="uid://cdtw1n41wppf0" path="res://src/UI/Nodes/CollapsibleContainer.gd" id="1_a63j0"]
+[ext_resource type="Script" uid="uid://drhr5uyaqbhi5" path="res://src/UI/PlotLineUI/PlotLineUI.gd" id="1_ektfu"]
+[ext_resource type="PackedScene" uid="uid://bbnqcxa20a5a5" path="res://src/UI/Nodes/Sliders/ValueSliderV2.tscn" id="2_ektfu"]
+[ext_resource type="PackedScene" uid="uid://yjhp0ssng2mp" path="res://src/UI/Nodes/Sliders/ValueSlider.tscn" id="3_bqlc6"]
+[ext_resource type="Texture2D" uid="uid://c3id7qt6fb52p" path="res://assets/graphics/ui_icons/Remove.svg" id="4_6agyt"]
+
+[node name="PlotLineUI" type="HBoxContainer" unique_id=1377832916]
+offset_right = 333.0
+offset_bottom = 357.0
+script = ExtResource("1_ektfu")
+
+[node name="PlotLineOptions" type="VBoxContainer" parent="." unique_id=6955147]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("1_a63j0")
+text = "Plot Name"
+metadata/_custom_type_script = "uid://cdtw1n41wppf0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlotLineOptions" unique_id=214335056]
+visible = false
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="PlotLineOptions/HBoxContainer" unique_id=690088249]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="content" type="VBoxContainer" parent="PlotLineOptions/HBoxContainer" unique_id=54002083]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BirchMurnaghan" type="VBoxContainer" parent="PlotLineOptions/HBoxContainer/content" unique_id=323494375]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CollapsibleContainer"
+script = ExtResource("1_a63j0")
+text = "Model Options"
+metadata/_custom_type_script = "uid://cdtw1n41wppf0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan" unique_id=682500098]
+visible = false
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer" unique_id=735940930]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer" unique_id=89477959]
+self_modulate = Color(0.47843137, 0.47843137, 0.47843137, 1)
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer" unique_id=378456443]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer" unique_id=744992878]
+layout_mode = 2
+columns = 2
+
+[node name="OptimalLatticeLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=895520352]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Optimal Lattice (V¹ᐟ³):"
+
+[node name="BirchLatticeSlider" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1726316798 instance=ExtResource("3_bqlc6")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Shifts Curve along X axis"
+min_value = 0.01
+max_value = 10.0
+step = 0.01
+value = 0.01
+allow_greater = true
+suffix = "Å"
+snap_step = 0.1
+
+[node name="OptimalEnergyLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=2034586986]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ground Energy:"
+
+[node name="BirchEnergySlider" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=967711594 instance=ExtResource("3_bqlc6")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Shifts Curve along Y axis"
+min_value = -100.0
+max_value = 0.0
+step = 0.001
+allow_lesser = true
+suffix = "eV"
+snap_step = 0.01
+
+[node name="GroundBulkLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=11205866]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Bulk Modulus B(V₀):"
+autowrap_mode = 3
+
+[node name="BirchBulkModuloSlider" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1184487157 instance=ExtResource("3_bqlc6")]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+allow_greater = true
+suffix = "eV/Å³"
+snap_step = 0.01
+
+[node name="GroundBulkPrimeLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=531280491]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "B'(V₀):"
+autowrap_mode = 3
+
+[node name="BirchBulkModuloPSlider" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1816727325 instance=ExtResource("3_bqlc6")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TrialDataLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=566262358]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Data Width:"
+autowrap_mode = 3
+
+[node name="DataWidthSlider" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1824377520 instance=ExtResource("3_bqlc6")]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 10.0
+step = 0.01
+value = 1.0
+allow_greater = true
+suffix = "Å"
+
+[node name="RecalculateButton" type="Button" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer" unique_id=541964348]
+layout_mode = 2
+text = "Recalculate Model"
+text_overrun_behavior = 1
+
+[node name="GridContainer" type="GridContainer" parent="PlotLineOptions/HBoxContainer/content" unique_id=1897711923]
+layout_mode = 2
+columns = 2
+
+[node name="NameLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=957219456]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Plot name:"
+
+[node name="PlotNameEdit" type="LineEdit" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=1211838909]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter text..."
+
+[node name="PlotData" type="Label" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=1530508855]
+layout_mode = 2
+text = "Plot Data:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=2041795612]
+layout_mode = 2
+
+[node name="PlotDataSlider" parent="PlotLineOptions/HBoxContainer/content/GridContainer/VBoxContainer" unique_id=62854647 instance=ExtResource("2_ektfu")]
+unique_name_in_owner = true
+layout_mode = 2
+value = Vector2(1, 1)
+min_value = Vector2(1, 1)
+max_value = Vector2(8, 8)
+allow_greater = true
+prefix_x = "X Column:"
+prefix_y = "Y Column:"
+
+[node name="FlipSlider" type="Button" parent="PlotLineOptions/HBoxContainer/content/GridContainer/VBoxContainer" unique_id=1636769948]
+layout_mode = 2
+text = "Flip Axes"
+
+[node name="LineModeLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=1647548919]
+layout_mode = 2
+text = "Line mode:"
+
+[node name="LineModeOption" type="OptionButton" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=1219112903]
+unique_name_in_owner = true
+layout_mode = 2
+fit_to_longest_item = false
+
+[node name="LineWidthLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=1050741956]
+layout_mode = 2
+text = "Line width:"
+
+[node name="PlotLineWidthSlider" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=119889322 instance=ExtResource("3_bqlc6")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlotColorLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=1393547945]
+layout_mode = 2
+text = "Color:"
+
+[node name="PlotColorButton" type="ColorPickerButton" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=1906015952]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VisibleLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=522704835]
+layout_mode = 2
+text = "Visible:"
+
+[node name="VisibleCheckBox" type="CheckBox" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=1443394564]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RemovePlotButton" type="Button" parent="." unique_id=339408090]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="RemovePlotButton" unique_id=1658074630]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_6agyt")
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="pressed" from="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/RecalculateButton" to="." method="_on_recalculate_button_pressed"]
+[connection signal="text_changed" from="PlotLineOptions/HBoxContainer/content/GridContainer/PlotNameEdit" to="." method="_on_plot_name_edit_text_changed"]
+[connection signal="pressed" from="PlotLineOptions/HBoxContainer/content/GridContainer/VBoxContainer/FlipSlider" to="." method="_on_flip_slider_pressed"]
+[connection signal="pressed" from="RemovePlotButton" to="." method="_on_remove_plot_button_pressed"]

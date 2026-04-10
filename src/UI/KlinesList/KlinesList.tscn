@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://oe4xci2ktblf"]
+
+[ext_resource type="Script" uid="uid://c0q8lvydeyhfh" path="res://src/UI/KlinesList/KlinesList.gd" id="1_bvcr3"]
+[ext_resource type="Texture2D" uid="uid://bmsuwngdfwc0d" path="res://assets/graphics/ui_icons/new_button.png" id="2_yvqh2"]
+
+[node name="KlinesList" type="PanelContainer" unique_id=425724427]
+offset_right = 241.0
+offset_bottom = 300.0
+size_flags_vertical = 3
+script = ExtResource("1_bvcr3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1161263298]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1759185201]
+layout_mode = 2
+
+[node name="AddButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=2121711470]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/AddButton" unique_id=878756856]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_yvqh2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=552703183]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_type_variation = &"HeaderSmall"
+text = "K-Lines"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=408010375]
+layout_mode = 2
+
+[node name="HideXAxisCheck" type="CheckBox" parent="VBoxContainer" unique_id=998810301]
+layout_mode = 2
+text = "Hide numbers on X-Axis"
+
+[node name="NoKlineLabel" type="Label" parent="VBoxContainer" unique_id=1636270977]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 10
+text = "Unless it's a Band diagram, you don't need this.
+Use the (+) button above to add KLABLES."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1350264544]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="KlineContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=1357671287]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/AddButton" to="." method="_on_add_button_pressed"]

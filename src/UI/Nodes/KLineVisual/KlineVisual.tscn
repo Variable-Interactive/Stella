@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://chnuglsufe672"]
+
+[ext_resource type="Script" uid="uid://dqpd8cviya3vd" path="res://src/UI/Nodes/KLineVisual/KlineVisual.gd" id="1_0huy2"]
+[ext_resource type="PackedScene" uid="uid://yjhp0ssng2mp" path="res://src/UI/Nodes/Sliders/ValueSlider.tscn" id="1_3xsaa"]
+[ext_resource type="Texture2D" uid="uid://1m0dqlu7qsav" path="res://assets/graphics/ui_icons/close.svg" id="2_toi2t"]
+
+[node name="KlineVisual" type="HBoxContainer" unique_id=97575951]
+script = ExtResource("1_0huy2")
+
+[node name="LineEdit" type="LineEdit" parent="." unique_id=1422149656]
+unique_name_in_owner = true
+layout_mode = 2
+text = "{/Symbol G}"
+placeholder_text = "Letter"
+
+[node name="DistSlider" parent="." unique_id=1726316798 instance=ExtResource("1_3xsaa")]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 5.0
+step = 0.001
+allow_greater = true
+
+[node name="DeleteButton" type="Button" parent="." unique_id=1421924310]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="DeleteButton" unique_id=1325423323]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.535715
+offset_right = -5.0
+offset_bottom = -5.535715
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_toi2t")
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="pressed" from="DeleteButton" to="." method="_on_remove_pressed"]
