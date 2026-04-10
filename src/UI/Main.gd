@@ -225,11 +225,17 @@ func _on_file_menu_id_pressed(id: int):
 		FileMenu.LOAD_DATA_FILE:
 			Global.import_data_dialog.popup_centered()
 		FileMenu.SAVE_FILE:
-			save_file_dialog_opened.emit(true)
 			var project := Global.projects[Global.current_project_index]
 			if not project.last_save_path.get_base_dir().is_empty():
 				save_file_dialog.current_dir = project.last_save_path.get_base_dir()
+			save_file_dialog_opened.emit(true)
 			save_file_dialog.popup_centered()
+		FileMenu.QUIT:
+			get_tree().quit()
+
+
+func _on_save_file_dialog_cancelled() -> void:
+	save_file_dialog_opened.emit(false)
 
 
 func _on_open_project_dialog_file_selected(path: String) -> void:
@@ -241,8 +247,8 @@ func _on_import_data_dialog_file_selected(path: String) -> void:
 
 
 func _on_save_file_dialog_file_selected(path: String) -> void:
-	OpenSave.handle_file_save(path)
 	save_file_dialog_opened.emit(false)
+	OpenSave.handle_file_save(path)
 
 
 func _setup_file_menu():
@@ -272,3 +278,7 @@ func _exit_tree() -> void:
 	if DisplayServer.get_name() == "headless":
 		return
 	Global.config_cache.save(Global.CONFIG_PATH)
+
+
+func _on_save_button_pressed() -> void:
+	_on_file_menu_id_pressed(FileMenu.SAVE_FILE)
