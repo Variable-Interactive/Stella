@@ -15,8 +15,13 @@ const alignment_string: Dictionary[LegendAlign, String] = {
 
 var font_priorities := ["Helvetica", "TeX Gyre Heros", "Roboto"]
 # General Properties
-var project_name := "untitled"
-var graph_title := "untitled"
+var project_name := "untitled":
+	set(value):
+		project_name = value
+		var project_index := Global.projects.find(self)
+		if project_index < Global.tabs.tab_count and project_index > -1:
+			Global.tabs.set_tab_title(project_index, project_name)
+var graph_title := ""
 var last_save_path := ""
 var x_label: String = ""
 var y_label: String = ""
@@ -41,6 +46,7 @@ var show_zero_axis := false
 var hide_x_axis := false
 
 # Legend
+var legend_enabled := true
 var legend_vertical := LegendAlign.TOP
 var legend_horizontal := LegendAlign.RIGHT
 var reverse_legend := false
@@ -73,7 +79,6 @@ var size: Vector2i:
 		if last_render: return last_render.get_size()
 		return Vector2i.ZERO
 ## For every camera (currently there is 1)
-var cameras_rotation: PackedFloat32Array = [0.0]
 var cameras_zoom: PackedVector2Array = [Vector2(0.15, 0.15)]
 var cameras_offset: PackedVector2Array = [Vector2.ZERO]
 
@@ -142,6 +147,7 @@ class DataFile:
 				birch_modulo_prime = value
 		var birch_prediction_data: String = ""
 		var visible: bool = true
+		var show_in_legend: bool = true
 
 		func _init(data_file: DataFile, line_index: int = 0) -> void:
 			parent_data_file = data_file
@@ -221,6 +227,7 @@ class DataFile:
 					"y_column": y_column,
 					"color": color,
 					"visible": visible,
+					"show_in_legend": show_in_legend,
 				}
 			)
 
@@ -366,6 +373,7 @@ func serialize() -> Dictionary:
 		"y_range_max": y_range_max,
 		"data_files": data_files_array,
 		"k_lines": kline_data,
+		"legend_enabled": legend_enabled,
 		"legend_vertical": legend_vertical,
 		"legend_horizontal": legend_horizontal,
 		"reverse_legend": reverse_legend,

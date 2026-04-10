@@ -21,11 +21,11 @@ horizontal_alignment = 1
 
 [node name="NoDataLabel" type="Label" parent="VBoxContainer" unique_id=1848771371]
 unique_name_in_owner = true
-self_modulate = Color(0, 1, 0, 1)
+self_modulate = Color(1, 0.79607844, 0, 1)
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 text = "No Data files presesent.
-Use the (+) button"
+Use the (+) button."
 horizontal_alignment = 1
 autowrap_mode = 3
 

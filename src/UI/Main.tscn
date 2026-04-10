@@ -56,18 +56,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 
-[node name="RotationSlider" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/Sliders" unique_id=1514562646 instance=ExtResource("3_b31u5")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 24)
-layout_mode = 2
-min_value = -180.0
-max_value = 180.0
-step = 0.1
-allow_greater = true
-allow_lesser = true
-suffix = "°"
-snap_step = 45.0
-
 [node name="ZoomSlider" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/Sliders" unique_id=1726316798 instance=ExtResource("3_b31u5")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 24)
@@ -138,7 +126,7 @@ size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/HBoxContainer" unique_id=657371719]
 layout_mode = 2
-text = "Camera Moves Image"
+text = "Pan Image"
 
 [node name="CameraBehaviorCheckbox" type="CheckButton" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/HBoxContainer" unique_id=1500645841]
 unique_name_in_owner = true
@@ -146,7 +134,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/HBoxContainer" unique_id=1868742322]
 layout_mode = 2
-text = "Camera moves Plot"
+text = "Pan Graph"
 
 [node name="ImageViewPort" type="SubViewportContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea" unique_id=1751021184]
 layout_mode = 2
@@ -161,7 +149,7 @@ disable_3d = true
 transparent_bg = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(667, 357)
+size = Vector2i(667, 461)
 render_target_update_mode = 4
 
 [node name="Canvas" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/ImageViewPort/SubViewport" unique_id=248802489 instance=ExtResource("5_nahl2")]
@@ -179,10 +167,10 @@ layout_mode = 2
 theme_type_variation = &"CollapsibleContainer"
 script = ExtResource("9_34e5i")
 text = "Output Log"
-visible_content = true
 metadata/_custom_type_script = "uid://cdtw1n41wppf0"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog" unique_id=1345064120]
+visible = false
 layout_mode = 2
 
 [node name="LogText" type="RichTextLabel" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog/HBoxContainer" unique_id=1995530827]
@@ -204,10 +192,10 @@ text = "Clear Log"
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog" unique_id=29791188]
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea" unique_id=29791188]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/OutputLog/PanelContainer" unique_id=772905722]
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/PanelContainer" unique_id=772905722]
 layout_mode = 2
 text = "Hold Space bar + Mouse to Pan                Use Scroll wheel to Zoom"
 horizontal_alignment = 1

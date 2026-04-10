@@ -22,8 +22,9 @@ var mode: Mode = Mode.STANDARD:
 @onready var plot_line_width_slider: ValueSlider = %PlotLineWidthSlider
 @onready var plot_color_button: ColorPickerButton = %PlotColorButton
 @onready var visible_check_box: CheckBox = %VisibleCheckBox
-@onready var birch_murnaghan: CollapsibleContainer = %BirchMurnaghan
+@onready var show_legend_check_box: CheckBox = %ShowLegendCheckBox
 
+@onready var birch_murnaghan: CollapsibleContainer = %BirchMurnaghan
 @onready var birch_lattice_slider: ValueSlider = %BirchLatticeSlider
 @onready var birch_energy_slider: ValueSlider = %BirchEnergySlider
 @onready var birch_bulk_modulo_slider: ValueSlider = %BirchBulkModuloSlider
@@ -32,6 +33,9 @@ var mode: Mode = Mode.STANDARD:
 
 
 func _ready() -> void:
+	var birch_container_label: Label = birch_murnaghan.get("_label")
+	if birch_container_label:
+		birch_container_label.self_modulate = Color.ORANGE
 	for i in LINE_MODES.size():
 		line_mode_option.add_item(LINE_MODES[i].keys()[0], i)
 	plot_name_edit.text_changed.connect(
@@ -63,6 +67,11 @@ func _ready() -> void:
 	visible_check_box.toggled.connect(
 		func (value: bool):
 			plot_data.visible = value
+			Global.update_plot.emit()
+	)
+	show_legend_check_box.toggled.connect(
+		func (value: bool):
+			plot_data.show_in_legend = value
 			Global.update_plot.emit()
 	)
 	birch_lattice_slider.value_changed.connect(
@@ -102,6 +111,7 @@ func update_ui() -> void: # update general properties
 		plot_line_width_slider.set_value_no_signal_update_display(plot_data.width)
 		plot_color_button.color = plot_data.color
 		visible_check_box.set_pressed_no_signal(plot_data.visible)
+		show_legend_check_box.set_pressed_no_signal(plot_data.show_in_legend)
 		# Birch Settings
 		birch_lattice_slider.set_value_no_signal_update_display(plot_data.birch_lattice)
 		birch_energy_slider.set_value_no_signal_update_display(plot_data.birch_energy)

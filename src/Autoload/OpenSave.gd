@@ -65,6 +65,7 @@ func load_stella_file(file_path, as_template := false):
 				Global.projects.append(project)
 				Global.tabs.current_tab = Global.projects.size() - 1
 				await get_tree().process_frame
+				project.project_name = file_path.uri_decode().get_file().trim_suffix("." + STELLA_EXTENSION)
 				Global.canvas.camera_zoom()
 
 
@@ -215,22 +216,33 @@ func handle_file_save(file_path: String) -> void:
 	if is_using_cli and project.last_save_path == "":
 		Global.debug_funny("There isn't a recipie file, so i am using full domain.")
 		project.full_range = true
-
 	match extension:
 		STELLA_EXTENSION, GNU_EXTENSION:
 			var file := FileAccess.open(file_path, FileAccess.WRITE)
 			if FileAccess.get_open_error() != OK:
 				return
 			if extension == STELLA_EXTENSION:
+				project.project_name = file_path.uri_decode().get_file().trim_suffix("." + STELLA_EXTENSION)
 				project.last_save_path = file_path
 				var serialized_data := project.serialize()
 				for key in serialized_data:
 					serialized_data.set(key, var_to_str(serialized_data[key]))
 				file.store_string(JSON.stringify(serialized_data, "\t"))
 			elif extension == GNU_EXTENSION:
-				var gnu_script := GNUgenerator.generate_gnu(project.serialize(), file_path, Global.visual_format)
+				var gnu_script := GNUgenerator.generate_gnu(
+					project.serialize(), file_path, Global.visual_format
+				)
+				var gnu_path_deps: PackedStringArray = gnu_script.get("deps", PackedStringArray())
+				var path_deps_local := PackedStringArray()
+				var local_config_dir := file_path.get_base_dir().path_join(".stella")
+				for dep_path in gnu_path_deps:
+					if dep_path.get_base_dir() == ProjectSettings.globalize_path(Global.CACHE_DIR):
+						DirAccess.make_dir_recursive_absolute(local_config_dir)
+						DirAccess.copy_absolute(dep_path, local_config_dir.path_join(dep_path.get_file()))
+						dep_path = local_config_dir.path_join(dep_path.get_file())
+					path_deps_local.append(OpenSave.get_relative_path(file_path, dep_path))
 				file.store_string(
-					gnu_script.get("code", "").format(gnu_script.get("deps", PackedStringArray()))
+					gnu_script.get("code", "").format(Array(path_deps_local))
 				)
 			file.close()
 		PNG_EXTENSION:

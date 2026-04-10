@@ -14,7 +14,7 @@ config/name="Stella"
 config/version="0.2"
 run/main_scene="uid://bxedrmqpm4xb4"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://dfuu2635go0fq"
 
 [autoload]
 

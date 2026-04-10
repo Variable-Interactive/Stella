@@ -18,10 +18,10 @@ size_flags_horizontal = 3
 theme_type_variation = &"CollapsibleContainer"
 script = ExtResource("1_a63j0")
 text = "Plot Name"
+visible_content = true
 metadata/_custom_type_script = "uid://cdtw1n41wppf0"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PlotLineOptions" unique_id=214335056]
-visible = false
 layout_mode = 2
 
 [node name="Spacer" type="Control" parent="PlotLineOptions/HBoxContainer" unique_id=690088249]
@@ -39,10 +39,10 @@ layout_mode = 2
 theme_type_variation = &"CollapsibleContainer"
 script = ExtResource("1_a63j0")
 text = "Model Options"
+visible_content = true
 metadata/_custom_type_script = "uid://cdtw1n41wppf0"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan" unique_id=682500098]
-visible = false
 layout_mode = 2
 
 [node name="Spacer" type="Control" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer" unique_id=735940930]
@@ -211,6 +211,16 @@ text = "Visible:"
 [node name="VisibleCheckBox" type="CheckBox" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=1443394564]
 unique_name_in_owner = true
 layout_mode = 2
+text = "On"
+
+[node name="ShowLegendLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=48885848]
+layout_mode = 2
+text = "Show in Legend:"
+
+[node name="ShowLegendCheckBox" type="CheckBox" parent="PlotLineOptions/HBoxContainer/content/GridContainer" unique_id=949093226]
+unique_name_in_owner = true
+layout_mode = 2
+text = "On"
 
 [node name="RemovePlotButton" type="Button" parent="." unique_id=339408090]
 custom_minimum_size = Vector2(28, 28)

@@ -31,6 +31,7 @@ var _drag = false
 @onready var zero_axis_check_box: CheckBox = %ZeroAxisCheckBox
 
 # Legend
+@onready var legend_enabled_check_box: CheckBox = %LegendEnabledCheckBox
 @onready var vertical_option_button: OptionButton = %VerticalOptionButton
 @onready var horizontal_option_button: OptionButton = %HorizontalOptionButton
 @onready var reverse_check_box: CheckBox = %ReverseCheckBox
@@ -115,15 +116,16 @@ func _ready() -> void:
 	vertical_option_button.item_selected.connect(
 		func(index):
 			var project: Project = Global.projects[Global.current_project_index]
-			project.legend_horizontal = vertical_option_button.get_item_id(index) as Project.LegendAlign
+			project.legend_vertical = vertical_option_button.get_item_id(index) as Project.LegendAlign
 			Global.update_plot.emit()
 	)
 	horizontal_option_button.item_selected.connect(
 		func(index):
 			var project: Project = Global.projects[Global.current_project_index]
-			project.legend_vertical = vertical_option_button.get_item_id(index) as Project.LegendAlign
+			project.legend_horizontal = horizontal_option_button.get_item_id(index) as Project.LegendAlign
 			Global.update_plot.emit()
 	)
+	legend_enabled_check_box.toggled.connect(_update_regular_property.bind("legend_enabled"))
 	reverse_check_box.toggled.connect(_update_regular_property.bind("reverse_legend"))
 	use_box_check_box.toggled.connect(_update_regular_property.bind("use_box"))
 	box_outline_slider.value_changed.connect(_update_regular_property.bind("legend_box_outline"))
@@ -160,6 +162,7 @@ func update_properties():
 	y_min_slider.set_value_no_signal_update_display(project.y_range_min)
 	y_max_slider.set_value_no_signal_update_display(project.y_range_max)
 
+	legend_enabled_check_box.set_pressed_no_signal(project.legend_enabled)
 	horizontal_option_button.select(horizontal_option_button.get_item_index(project.legend_horizontal))
 	vertical_option_button.select(vertical_option_button.get_item_index(project.legend_vertical))
 	reverse_check_box.set_pressed_no_signal(project.reverse_legend)
@@ -167,6 +170,9 @@ func update_properties():
 	box_outline_slider.set_value_no_signal_update_display(project.legend_box_outline)
 	box_spacing_slider.set_value_no_signal_update_display(project.legend_box_spacing)
 	_on_range_changed()
+	await get_tree().process_frame
+	Global.control.camera_behavior_checkbox.button_pressed = not project.full_range
+	Global.control.camera_behavior_checkbox.disabled = project.full_range
 
 
 func _update_v2_property(value: Vector2, prop_x: String, prop_y: String) -> void:
@@ -291,11 +297,12 @@ func _on_range_changed(_value := 0.0) -> void:
 func _on_full_domain_check_box_toggled(toggled_on: bool) -> void:
 	var project: Project = Global.projects[Global.current_project_index]
 	project.full_range = toggled_on
-	x_min_slider.editable = not toggled_on
-	x_max_slider.editable = not toggled_on
-	y_min_slider.editable = not toggled_on
-	y_max_slider.editable = not toggled_on
-	range_pos_slider.editable = not toggled_on
-	range_size_slider.editable = not toggled_on
-
+	Global.control.camera_behavior_checkbox.button_pressed = not toggled_on
+	Global.control.camera_behavior_checkbox.disabled = toggled_on
 	Global.update_plot.emit()
+	#x_min_slider.editable = not toggled_on
+	#x_max_slider.editable = not toggled_on
+	#y_min_slider.editable = not toggled_on
+	#y_max_slider.editable = not toggled_on
+	#range_pos_slider.editable = not toggled_on
+	#range_size_slider.editable = not toggled_on

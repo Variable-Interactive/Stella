@@ -96,6 +96,7 @@ static func generate_gnu(
 	var data_files: Array[Dictionary] = data.get("data_files")
 	var kline_data: Dictionary = data.get("k_lines")
 
+	var legend_enabled: bool = data.get("legend_enabled")
 	var legend_vertical: Project.LegendAlign = data.get("legend_vertical")
 	var legend_horizontal: Project.LegendAlign = data.get("legend_horizontal")
 	var should_reverse_legend: bool = data.get("reverse_legend")
@@ -167,23 +168,27 @@ static func generate_gnu(
 		markings = markings.substr(0, markings.length() - 1)  # Remove trailing comma
 		gnu_code += MARKINGS.format({"x_ticks": markings})
 
-	# Set Legend alignment
-	var align_v = Project.alignment_string[legend_vertical]
-	var align_h = Project.alignment_string[legend_horizontal]
-	var reverse_legend := "reverse" if should_reverse_legend else ""
-	var box_options := ""
-	if use_box:
-		box_options = LEGEND_BOX.format(
-			{"box_border_width": legend_box_outline, "box_border_spacing": legend_box_spacing}
+	if legend_enabled:
+		# Set Legend alignment
+		var align_v = Project.alignment_string[legend_vertical]
+		var align_h = Project.alignment_string[legend_horizontal]
+		var reverse_legend := "reverse" if should_reverse_legend else ""
+		var box_options := ""
+		if use_box:
+			box_options = LEGEND_BOX.format(
+				{"box_border_width": legend_box_outline, "box_border_spacing": legend_box_spacing}
+			)
+		if align_v == align_h:
+			align_h = ""
+		gnu_code += LEGEND.format(
+			{
+				"align_v": align_v,
+				"align_h": align_h,
+				"reverse_legend": reverse_legend,
+				"box_oprions": box_options
+			}
 		)
-	gnu_code += LEGEND.format(
-		{
-			"align_v": align_v,
-			"align_h": align_h,
-			"reverse_legend": reverse_legend,
-			"box_oprions": box_options
-		}
-	)
+
 	# Add a zero axis line
 	if show_zero_axis:
 		gnu_code += ZERO_AXIS
@@ -217,11 +222,10 @@ static func generate_gnu(
 						temp_plot_file = birch_path
 						data_file_added = false
 
-
 				path_dependencies.append(temp_plot_file if not data_file_added else "")
 				var plot_data := PLOT_DATA.format(
 					{
-						"plot_name": plot.get("title"),
+						"plot_name": plot.get("title") if plot.get("show_in_legend") else "",
 						"line_type": plot_string,
 						"line_width": plot.get("width"),
 						"x_column": plot.get("x_column"),

@@ -17,14 +17,6 @@ var zoom := Vector2.ONE:
 		Global.projects[Global.current_project_index].cameras_zoom[index] = zoom
 		zoom_changed.emit()
 		_update_viewport_transform()
-var camera_angle := 0.0:
-	set(value):
-		camera_angle = wrapf(value, -PI, PI)
-		camera_angle_degrees = rad_to_deg(camera_angle)
-		Global.projects[Global.current_project_index].cameras_rotation[index] = camera_angle
-		rotation_changed.emit()
-		_update_viewport_transform()
-var camera_angle_degrees := 0.0
 var offset := Vector2.ZERO:
 	set(value):
 		offset = value
@@ -37,7 +29,6 @@ var zoom_out_max := Vector2(0.01, 0.01)
 var viewport_container: SubViewportContainer
 var mouse_pos := Vector2.ZERO
 var drag := false
-var rotation_slider: ValueSlider
 var zoom_slider: ValueSlider
 var should_tween := true
 
@@ -50,12 +41,9 @@ func _ready() -> void:
 	if not DisplayServer.is_touchscreen_available():
 		set_process_input(false)
 	if index == Cameras.MAIN:
-		rotation_slider = Global.control.get_node("%RotationSlider")
-		rotation_slider.value_changed.connect(_rotation_slider_value_changed)
 		zoom_slider = Global.control.get_node("%ZoomSlider")
 		zoom_slider.value_changed.connect(_zoom_slider_value_changed)
 	zoom_changed.connect(_zoom_changed)
-	rotation_changed.connect(_rotation_changed)
 	viewport_container = get_viewport().get_parent()
 
 
@@ -84,18 +72,14 @@ func _input(event: InputEvent) -> void:
 		zoom_camera(zoom_strength, event.position)
 	elif event is InputEventPanGesture:
 		# Pan gesture on touchscreens
-		offset = offset + event.delta.rotated(camera_angle) * 2.0 / zoom
+		offset = offset + event.delta * 2.0 / zoom
 	elif event is InputEventMouseMotion:
 		if drag:
-			offset = offset - event.relative.rotated(camera_angle) / zoom
+			offset = offset - event.relative / zoom
 	else:
 		var dir := Input.get_vector(&"camera_left", &"camera_right", &"camera_up", &"camera_down")
 		if dir != Vector2.ZERO:
-			offset = offset + (dir.rotated(camera_angle) / zoom) * CAMERA_SPEED_RATE
-
-
-func rotate_camera(dir: float) -> void:
-	camera_angle += PI / 180 * dir
+			offset = offset + (dir / zoom) * CAMERA_SPEED_RATE
 
 
 func zoom_camera(dir: float, event_pos := mouse_pos) -> void:
@@ -109,7 +93,7 @@ func zoom_camera(dir: float, event_pos := mouse_pos) -> void:
 			var new_offset := (
 				offset
 				+ (
-					(-0.5 * viewport_size + event_pos).rotated(camera_angle)
+					(-0.5 * viewport_size + event_pos)
 					* (Vector2.ONE / zoom - Vector2.ONE / new_zoom)
 				)
 			)
@@ -132,7 +116,7 @@ func zoom_camera(dir: float, event_pos := mouse_pos) -> void:
 		offset = (
 			offset
 			+ (
-				(-0.5 * viewport_size + event_pos).rotated(camera_angle)
+				(-0.5 * viewport_size + event_pos)
 				* (Vector2.ONE / prev_zoom - Vector2.ONE / zoom)
 			)
 		)
@@ -156,18 +140,6 @@ func fit_to_frame(size: Vector2) -> void:
 		Global.integer_zoom = !Global.integer_zoom
 	offset = size / 2
 
-	# Adjust to the rotated size:
-	if camera_angle != 0.0:
-		# Calculating the rotated corners of the frame to find its rotated size.
-		var a := Vector2.ZERO  # Top left
-		var b := Vector2(size.x, 0).rotated(camera_angle)  # Top right.
-		var c := Vector2(0, size.y).rotated(camera_angle)  # Bottom left.
-		var d := Vector2(size.x, size.y).rotated(camera_angle)  # Bottom right.
-
-		# Find how far apart each opposite point is on each axis, and take the longer one.
-		size.x = maxf(absf(a.x - d.x), absf(b.x - c.x))
-		size.y = maxf(absf(a.y - d.y), absf(b.y - c.y))
-
 	ratio = clampf(ratio, 0.1, ratio)
 	zoom = Vector2(ratio, ratio)
 	if reset_integer_zoom:
@@ -182,8 +154,8 @@ func _update_viewport_transform() -> void:
 	var zoom_scale := Vector2.ONE / zoom
 	var viewport_size := get_viewport_rect().size
 	var half_size := viewport_size * 0.5
-	var screen_offset := -(half_size * zoom_scale).rotated(camera_angle) + offset
-	var xform := Transform2D(camera_angle, zoom_scale, 0, screen_offset)
+	var screen_offset := -(half_size * zoom_scale) + offset
+	var xform := Transform2D(0, zoom_scale, 0, screen_offset)
 	camera_screen_center = xform * half_size
 	viewport.canvas_transform = xform.affine_inverse()
 
@@ -193,12 +165,6 @@ func _zoom_changed() -> void:
 		should_tween = false
 		zoom_slider.set_value_no_signal_update_display(zoom.x * 100.0)
 		should_tween = true
-
-
-func _rotation_changed() -> void:
-	if index == Cameras.MAIN:
-		# Negative to make going up in value clockwise, and match the spinbox which does the same
-		rotation_slider.value = -camera_angle_degrees
 
 
 func _zoom_slider_value_changed(value: float) -> void:
@@ -214,23 +180,12 @@ func _zoom_slider_value_changed(value: float) -> void:
 		zoom = new_zoom
 
 
-func _rotation_slider_value_changed(value: float) -> void:
-	# Negative makes going up rotate clockwise
-	var angle := deg_to_rad(-value)
-	var difference := angle - camera_angle
-	var canvas_center: Vector2 = Global.projects[Global.current_project_index].size / 2.0
-	offset = (offset - canvas_center).rotated(difference) + canvas_center
-	camera_angle = angle
-
-
 func _project_switched() -> void:
 	var project := Global.projects[Global.current_project_index]
 	offset = project.cameras_offset[index]
-	camera_angle = project.cameras_rotation[index]
 	zoom = project.cameras_zoom[index]
 
 
 func _rotate_camera_around_point(degrees: float, point: Vector2) -> void:
 	var angle := deg_to_rad(degrees)
 	offset = (offset - point).rotated(angle) + point
-	camera_angle = camera_angle + angle

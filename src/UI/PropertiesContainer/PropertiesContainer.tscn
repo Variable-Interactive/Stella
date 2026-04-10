@@ -232,6 +232,7 @@ text = "Zero Axis:"
 [node name="ZeroAxisCheckBox" type="CheckBox" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/GridContainer" unique_id=1822930570]
 unique_name_in_owner = true
 layout_mode = 2
+text = "On"
 
 [node name="FontOptions" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content" unique_id=2089677967]
 layout_mode = 2
@@ -272,6 +273,7 @@ text = "Bold:"
 [node name="FontBoldCheckBox" type="CheckBox" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content/GridContainer" unique_id=199322622]
 unique_name_in_owner = true
 layout_mode = 2
+text = "On"
 
 [node name="FontSizeLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/FontOptions/HBoxContainer/content/GridContainer" unique_id=2029312750]
 layout_mode = 2
@@ -316,10 +318,10 @@ layout_mode = 2
 theme_type_variation = &"CollapsibleContainer"
 script = ExtResource("1_v7ih5")
 text = "Range"
+visible_content = true
 metadata/_custom_type_script = "uid://cdtw1n41wppf0"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions" unique_id=839911853]
-visible = false
 layout_mode = 2
 
 [node name="Spacer" type="Control" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer" unique_id=219705440]
@@ -508,6 +510,14 @@ size_flags_horizontal = 3
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content" unique_id=1536901970]
 layout_mode = 2
 columns = 2
+
+[node name="EnabledLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=108906079]
+layout_mode = 2
+
+[node name="LegendEnabledCheckBox" type="CheckBox" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=1340960813]
+unique_name_in_owner = true
+layout_mode = 2
+text = "On"
 
 [node name="VerticalLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=954105659]
 layout_mode = 2
