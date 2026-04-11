@@ -26,6 +26,8 @@ var mode: Mode = Mode.STANDARD:
 
 @onready var birch_murnaghan: CollapsibleContainer = %BirchMurnaghan
 @onready var birch_lattice_slider: ValueSlider = %BirchLatticeSlider
+@onready var birch_volume_display: RichTextLabel = %BirchVolumeDisplay
+@onready var primitive_cel_slider: ValueSlider = %PrimitiveCelSlider
 @onready var birch_energy_slider: ValueSlider = %BirchEnergySlider
 @onready var birch_bulk_modulo_slider: ValueSlider = %BirchBulkModuloSlider
 @onready var birch_bulk_modulo_p_slider: ValueSlider = %BirchBulkModuloPSlider
@@ -78,6 +80,19 @@ func _ready() -> void:
 		func (value: float):
 			plot_data.birch_lattice = value
 			Global.update_plot.emit()
+			# Units of a.u^3
+			birch_volume_display.text = str(
+				BirchMurnaghan.lattice_to_volume(value / pow(plot_data.primitive_cels, 1/3.0))
+			)
+	)
+	primitive_cel_slider.value_changed.connect(
+		func (value: int):
+			plot_data.primitive_cels = value
+			Global.update_plot.emit()
+			# Units of a.u^3
+			birch_volume_display.text = str(
+				BirchMurnaghan.lattice_to_volume(plot_data.birch_lattice / pow(value, 1/3.0))
+			)
 	)
 	birch_energy_slider.value_changed.connect(
 		func (value: float):
@@ -114,6 +129,12 @@ func update_ui() -> void: # update general properties
 		show_legend_check_box.set_pressed_no_signal(plot_data.show_in_legend)
 		# Birch Settings
 		birch_lattice_slider.set_value_no_signal_update_display(plot_data.birch_lattice)
+		primitive_cel_slider.set_value_no_signal_update_display(plot_data.primitive_cels)
+		birch_volume_display.text = str(
+			BirchMurnaghan.lattice_to_volume(
+				plot_data.birch_lattice / pow(plot_data.primitive_cels, 1/3.0)
+			)
+		)
 		birch_energy_slider.set_value_no_signal_update_display(plot_data.birch_energy)
 		birch_bulk_modulo_slider.set_value_no_signal_update_display(plot_data.birch_modulo)
 		birch_bulk_modulo_p_slider.set_value_no_signal_update_display(plot_data.birch_modulo_prime)
@@ -122,8 +143,12 @@ func update_ui() -> void: # update general properties
 
 func try_auto_fit_birch(itterations: int) -> void:
 	plot_data.try_auto_fit_birch(itterations)
-	birch_energy_slider.set_value_no_signal_update_display(plot_data.birch_energy)
 	birch_lattice_slider.set_value_no_signal_update_display(plot_data.birch_lattice)
+	primitive_cel_slider.set_value_no_signal_update_display(plot_data.primitive_cels)
+	birch_volume_display.text = str(
+		BirchMurnaghan.lattice_to_volume(plot_data.birch_lattice / pow(plot_data.primitive_cels, 1/3.0))
+	)
+	birch_energy_slider.set_value_no_signal_update_display(plot_data.birch_energy)
 	birch_bulk_modulo_slider.set_value_no_signal_update_display(plot_data.birch_modulo)
 	birch_bulk_modulo_p_slider.set_value_no_signal_update_display(plot_data.birch_modulo_prime)
 

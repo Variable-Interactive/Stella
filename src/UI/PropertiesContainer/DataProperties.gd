@@ -43,7 +43,7 @@ func add_new_plot_ui(plot_data: Project.DataFile.PlotData, mode: SpecialPlots):
 		data_file.plot_lines.append(plot_data)
 		if mode == SpecialPlots.BIRCH:
 			plot_data.birch_enabled = true
-			plot_data.try_auto_fit_birch(50000)
+			plot_data.try_auto_fit_birch(1000000)
 			plot_data.title = "Birch-Murnaghan Curve"
 	plot_line_ui.plot_data = plot_data
 

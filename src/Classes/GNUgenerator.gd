@@ -57,6 +57,7 @@ set arrow from {distance},graph(0, 0) to {distance},graph({scale_x}, {scale_y}) 
 const MARKINGS := "set xtics ({x_ticks})\n"  # comma separated
 const XTICK := "\"{k_label}\" {distance}"
 const LEGEND := "set key {align_v} {align_h} {reverse_legend} {box_oprions} textcolor rgb font_color;\n"
+const UNSET_LEGEND := "unset key;\n"
 const LEGEND_BOX := "box lc rgb border_color lw {box_border_width} opaque spacing {box_border_spacing}"
 const ZERO_AXIS := "set zeroaxis ls 1.5 dt 4 lw 2.5 lc rgb 'magenta'; \n"
 const PLOT := """
@@ -168,26 +169,28 @@ static func generate_gnu(
 		markings = markings.substr(0, markings.length() - 1)  # Remove trailing comma
 		gnu_code += MARKINGS.format({"x_ticks": markings})
 
-	if legend_enabled:
-		# Set Legend alignment
-		var align_v = Project.alignment_string[legend_vertical]
-		var align_h = Project.alignment_string[legend_horizontal]
-		var reverse_legend := "reverse" if should_reverse_legend else ""
-		var box_options := ""
-		if use_box:
-			box_options = LEGEND_BOX.format(
-				{"box_border_width": legend_box_outline, "box_border_spacing": legend_box_spacing}
-			)
-		if align_v == align_h:
-			align_h = ""
-		gnu_code += LEGEND.format(
-			{
-				"align_v": align_v,
-				"align_h": align_h,
-				"reverse_legend": reverse_legend,
-				"box_oprions": box_options
-			}
+	# Set Legend alignment
+	var align_v = Project.alignment_string[legend_vertical]
+	var align_h = Project.alignment_string[legend_horizontal]
+	var reverse_legend := "reverse" if should_reverse_legend else ""
+	var box_options := ""
+	if use_box:
+		box_options = LEGEND_BOX.format(
+			{"box_border_width": legend_box_outline, "box_border_spacing": legend_box_spacing}
 		)
+	if align_v == align_h:
+		align_h = ""
+	gnu_code += LEGEND.format(
+		{
+			"align_v": align_v,
+			"align_h": align_h,
+			"reverse_legend": reverse_legend,
+			"box_oprions": box_options
+		}
+	)
+
+	if not legend_enabled:
+		gnu_code += UNSET_LEGEND
 
 	# Add a zero axis line
 	if show_zero_axis:

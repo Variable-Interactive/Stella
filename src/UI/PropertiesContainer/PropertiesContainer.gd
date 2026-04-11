@@ -261,12 +261,12 @@ func _input(event: InputEvent) -> void:
 			if project and project.size != Vector2i.ZERO:
 				increment = (range_size_slider.value / Vector2(project.size)) * 32
 			dir = Vector2(-event.relative.x, event.relative.y)
-			range_pos_slider.value += dir.rotated(camera.camera_angle).normalized() * increment
+			range_pos_slider.value += dir.normalized() * increment
 			zoom_displace_cooldown.start()
 	else :
 		if dir != Vector2.ZERO:
 			dir.y = -dir.y
-			range_pos_slider.value += dir.rotated(camera.camera_angle).normalized() * increment
+			range_pos_slider.value += dir.normalized() * increment
 			zoom_displace_cooldown.start()
 	time -= Time.get_ticks_msec()
 	zoom_displace_cooldown.wait_time = maxf(0.05, time / 1000.0)

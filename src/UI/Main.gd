@@ -209,7 +209,6 @@ func _ready() -> void:
 	camera_behavior_checkbox.button_pressed = Global.camera_updates_range
 
 
-
 func on_files_dropped(files: PackedStringArray):
 	for file in files:
 		OpenSave.handle_laoding_files(file)

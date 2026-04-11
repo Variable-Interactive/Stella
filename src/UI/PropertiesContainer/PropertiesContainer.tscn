@@ -513,6 +513,7 @@ columns = 2
 
 [node name="EnabledLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=108906079]
 layout_mode = 2
+text = "Show Legend:"
 
 [node name="LegendEnabledCheckBox" type="CheckBox" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/LegendOptions/HBoxContainer/content/GridContainer" unique_id=1340960813]
 unique_name_in_owner = true

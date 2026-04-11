@@ -65,7 +65,7 @@ columns = 2
 [node name="OptimalLatticeLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=895520352]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Optimal Lattice (V¹ᐟ³):"
+text = "Optimal Lattice:"
 
 [node name="BirchLatticeSlider" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1726316798 instance=ExtResource("3_bqlc6")]
 unique_name_in_owner = true
@@ -78,6 +78,32 @@ value = 0.01
 allow_greater = true
 suffix = "Å"
 snap_step = 0.1
+
+[node name="PrimitiveCelLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=459311213]
+layout_mode = 2
+text = "Primitive Cels:"
+
+[node name="PrimitiveCelSlider" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1999980402 instance=ExtResource("3_bqlc6")]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 10.0
+value = 1.0
+allow_greater = true
+suffix = "Cels"
+
+[node name="OptimalVolumeLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=2146141158]
+layout_mode = 2
+text = "Optimal Volume (a.u³):"
+
+[node name="BirchVolumeDisplay" type="RichTextLabel" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1873173992]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+fit_content = true
+scroll_active = false
+selection_enabled = true
 
 [node name="OptimalEnergyLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=2034586986]
 layout_mode = 2
@@ -121,6 +147,9 @@ autowrap_mode = 3
 [node name="BirchBulkModuloPSlider" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1816727325 instance=ExtResource("3_bqlc6")]
 unique_name_in_owner = true
 layout_mode = 2
+step = 0.001
+allow_greater = true
+snap_step = 0.01
 
 [node name="TrialDataLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=566262358]
 custom_minimum_size = Vector2(0, 20)

@@ -130,6 +130,10 @@ class DataFile:
 			set(value):
 				birch_data_width = value
 				_queue_update_birch()
+		var primitive_cels: int = 1:
+			set(value):
+				primitive_cels = value
+				_queue_update_birch()
 		var birch_lattice: float = 1:
 			set(value):
 				birch_lattice = value
@@ -145,6 +149,7 @@ class DataFile:
 		var birch_modulo_prime: float = 0:
 			set(value):
 				birch_modulo_prime = value
+				_queue_update_birch()
 		var birch_prediction_data: String = ""
 		var visible: bool = true
 		var show_in_legend: bool = true
@@ -165,7 +170,12 @@ class DataFile:
 		func _update_birch():
 			_birch_update_queued = false
 			birch_prediction_data = BirchMurnaghan.generate_trial_data(
-				birch_lattice, birch_energy, birch_modulo, birch_modulo_prime, birch_data_width
+				birch_lattice,
+				birch_energy,
+				birch_modulo,
+				birch_modulo_prime,
+				birch_data_width,
+				primitive_cels
 			)
 
 		func try_auto_fit_birch(itterations: int) -> void:
@@ -191,7 +201,10 @@ class DataFile:
 						var lattice_value_str := info_array[-2].strip_edges()
 						energies.append(Project.parse_scientific(energy_value_str))
 						latices.append(float(lattice_value_str))
-			var fitted_data := BirchMurnaghan.fit_birch(latices, energies, itterations)
+			var old_best_params := [birch_energy, birch_lattice, birch_modulo, birch_modulo_prime]
+			var fitted_data := BirchMurnaghan.fit_birch(
+				latices, energies, itterations, old_best_params
+			)
 			# Avoid emitting signal multiple times
 			var old_birch_queue = _birch_update_queued
 			_birch_update_queued = true
@@ -211,6 +224,7 @@ class DataFile:
 					{
 						"birch_enabled": birch_enabled,
 						"birch_lattice": birch_lattice,
+						"primitive_cels": primitive_cels,
 						"birch_energy": birch_energy,
 						"birch_modulo": birch_modulo,
 						"birch_modulo_prime": birch_modulo_prime,
@@ -242,22 +256,16 @@ class DataFile:
 			y_column = data.get("y_column", y_column)
 			color = data.get("color", color)
 			visible = data.get("visible", visible)
-			birch_data_width = data.get("birch_data_width", birch_data_width)
+			show_in_legend = data.get("show_in_legend", show_in_legend)
 
+			birch_data_width = data.get("birch_data_width", birch_data_width)
 			birch_lattice = data.get("birch_lattice", birch_lattice)
+			primitive_cels = data.get("primitive_cels", primitive_cels)
 			birch_energy = data.get("birch_energy", birch_energy)
 			birch_modulo = data.get("birch_modulo", birch_modulo)
 			birch_modulo_prime = data.get("birch_modulo_prime", birch_modulo_prime)
 			birch_prediction_data = data.get("birch_prediction_data", birch_prediction_data)
 			birch_enabled = data.get("birch_enabled", birch_enabled)
-
-			if OpenSave.is_using_cli and birch_enabled:
-				Global.debug_funny(
-					"Refreshing Birch data of %s > %s" % [
-						parent_data_file.data_label, title
-					]
-				)
-				try_auto_fit_birch(100000)
 
 	func _init(
 		project: Project, f_path: String = "", label = "", lines: Array[PlotData] = []
@@ -269,13 +277,15 @@ class DataFile:
 			data_label = file_path.get_file().trim_prefix(file_path.get_extension())
 		plot_lines = lines
 
-	func sync_local_global_paths() -> void:
+	func sync_local_global_paths() -> bool:
 		var project_path := parent_project.last_save_path
 		if not project_path.is_empty():
 			# If Local path is valid, change the global path
 			var local_to_global := project_path.get_base_dir().path_join(file_path_local)
 			if FileAccess.file_exists(local_to_global):
-				file_path = local_to_global.simplify_path()
+				if file_path != local_to_global.simplify_path():
+					file_path = local_to_global.simplify_path()
+					return true
 			elif FileAccess.file_exists(file_path):
 				Global.debug_funny(
 					"Failed to find [color=orange]{local_path}[/color], Defaulting to [color=orange]{global_path}[/color]"
@@ -285,6 +295,7 @@ class DataFile:
 				file_path_local = OpenSave.get_relative_path(project_path, file_path)
 		else:
 			file_path_local = ""
+		return false
 
 	func deserialize(data: Dictionary) -> void:
 		file_path = data.get("file_path", file_path)
@@ -293,10 +304,17 @@ class DataFile:
 		if data_label.is_empty():
 			data_label = file_path.get_file().trim_prefix(file_path.get_extension())
 		var plot_lines_data: Array[Dictionary] = data.get("plot_lines", [])
-		sync_local_global_paths()
+		var file_path_changed := sync_local_global_paths()
 		for plot_data in plot_lines_data:
 			var plot_line := PlotData.new(self)
 			plot_line.deserialize(plot_data)
+			if file_path_changed and plot_line.birch_enabled:
+				Global.debug_funny(
+					"Refreshing Birch data of %s > %s" % [
+						data_label, plot_line.title
+					]
+				)
+				plot_line.try_auto_fit_birch(100000)
 			plot_lines.append(plot_line)
 
 	func serialize() -> Dictionary:

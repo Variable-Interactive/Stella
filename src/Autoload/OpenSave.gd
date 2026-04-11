@@ -169,7 +169,8 @@ func export_birch_energies(file_path: String):
 						plot_file.birch_energy,
 						plot_file.birch_modulo,
 						plot_file.birch_modulo_prime,
-						plot_file.birch_data_width
+						plot_file.birch_data_width,
+						plot_file.primitive_cels
 					)
 				)
 				birch_file.close()
@@ -185,6 +186,7 @@ func export_birch_energies(file_path: String):
 						plot_file.birch_modulo,
 						plot_file.birch_modulo_prime,
 						plot_file.birch_data_width,
+						plot_file.primitive_cels,
 						true
 					)
 				)
@@ -195,15 +197,38 @@ func export_birch_energies(file_path: String):
 				var birch_info_path = file_path.path_join(birch_info_name)
 				var birch_info_file = FileAccess.open(birch_info_path, FileAccess.WRITE)
 				birch_info_file.store_line(
-					"Minimum Volume: %s" % str(pow(plot_file.birch_lattice, 3.0)))
+					"Cels per volume: %s" % str(plot_file.primitive_cels)
+				)
 				birch_info_file.store_line(
-					"Lattice Constant: %s" % str(plot_file.birch_lattice))
+					"Conventional Lattice Constant: %s" % str(plot_file.birch_lattice)
+				)
+				birch_info_file.store_line("")
 				birch_info_file.store_line(
-					"Ground Energy: %s" % str(plot_file.birch_energy))
+					"NOTE: Assuming Primitive and Conventional cels have similar shape:"
+				)
 				birch_info_file.store_line(
-					"Ground Bulk Modulo: %s" % str(plot_file.birch_modulo))
+					"	Primitive Lattice = Conventional Lattice / primitive_cels^(1/3)"
+				)
+				birch_info_file.store_line("")
 				birch_info_file.store_line(
-					"Ground Bulk Modulo Derivative: %s" % str(plot_file.birch_modulo_prime))
+					"Minimum Volume (Conventional): %s" % str(
+						BirchMurnaghan.lattice_to_volume(plot_file.birch_lattice)
+					)
+				)
+				birch_info_file.store_line("")
+				birch_info_file.store_line(
+					"NOTE: Primitive Volume = Conventional Volume / primitive_cels"
+				)
+				birch_info_file.store_line("")
+				birch_info_file.store_line(
+					"Ground Energy: %s" % str(plot_file.birch_energy)
+				)
+				birch_info_file.store_line(
+					"Ground Bulk Modulo: %s" % str(plot_file.birch_modulo)
+				)
+				birch_info_file.store_line(
+					"Ground Bulk Modulo Derivative: %s" % str(plot_file.birch_modulo_prime)
+				)
 				birch_info_file.close()
 
 # nstella.x86_64 --headless --quit -- -d Energies.dat -xy 1:2 -o out.png
