@@ -133,7 +133,6 @@ class DataFile:
 		var primitive_cels: int = 1:
 			set(value):
 				primitive_cels = value
-				_queue_update_birch()
 		var birch_lattice: float = 1:
 			set(value):
 				birch_lattice = value
@@ -175,7 +174,7 @@ class DataFile:
 				birch_modulo,
 				birch_modulo_prime,
 				birch_data_width,
-				primitive_cels
+				1  # In Editor view will always use i primitive cel per conventional cel.
 			)
 
 		func try_auto_fit_birch(itterations: int) -> void:
@@ -258,14 +257,14 @@ class DataFile:
 			visible = data.get("visible", visible)
 			show_in_legend = data.get("show_in_legend", show_in_legend)
 
-			birch_data_width = data.get("birch_data_width", birch_data_width)
+			birch_enabled = data.get("birch_enabled", birch_enabled)
 			birch_lattice = data.get("birch_lattice", birch_lattice)
 			primitive_cels = data.get("primitive_cels", primitive_cels)
 			birch_energy = data.get("birch_energy", birch_energy)
 			birch_modulo = data.get("birch_modulo", birch_modulo)
 			birch_modulo_prime = data.get("birch_modulo_prime", birch_modulo_prime)
-			birch_prediction_data = data.get("birch_prediction_data", birch_prediction_data)
-			birch_enabled = data.get("birch_enabled", birch_enabled)
+			birch_data_width = data.get("birch_data_width", birch_data_width)
+			_update_birch()
 
 	func _init(
 		project: Project, f_path: String = "", label = "", lines: Array[PlotData] = []

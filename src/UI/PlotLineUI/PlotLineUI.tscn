@@ -65,7 +65,7 @@ columns = 2
 [node name="OptimalLatticeLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=895520352]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Optimal Lattice:"
+text = "Conventional Lattice:"
 
 [node name="BirchLatticeSlider" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1726316798 instance=ExtResource("3_bqlc6")]
 unique_name_in_owner = true
@@ -94,7 +94,7 @@ suffix = "Cels"
 
 [node name="OptimalVolumeLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=2146141158]
 layout_mode = 2
-text = "Optimal Volume (a.u³):"
+text = "Primitive Volume (a.u³):"
 
 [node name="BirchVolumeDisplay" type="RichTextLabel" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1873173992]
 unique_name_in_owner = true
@@ -108,7 +108,7 @@ selection_enabled = true
 [node name="OptimalEnergyLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=2034586986]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Ground Energy:"
+text = "Conventional E₀:"
 
 [node name="BirchEnergySlider" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=967711594 instance=ExtResource("3_bqlc6")]
 unique_name_in_owner = true

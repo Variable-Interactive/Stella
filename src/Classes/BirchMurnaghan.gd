@@ -74,6 +74,7 @@ static func total_error(params: Array, latices: Array, energies: Array) -> float
 static func fit_birch(
 	latices: Array, energies: Array, itter: int, old_best_params := []
 ) -> Dictionary:
+	const MIN_INCREMENT = 0.001
 	var best_params = [
 		energies.min(),                         # E0 guess
 		latices[energies.find(energies.min())], # V0 guess
@@ -82,6 +83,10 @@ static func fit_birch(
 	]
 	var best_error := total_error(best_params, latices, energies)
 	if not old_best_params.is_empty():
+		# Remove invalid values if present in old_best_params
+		old_best_params[1] = maxf(old_best_params[1], MIN_INCREMENT)
+		old_best_params[2] = maxf(old_best_params[2], MIN_INCREMENT)
+		old_best_params[3] = maxf(old_best_params[3], MIN_INCREMENT)
 		var old_best_error := total_error(old_best_params, latices, energies)
 		if old_best_error < best_error:
 			best_params = old_best_params
@@ -93,12 +98,11 @@ static func fit_birch(
 	var patience := 0
 	var jump_step := best_error
 	for iter in range(itter):
-		var jump_range := clampf(jump_step, 0.001, 0.5)
 		var trial = [
-			best_params[0] + rng.randf_range(-jump_range, jump_range),
-			best_params[1] + rng.randf_range(-jump_range, jump_range),
-			best_params[2] + rng.randf_range(-jump_range, jump_range),
-			best_params[3] + rng.randf_range(-jump_range, jump_range)
+			best_params[0] + rng.randf_range(-jump_step, jump_step),
+			best_params[1] + rng.randf_range(-jump_step, jump_step),
+			best_params[2] + rng.randf_range(-jump_step, jump_step),
+			best_params[3] + rng.randf_range(-jump_step, jump_step)
 		]
 		# Keep parameters physically reasonable
 		if trial[1] <= 0 or trial[2] <= 0:
@@ -112,7 +116,7 @@ static func fit_birch(
 		else:
 			patience += 1
 			if patience >= MAX_PATIENCE:
-				jump_step = clampf(jump_step - 1, 0.001, 0.5)
+				jump_step = clampf(jump_step - MIN_INCREMENT, MIN_INCREMENT, 0.5)
 				patience = 0
 	return {
 		"ground_energy": best_params[0],

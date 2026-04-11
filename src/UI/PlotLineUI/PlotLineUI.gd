@@ -88,7 +88,6 @@ func _ready() -> void:
 	primitive_cel_slider.value_changed.connect(
 		func (value: int):
 			plot_data.primitive_cels = value
-			Global.update_plot.emit()
 			# Units of a.u^3
 			birch_volume_display.text = str(
 				BirchMurnaghan.lattice_to_volume(plot_data.birch_lattice / pow(value, 1/3.0))
@@ -129,12 +128,7 @@ func update_ui() -> void: # update general properties
 		show_legend_check_box.set_pressed_no_signal(plot_data.show_in_legend)
 		# Birch Settings
 		birch_lattice_slider.set_value_no_signal_update_display(plot_data.birch_lattice)
-		primitive_cel_slider.set_value_no_signal_update_display(plot_data.primitive_cels)
-		birch_volume_display.text = str(
-			BirchMurnaghan.lattice_to_volume(
-				plot_data.birch_lattice / pow(plot_data.primitive_cels, 1/3.0)
-			)
-		)
+		primitive_cel_slider.value = plot_data.primitive_cels
 		birch_energy_slider.set_value_no_signal_update_display(plot_data.birch_energy)
 		birch_bulk_modulo_slider.set_value_no_signal_update_display(plot_data.birch_modulo)
 		birch_bulk_modulo_p_slider.set_value_no_signal_update_display(plot_data.birch_modulo_prime)
@@ -144,10 +138,7 @@ func update_ui() -> void: # update general properties
 func try_auto_fit_birch(itterations: int) -> void:
 	plot_data.try_auto_fit_birch(itterations)
 	birch_lattice_slider.set_value_no_signal_update_display(plot_data.birch_lattice)
-	primitive_cel_slider.set_value_no_signal_update_display(plot_data.primitive_cels)
-	birch_volume_display.text = str(
-		BirchMurnaghan.lattice_to_volume(plot_data.birch_lattice / pow(plot_data.primitive_cels, 1/3.0))
-	)
+	primitive_cel_slider.value = plot_data.primitive_cels
 	birch_energy_slider.set_value_no_signal_update_display(plot_data.birch_energy)
 	birch_bulk_modulo_slider.set_value_no_signal_update_display(plot_data.birch_modulo)
 	birch_bulk_modulo_p_slider.set_value_no_signal_update_display(plot_data.birch_modulo_prime)
@@ -166,6 +157,5 @@ func _on_plot_name_edit_text_changed(new_text: String) -> void:
 func _on_flip_slider_pressed() -> void:
 	plot_data_slider.value = Vector2(plot_data_slider.value.y, plot_data_slider.value.x)
 
-
 func _on_recalculate_button_pressed() -> void:
-	try_auto_fit_birch(100000)
+	try_auto_fit_birch(19000)
