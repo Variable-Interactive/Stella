@@ -233,6 +233,7 @@ func _on_file_menu_id_pressed(id: int):
 			get_tree().quit()
 
 
+
 func _on_save_file_dialog_cancelled() -> void:
 	save_file_dialog_opened.emit(false)
 
@@ -281,3 +282,9 @@ func _exit_tree() -> void:
 
 func _on_save_button_pressed() -> void:
 	_on_file_menu_id_pressed(FileMenu.SAVE_FILE)
+
+
+func _on_open_gnuplot_pressed() -> void:
+	Global.open_gnuplotter = true
+	Global.render_current_project_graph()
+	Global.open_gnuplotter = false

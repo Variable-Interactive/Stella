@@ -22,13 +22,15 @@ border_width = {border_width};
 # ================ Script =================
 
 {terminal} \\
-background rgb background_color \\
-color solid \\
-font font_main . ',' . font_size_main \\
-size pdf_size_x in, pdf_size_y in;
+{qt_enabled_comment}size {pdf_size_x},{pdf_size_y} font 'Arial,12';
+{qt_disabled_comment}background rgb background_color \\
+{qt_disabled_comment}color solid \\
+{qt_disabled_comment}font font_main . ',' . font_size_main \\
+{qt_disabled_comment}size pdf_size_x in, pdf_size_y in;
 """
 const OUTPUT_FILE := "set output output_path; \n"
 const ENCODER := "set encoding iso_8859_1; \n"
+const ENABLE_QT := "set terminal qt enhanced";
 const ENABLE_PNG := "set terminal pngcairo enhanced";
 const ENABLE_PDF := "set terminal pdfcairo enhanced";
 const X_RANGE := "set xrange[x_range_start:x_range_end];\n"
@@ -120,6 +122,10 @@ static func generate_gnu(
 	if font_bold:
 		font_name += "-Bold"
 	path_dependencies.append(export_path)
+	var terminal_mode := ENABLE_PNG if export_format == OpenSave.Format.PNG else ENABLE_PDF
+	if Global.open_gnuplotter:
+		terminal_mode = ENABLE_QT
+		graph_size *= DisplayServer.screen_get_dpi() * graph_scale
 	var gnu_code := HEADER.format(
 		{
 			"background_color": background_color.to_html(false),
@@ -136,7 +142,9 @@ static func generate_gnu(
 			"y_range_end": str(y_range_max),
 			"border_mode": str(border_mode),
 			"border_width": str(border_width),
-			"terminal": ENABLE_PNG if export_format == OpenSave.Format.PNG else ENABLE_PDF
+			"terminal": terminal_mode,
+			"qt_enabled_comment": "" if terminal_mode == ENABLE_QT else "#",
+			"qt_disabled_comment": "#" if terminal_mode == ENABLE_QT else ""
 		}
 	)
 	gnu_code += "#" if export_path.is_empty() else "" + OUTPUT_FILE

@@ -84,6 +84,13 @@ layout_mode = 2
 layout_mode = 2
 text = "PDF"
 
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer" unique_id=247459659]
+layout_mode = 2
+
+[node name="OpenGnuplot" type="Button" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer" unique_id=267473992]
+layout_mode = 2
+text = "Open Gnuplot"
+
 [node name="UI" type="HSplitContainer" parent="PanelContainer/VBoxContainer" unique_id=1097470768]
 layout_mode = 2
 size_flags_vertical = 3
@@ -270,6 +277,7 @@ dialog_text = "A KLABLES file was detected in this folder, do you want to import
 cancel_button_text = "Skip"
 
 [connection signal="toggled" from="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/VisualFormatOption/VisualFormatToggle" to="." method="_on_visual_format_toggle_toggled"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer/OpenGnuplot" to="." method="_on_open_gnuplot_pressed"]
 [connection signal="active_tab_rearranged" from="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" to="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" method="_on_active_tab_rearranged"]
 [connection signal="tab_changed" from="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" to="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" method="_on_Tabs_tab_changed"]
 [connection signal="tab_close_pressed" from="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" to="PanelContainer/VBoxContainer/UI/HSplitContainer/DrawArea/TabBar" method="_on_tab_close_pressed"]

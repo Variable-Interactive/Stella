@@ -35,6 +35,8 @@ var visual_format := OpenSave.Format.PNG:
 	set(value):
 		visual_format = value
 		render_current_project_graph()
+var open_gnuplotter := false
+var gnu_button_press_timeout: int = 0
 
 @onready var control := get_tree().current_scene as Control
 ## The project tabs bar. It has the [param Tabs.gd] script attached.
@@ -177,10 +179,21 @@ func render_current_project_graph(graph_destination := "", format := visual_form
 	var output = []
 	var exit_code: int = OK
 	var bytes := PackedByteArray()
+
 	if graph_destination.is_empty():  # We need image for view IN editor.
 		var cmd = "gnuplot -e \"%s\" | base64" % gnu_code
 		if format == OpenSave.Format.PDF:
 			cmd = "gnuplot -e \"%s\" | convert pdf:- png:- | base64" % gnu_code
+		if open_gnuplotter:
+			if (Time.get_ticks_msec() - gnu_button_press_timeout) > 1000:
+				gnu_button_press_timeout = Time.get_ticks_msec()
+				cmd = "gnuplot -persist -e \"%s\"" % gnu_code
+				var open_dict := OS.execute_with_pipe("bash", ["-c", cmd], true)
+				open_gnuplotter = false
+				if not open_dict.is_empty():
+					await get_tree().create_timer(1.0).timeout
+					OS.kill(open_dict.get("pid"))
+			return
 		var dict := OS.execute_with_pipe("bash", ["-c", cmd])
 		if not dict.is_empty():
 			var base_64_array := PackedStringArray()
