@@ -71,7 +71,7 @@ static func relative_error(params: Array, latices: Array, energies: Array) -> Ar
 	return rel_error
 
 
-static func max_error(params: Array, latices: Array, energies: Array) -> Array[float]:
+static func max_error(params: Array, latices: Array, energies: Array) -> float:
 	var e0 = params[0]
 	var a0 = params[1]
 	var b0 = params[2]
@@ -84,12 +84,12 @@ static func max_error(params: Array, latices: Array, energies: Array) -> Array[f
 		if not is_nan(bound_left):
 			break
 	if bound_left < min_energy or bound_right < min_energy:
-		return []
+		return INF
 	var rel_error: Array[float] = []
 	for i in range(latices.size()):
 		var predicted = evaluate(latices[i], e0, a0, b0, b0p)
 		rel_error.append(abs(predicted - energies[i]))
-	return rel_error
+	return rel_error.max()
 
 
 static func total_error(params: Array, latices: Array, energies: Array) -> float:
@@ -126,20 +126,18 @@ static func fit_birch(
 		1.0,                                    # B0 guess
 		4.0                                     # B0p guess
 	]
-	var best_last_error: Array[float] = []
 
-	var best_net_error := total_error(best_params, latices, energies)
+	var best_net_error := max_error(best_params, latices, energies)
 	if not old_best_params.is_empty():
 		# Remove invalid values if present in old_best_params
 		old_best_params[1] = maxf(old_best_params[1], MIN_INCREMENT)
 		old_best_params[2] = maxf(old_best_params[2], MIN_INCREMENT)
 		old_best_params[3] = maxf(old_best_params[3], MIN_INCREMENT)
-		var old_best_net_error := total_error(old_best_params, latices, energies)
+		var old_best_net_error := max_error(old_best_params, latices, energies)
 		if old_best_net_error < best_net_error:
 			best_params = old_best_params
 			best_net_error = old_best_net_error
 
-	prints("Old error", best_net_error)
 	for iter in range(itter):
 		var new_trials := prepare_trials(best_params)
 		for trial in new_trials:
@@ -147,22 +145,11 @@ static func fit_birch(
 			# NOTE: For the energy to be +inf at the limit V -> 0, B' should be greater than 4.0.
 			if trial[1] <= 0 or trial[2] <= 0 or trial[3] <= 4.0:
 				continue
-			var error: Array[float] = relative_error(trial, latices, energies)
-			if error.is_empty():
-				continue
+			var error: float = max_error(trial, latices, energies)
+			if error < best_net_error:
+				best_net_error = error
+				best_params = trial
 
-			var net_error := error.size()
-			if best_last_error.is_empty():
-				best_last_error = error
-				best_net_error = total_error(trial, latices, energies)
-			else:
-				for i in error.size():
-					if error[i] < best_last_error[i]:
-						net_error -= 1
-				if net_error <= 1:
-					best_last_error = error
-					best_params = trial
-	print(best_last_error)
 	Global.debug_funny("The total error of this fitting is: %s" % str(snappedf(best_net_error, 0.0001)))
 	return {
 		"ground_energy": best_params[0],
