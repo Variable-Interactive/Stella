@@ -64,6 +64,9 @@ func _ready() -> void:
 	plot_color_button.color_changed.connect(
 		func (value: Color):
 			plot_data.color = value
+			var plot_line_label: Label = plot_line_options.get("_label")
+			if plot_line_label:
+				plot_line_label.self_modulate = plot_data.color
 			Global.update_plot.emit()
 	)
 	visible_check_box.toggled.connect(
@@ -126,6 +129,10 @@ func update_ui() -> void: # update general properties
 		plot_color_button.color = plot_data.color
 		visible_check_box.set_pressed_no_signal(plot_data.visible)
 		show_legend_check_box.set_pressed_no_signal(plot_data.show_in_legend)
+
+		var plot_line_label: Label = plot_line_options.get("_label")
+		if plot_line_label:
+			plot_line_label.self_modulate = plot_data.color
 		# Birch Settings
 		birch_lattice_slider.set_value_no_signal_update_display(plot_data.birch_lattice)
 		primitive_cel_slider.value = plot_data.primitive_cels
@@ -158,4 +165,4 @@ func _on_flip_slider_pressed() -> void:
 	plot_data_slider.value = Vector2(plot_data_slider.value.y, plot_data_slider.value.x)
 
 func _on_recalculate_button_pressed() -> void:
-	try_auto_fit_birch(19000)
+	try_auto_fit_birch(2329)

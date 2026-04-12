@@ -119,14 +119,14 @@ class DataFile:
 		var _birch_update_queued = false
 		var title: String = "Data Plot"
 		var line_type: int = 0
-		var width: float = 1
+		var width: float = 2
 		var x_column: int = 1
 		var y_column: int = 2
 		var color := Color.GRAY
 		var parent_data_file: DataFile
 		# Birch settings
 		var birch_enabled := false
-		var birch_data_width: float = 1.0:
+		var birch_data_width: float = 10.0:
 			set(value):
 				birch_data_width = value
 				_queue_update_birch()

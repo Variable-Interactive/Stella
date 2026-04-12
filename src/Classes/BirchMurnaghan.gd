@@ -77,7 +77,7 @@ static func fit_birch(
 	const MIN_INCREMENT = 0.001
 	var best_params = [
 		energies.min(),                         # E0 guess
-		latices[energies.find(energies.min())], # V0 guess
+		latices[energies.find(energies.min())], # a0 guess
 		1.0,                                    # B0 guess
 		4.0                                     # B0p guess
 	]
@@ -94,30 +94,17 @@ static func fit_birch(
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 
-	const MAX_PATIENCE = 10
-	var patience := 0
-	var jump_step := best_error
 	for iter in range(itter):
-		var trial = [
-			best_params[0] + rng.randf_range(-jump_step, jump_step),
-			best_params[1] + rng.randf_range(-jump_step, jump_step),
-			best_params[2] + rng.randf_range(-jump_step, jump_step),
-			best_params[3] + rng.randf_range(-jump_step, jump_step)
-		]
-		# Keep parameters physically reasonable
-		if trial[1] <= 0 or trial[2] <= 0:
-			continue
-		var err = total_error(trial, latices, energies)
-		if err < best_error:
-			patience = 0
-			best_error = err
-			jump_step = best_error
-			best_params = trial
-		else:
-			patience += 1
-			if patience >= MAX_PATIENCE:
-				jump_step = clampf(jump_step - MIN_INCREMENT, MIN_INCREMENT, 0.5)
-				patience = 0
+		for trial in prepare_trials(best_params):
+			# Keep parameters physically reasonable (check lattice and bulk modulo, and derivative).
+			# NOTE: For the energy to be +inf at the limit V -> 0, B' should be greater than 4.0.
+			if trial[1] <= 0 or trial[2] <= 0 or trial[3] <= 4.0:
+				continue
+			var err = total_error(trial, latices, energies)
+			if err < best_error:
+				best_error = err
+				best_params = trial
+	Global.debug_funny("The total error of this fitting is: %s" % str(snappedf(best_error, 0.0001)))
 	return {
 		"ground_energy": best_params[0],
 		"optimum_lattice": best_params[1],
@@ -125,3 +112,23 @@ static func fit_birch(
 		"bulk_modulo_prime": best_params[3],
 		"total_error": best_error
 	}
+
+
+static func prepare_trials(old_best: Array) -> Array[Array]:
+	var results: Array[Array] = []
+	for energy in [-randf_range(0, 1), randf_range(0, 1)]:
+		for latt in [-randf_range(0, 1), randf_range(0, 1)]:
+			latt = latt if old_best[1] + latt > 0.0 else 0.0
+			for bulk in [-randf_range(0, 1), randf_range(0, 1)]:
+				bulk = bulk if old_best[2] + (bulk * 0.05) > 0.0 else 0.0
+				for bulk_prime in [-randf_range(0, 1), randf_range(0, 1)]:
+					bulk_prime = bulk_prime if old_best[3] + bulk_prime > 4.0 else 4.0
+					results.append(
+						[
+							old_best[0] + energy,
+							old_best[1] + latt,
+							old_best[2] + bulk * 0.05,
+							old_best[3] + bulk_prime
+						]
+					)
+	return results

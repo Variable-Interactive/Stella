@@ -88,8 +88,10 @@ text = "PDF"
 layout_mode = 2
 
 [node name="OpenGnuplot" type="Button" parent="PanelContainer/VBoxContainer/TopMenuContainer/HBoxContainer" unique_id=267473992]
+self_modulate = Color(0.35818502, 0.50005966, 0.582475, 1)
 layout_mode = 2
 text = "Open Gnuplot"
+flat = true
 
 [node name="UI" type="HSplitContainer" parent="PanelContainer/VBoxContainer" unique_id=1097470768]
 layout_mode = 2
