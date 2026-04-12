@@ -57,6 +57,7 @@ func _init() -> void:
 
 
 func _ready() -> void:
+	randomize()
 	call_deferred("load_preffeernces")
 	var cache_folder := ProjectSettings.globalize_path(CACHE_DIR)
 	if DirAccess.dir_exists_absolute(cache_folder):

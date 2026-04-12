@@ -35,6 +35,8 @@ var mode: Mode = Mode.STANDARD:
 
 
 func _ready() -> void:
+	birch_bulk_modulo_slider.min_value = 0.0001
+	birch_bulk_modulo_slider.step = 0.0001
 	var birch_container_label: Label = birch_murnaghan.get("_label")
 	if birch_container_label:
 		birch_container_label.self_modulate = Color.ORANGE
