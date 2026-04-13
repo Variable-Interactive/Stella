@@ -161,10 +161,10 @@ static func fit_birch(
 
 static func prepare_trials(old_best: Array) -> Array[Array]:
 	var results: Array[Array] = []
-	var energy_range := absf(randf_range(0.01, 0.1))
-	var latt_range := absf(randf_range(0.01, 0.1))
-	var bulk_range := absf(randf_range(0.01, 0.1))
-	var bulk_prime_range := absf(randf_range(0.5, 2.0))
+	var energy_range := absf(randf_range(0, 0.1))
+	var latt_range := absf(randf_range(0, 0.1))
+	var bulk_range := absf(randf_range(0, 0.1))
+	var bulk_prime_range := absf(randf_range(0, 2.0))
 	for energy in [-energy_range, 0, energy_range]:
 		for latt in [-latt_range, 0, latt_range]:
 			latt = latt if old_best[1] + latt > 0.0 else 0.0

@@ -134,7 +134,7 @@ layout_mode = 2
 max_value = 1.0
 step = 0.001
 allow_greater = true
-suffix = "eV/Å³"
+suffix = "eV/a.u³"
 snap_step = 0.01
 
 [node name="GroundBulkPrimeLabel" type="Label" parent="PlotLineOptions/HBoxContainer/content/BirchMurnaghan/HBoxContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=531280491]

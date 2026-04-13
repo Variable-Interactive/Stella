@@ -62,6 +62,7 @@ func update_data_tree() -> void:
 		_create_data_tree_item(data_idx, root_item)
 	_highlight_selected_data_in_tree()
 	Global.properties_container.call_deferred("update_properties")
+	Global.update_plot.emit()
 
 
 func _on_filter_by_name_line_edit_text_changed(new_text: String) -> void:

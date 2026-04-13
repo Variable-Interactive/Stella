@@ -35,6 +35,8 @@ var mode: Mode = Mode.STANDARD:
 
 
 func _ready() -> void:
+	birch_lattice_slider.min_value = 0.0001
+	birch_lattice_slider.step = 0.0001
 	birch_bulk_modulo_slider.min_value = 0.0001
 	birch_bulk_modulo_slider.step = 0.0001
 	var birch_container_label: Label = birch_murnaghan.get("_label")
@@ -132,6 +134,11 @@ func update_ui() -> void: # update general properties
 		visible_check_box.set_pressed_no_signal(plot_data.visible)
 		show_legend_check_box.set_pressed_no_signal(plot_data.show_in_legend)
 
+		birch_volume_display.text = str(
+			BirchMurnaghan.lattice_to_volume(
+				plot_data.birch_lattice / pow(plot_data.primitive_cels, 1/3.0)
+			)
+		)
 		var plot_line_label: Label = plot_line_options.get("_label")
 		if plot_line_label:
 			plot_line_label.self_modulate = plot_data.color

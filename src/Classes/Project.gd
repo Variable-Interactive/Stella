@@ -54,13 +54,6 @@ var use_box := true
 var legend_box_outline: float = 1.2
 var legend_box_spacing: float = 1.2
 
-## Birch values
-var birch_enabled := false
-var birch_lattice: float = 0
-var birch_energy: float = 0
-var birch_modulo: float = 0
-var birch_modulo_prime: float = 0
-
 var k_lines: Array[KLine] = []
 var data_files: Array[DataFile] = []
 
@@ -126,7 +119,7 @@ class DataFile:
 		var parent_data_file: DataFile
 		# Birch settings
 		var birch_enabled := false
-		var birch_data_width: float = 10.0:
+		var birch_data_width: float = 3.0:
 			set(value):
 				birch_data_width = value
 				_queue_update_birch()

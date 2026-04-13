@@ -200,7 +200,7 @@ func export_birch_energies(file_path: String):
 					"Cels per volume: %s" % str(plot_file.primitive_cels)
 				)
 				birch_info_file.store_line(
-					"Conventional Lattice Constant: %s" % str(plot_file.birch_lattice)
+					"Conventional Lattice Constant Å: %s" % str(plot_file.birch_lattice)
 				)
 				birch_info_file.store_line("")
 				birch_info_file.store_line(
@@ -211,7 +211,7 @@ func export_birch_energies(file_path: String):
 				)
 				birch_info_file.store_line("")
 				birch_info_file.store_line(
-					"Minimum Volume (Conventional): %s" % str(
+					"Minimum Volume (Conventional) a.u³: %s" % str(
 						BirchMurnaghan.lattice_to_volume(plot_file.birch_lattice)
 					)
 				)
@@ -221,10 +221,10 @@ func export_birch_energies(file_path: String):
 				)
 				birch_info_file.store_line("")
 				birch_info_file.store_line(
-					"Ground Energy: %s" % str(plot_file.birch_energy)
+					"Ground Energy eV: %s" % str(plot_file.birch_energy)
 				)
 				birch_info_file.store_line(
-					"Ground Bulk Modulo: %s" % str(plot_file.birch_modulo)
+					"Ground Bulk Modulo eV/a.u³: %s" % str(plot_file.birch_modulo)
 				)
 				birch_info_file.store_line(
 					"Ground Bulk Modulo Derivative: %s" % str(plot_file.birch_modulo_prime)
