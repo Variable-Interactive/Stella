@@ -21,6 +21,10 @@ config/icon="uid://dfuu2635go0fq"
 OpenSave="*uid://dhd3vk4af6vx4"
 Global="*uid://dxtmskaxxrais"
 
+[display]
+
+window/size/mode=3
+
 [global_group]
 
 CanvasCameras=""
