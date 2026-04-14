@@ -256,7 +256,7 @@ func _setup_file_menu():
 	file_menu.add_item("Export Project/Data...", FileMenu.SAVE_FILE)
 	file_menu.add_item("Open Project (*.stella)...", FileMenu.OPEN_PROJECT)
 	file_menu.add_item("Import data (*.dat)...", FileMenu.LOAD_DATA_FILE)
-	file_menu.add_item("Quit", FileMenu.SAVE_FILE)
+	file_menu.add_item("Quit", FileMenu.QUIT)
 	file_menu.id_pressed.connect(_on_file_menu_id_pressed)
 
 
