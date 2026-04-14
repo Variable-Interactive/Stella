@@ -306,7 +306,7 @@ class DataFile:
 						data_label, plot_line.title
 					]
 				)
-				plot_line.try_auto_fit_birch(100000)
+				plot_line.try_auto_fit_birch(2329)
 			plot_lines.append(plot_line)
 
 	func serialize() -> Dictionary:
