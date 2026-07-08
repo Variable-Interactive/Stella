@@ -1,6 +1,7 @@
 class_name GNUgenerator
 extends RefCounted
 
+const STELLA_COMMENT := "#<stella>"
 const HEADER := """
 # =============== Variables ===============
 
@@ -22,15 +23,15 @@ border_width = {border_width};
 # ================ Script =================
 
 {terminal} \\
-{qt_enabled_comment}size {pdf_size_x},{pdf_size_y} font 'Arial,12';
-{qt_disabled_comment}background rgb background_color \\
-{qt_disabled_comment}color solid \\
-{qt_disabled_comment}font font_main . ',' . font_size_main \\
-{qt_disabled_comment}size pdf_size_x in, pdf_size_y in;
+{qt_disabled_comment}size {pdf_size_x},{pdf_size_y} font 'Arial,12';
+{qt_enabled_comment}background rgb background_color \\
+{qt_enabled_comment}color solid \\
+{qt_enabled_comment}font font_main . ',' . font_size_main \\
+{qt_enabled_comment}size pdf_size_x in, pdf_size_y in;
 """
 const OUTPUT_FILE := "set output output_path; \n"
 const ENCODER := "set encoding iso_8859_1; \n"
-const ENABLE_QT := "set terminal qt enhanced";
+const ENABLE_QT := "set terminal qt enhanced";  # Used when we want to open a gnuplot window
 const ENABLE_PNG := "set terminal pngcairo enhanced";
 const ENABLE_PDF := "set terminal pdfcairo enhanced";
 const X_RANGE := "set xrange[x_range_start:x_range_end];\n"
@@ -56,8 +57,8 @@ set border border_mode linewidth border_width linecolor rgb border_color; \\
 const VERTICAL_ARROW := """
 set arrow from {distance},graph(0, 0) to {distance},graph({scale_x}, {scale_y}) nohead ls 1 lt 2 lw 2 lc rgb 'magenta'; \n
 """
-const MARKINGS := "set xtics ({x_ticks})\n"  # comma separated
-const XTICK := "\"{k_label}\" {distance}"
+const MARKINGS := "set xtics ({x_ticks});\n"  # comma separated
+const XTICK := "'{k_label}' {distance}"
 const LEGEND := "set key {align_v} {align_h} {reverse_legend} {box_oprions} textcolor rgb font_color;\n"
 const UNSET_LEGEND := "unset key;\n"
 const LEGEND_BOX := "box lc rgb border_color lw {box_border_width} opaque spacing {box_border_spacing}"
@@ -143,8 +144,8 @@ static func generate_gnu(
 			"border_mode": str(border_mode),
 			"border_width": str(border_width),
 			"terminal": terminal_mode,
-			"qt_enabled_comment": "" if terminal_mode == ENABLE_QT else "#",
-			"qt_disabled_comment": "#" if terminal_mode == ENABLE_QT else ""
+			"qt_disabled_comment": "" if terminal_mode == ENABLE_QT else STELLA_COMMENT,
+			"qt_enabled_comment": STELLA_COMMENT if terminal_mode == ENABLE_QT else ""
 		}
 	)
 	gnu_code += "#" if export_path.is_empty() else "" + OUTPUT_FILE

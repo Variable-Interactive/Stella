@@ -142,7 +142,7 @@ func render_current_project_graph(graph_destination := "", format := visual_form
 		base64_installed
 		and (convert_installed if format == OpenSave.Format.PDF else true)
 	)
-	# Use PNG format for in-editor view (PDF format gets converted later)
+	# NOTE: for in-editor view we will convert PDF format to png later as well (using convert utility).
 	if graph_destination.is_empty():
 		if not is_file_making_avoidable:  # Fallback to physical image saves
 			graph_destination = cache_folder.path_join("graph.png")
@@ -163,7 +163,10 @@ func render_current_project_graph(graph_destination := "", format := visual_form
 				DirAccess.make_dir_recursive_absolute(local_config_dir)
 				DirAccess.copy_absolute(dep_path, local_config_dir.path_join(dep_path.get_file()))
 				dep_path = local_config_dir.path_join(dep_path.get_file())
-			path_deps_local.append(OpenSave.get_relative_path(gnu_path, dep_path))
+			if dep_path.strip_edges().is_empty():
+				path_deps_local.append("")  # Continual plot file gnuplot uses last dat file for plotting
+			else:
+				OpenSave.get_relative_path(gnu_path, dep_path)
 		var file := FileAccess.open(gnu_path, FileAccess.WRITE)
 		if FileAccess.get_open_error() == OK:
 			file.store_string(gnu_code.format(Array(path_deps_local)))

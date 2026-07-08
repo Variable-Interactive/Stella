@@ -231,7 +231,8 @@ func export_birch_energies(file_path: String):
 				)
 				birch_info_file.close()
 
-# nstella.x86_64 --headless --quit -- -d Energies.dat -xy 1:2 -o out.png
+
+# stella.x86_64 --headless --quit -- -d Energies.dat -xy 1:2 -o out.png
 func handle_file_save(file_path: String) -> void:
 	var extension := file_path.get_extension().to_lower()
 	var project := Global.projects[Global.current_project_index]
@@ -265,10 +266,19 @@ func handle_file_save(file_path: String) -> void:
 						DirAccess.make_dir_recursive_absolute(local_config_dir)
 						DirAccess.copy_absolute(dep_path, local_config_dir.path_join(dep_path.get_file()))
 						dep_path = local_config_dir.path_join(dep_path.get_file())
-					path_deps_local.append(OpenSave.get_relative_path(file_path, dep_path))
-				file.store_string(
-					gnu_script.get("code", "").format(Array(path_deps_local))
+					if dep_path.strip_edges().is_empty():
+						path_deps_local.append("")  # Continual plot file gnuplot uses last dat file for plotting
+					else:
+						path_deps_local.append(OpenSave.get_relative_path(file_path, dep_path))
+
+				var gnu_code: String = gnu_script.get("code", "").format(Array(path_deps_local))
+				var array: Array = gnu_code.split("\n", false)
+				array = array.filter(
+					func(line: String):
+						return !line.strip_edges().begins_with(GNUgenerator.STELLA_COMMENT)
 				)
+				gnu_code = "\n".join(PackedStringArray(array))
+				file.store_string(gnu_code)
 			file.close()
 		PNG_EXTENSION:
 			is_exporting_image = true
