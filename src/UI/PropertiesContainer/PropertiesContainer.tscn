@@ -406,11 +406,11 @@ allow_greater = true
 allow_lesser = true
 snap_step = 0.1
 
-[node name="YMinLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1659675433]
+[node name="YMaxLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=303308343]
 layout_mode = 2
-text = "Y Min:"
+text = "Y Max:"
 
-[node name="YMinSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=479806097 instance=ExtResource("2_r03ic")]
+[node name="YMaxSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1142799153 instance=ExtResource("2_r03ic")]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = -50.0
@@ -420,11 +420,11 @@ allow_greater = true
 allow_lesser = true
 snap_step = 0.1
 
-[node name="YMaxLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=303308343]
+[node name="YMinLabel" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1659675433]
 layout_mode = 2
-text = "Y Max:"
+text = "Y Min:"
 
-[node name="YMaxSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=1142799153 instance=ExtResource("2_r03ic")]
+[node name="YMinSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer" unique_id=479806097 instance=ExtResource("2_r03ic")]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = -50.0
@@ -608,5 +608,5 @@ size_flags_horizontal = 3
 [connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/RangeSizeSlider" to="." method="_on_range_rect_sliders_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/XMinSlider" to="." method="_on_range_changed"]
 [connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/XMaxSlider" to="." method="_on_range_changed"]
-[connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/YMinSlider" to="." method="_on_range_changed"]
 [connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/YMaxSlider" to="." method="_on_range_changed"]
+[connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer/ProjectProperties/HBoxContainer/content/Layout/HBoxContainer/content/RangeOptions/HBoxContainer/content/GridContainer/YMinSlider" to="." method="_on_range_changed"]
